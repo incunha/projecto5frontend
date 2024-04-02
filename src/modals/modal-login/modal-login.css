@@ -1,0 +1,119 @@
+.center-container {
+  z-index: 2; /* Z-index para sobrepor outros elementos */
+  display: flex; /* Define o tipo de layout como flexível */
+  flex-direction: column; /* Direção de empilhamento do conteudo */
+  align-items: center; /* Alinha os itens horizontalmente */
+  justify-content: center; /* Alinha os itens verticalmente */
+  height: 90vh; /* Altura de 90% da viewport */
+  opacity: 0; /* Opacidade inicial */
+  animation: fadeIn 1s ease-in-out 0.5s forwards; /* Animação de fade-in */
+}
+
+.loginpanel {
+  z-index: 3; /* Z-index para sobrepor outros elementos */
+  padding: 20px; /* Preenchimento interno */
+  font-size: 15px; /* Tamanho da fonte */
+  text-align: center; /* Alinhamento do texto */
+  color: var(--green3); /* Cor do texto */
+  background-color: hsla(0, 0%, 100%, 0.7); /* Cor de fundo com transparência */
+  border-radius: 10px; /* Raio da borda */
+  height: 440px; /* Altura do painel */
+  width: 330px; /* Largura do painel */
+}
+
+#login,
+#password {
+    margin-bottom: 15px; /* Margem inferior */
+    padding-left: 5px; /* Preenchimento à esquerda */
+    width: 200px; /* Largura */
+    height: 25px; /* Altura */
+    border: var(--green3) 1px solid; /* Borda */
+    border-radius: 5px; /* Raio da borda */
+    text-align: left; /* Alinhamento do texto */
+}
+
+.registerLink {
+  background: none; /* Fundo transparente */
+  color: inherit; /* Cor herdada */
+  border: none; /* Sem borda */
+  padding: 0; /* Sem preenchimento */
+  font: inherit; /* Herda a fonte */
+  cursor: pointer; /* Cursor do tipo ponteiro */
+  outline: inherit; /* Herda a linha de contorno */
+  text-decoration: underline; /* Sublinhado */
+  color: var(--green3); /* Cor do texto */
+}
+
+
+
+.registerLink:hover {
+  color: var(--green2); /* Cor do texto ao passar o cursor por cima */
+}
+
+.loginpanel ::placeholder {
+  color: var(--green2); /* Cor do placeholder */
+}
+
+.loginpanel input[type="text"] {
+  color: var(--green3); /* Cor do texto de entrada */
+}
+  
+.input-container {
+  display: flex; /* Define o tipo de layout como flexível */
+  align-items: center; /* Alinha os itens horizontalmente */
+  justify-content: center; /* Alinha os itens verticalmente */
+  flex-direction: column; /* Direção de empilhamento do conteudo */
+  margin-top: 40px; /* Margem superior */
+}
+
+#warningMessage {
+  color: var(--green3); /* Cor do texto de aviso */
+  font-size: 14px; /* Tamanho da fonte */
+  margin-top: 17px; /* Margem superior */
+}
+  /* Animação fade in para o container de login */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .inputLogin {
+    display: flex; /* Define o tipo de layout como flexível */
+    flex-direction: column; /* Direção de empilhamento do conteudo */
+    align-items: center; /* Alinha os itens horizontalmente */
+    justify-content: center; /* Alinha os itens verticalmente */
+    margin: 5px 0; /* Margem */
+    width: 330px; /* Largura */
+    height: 18px; /* Altura */
+    margin-bottom: 10px; /* Margem inferior */
+    border-radius: 5px; /* Raio da borda */
+}
+
+.userImageLogin {
+  width: 80px; /* Largura */
+  height: 80px; /* Altura */
+  border-radius: 50%; /* Raio da borda */
+  border: 2px solid var(--green3); /* Borda */
+  margin-bottom: 20px; /* Margem inferior */
+  margin-top: 10px; /* Margem superior */
+}
+
+form {
+  display: flex; /* Define o tipo de layout como flexível */
+  flex-direction: column; /* Direção de empilhamento do conteudo */
+  justify-content: center; /* Alinha os itens verticalmente */
+  align-items: center;
+  margin-top: -10px; /* Margem superior */
+}
+
+.buttonContainerLogin {
+    display: flex; /* Define o tipo de layout como flexível */
+    justify-content: space-between; /* Distribui o espaço entre os itens */
+    width: 330px; /* Largura */
+    margin-top: -20px; /* Margem superior */
+}
+

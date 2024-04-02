@@ -1,0 +1,64 @@
+/* Estilos para o conteúdo do modal */
+.modalContent {
+  width: 100%; /* Largura total */
+  height: 100%; /* Altura total */
+  margin: auto; /* Centraliza horizontalmente */
+  padding: 20px; /* Espaçamento interno */
+  font-size: 10px; /* Tamanho da fonte */
+  display: flex; /* Layout flexível */
+  justify-content: space-between; /* Distribuição de espaço entre os elementos */
+}
+
+/* Estilo para o overlay do modal após ser aberto */
+.ReactModal__Overlay--after-open {
+  background-color: rgba(0, 0, 0, 0.75) !important; /* Cor de fundo semi-transparente */
+}
+
+/* Estilos para os campos de entrada */
+.inputFieldProfile {
+  font-size: 15px; /* Tamanho da fonte */
+  width: 150%; /* Largura do campo */
+  height: 20px; /* Altura do campo */
+  margin-bottom: 10px; /* Margem inferior */
+  border: 1px solid var(--green3); /* Borda sólida */
+  border-radius: 2px; /* Borda arredondada */
+}
+
+/* Estilos para o contêiner dos campos de entrada */
+.inputFields {
+  display: flex; /* Layout flexível */
+  flex-direction: column; /* Organização em coluna */
+}
+
+/* Estilos para as etiquetas dos campos de entrada */
+.labelProfile {
+  font-size: 15px; /* Tamanho da fonte */
+  margin-bottom: 5px; /* Margem inferior */
+  font-weight: bold; /* Peso da fonte */
+  color: var(--green3); /* Cor do texto */
+}
+
+/* Estilos para o conteiner da imagem do user */
+.userImageContainer {
+  display: flex; /* Layout flexível */
+  align-items: center; /* Alinhamento vertical */
+}
+
+/* Estilos para a imagem do user */
+.userImageProfile {
+  border-radius: 50%; /* Borda arredondada */
+  width: 100px; /* Largura da imagem */
+  height: 100px; /* Altura da imagem */
+  margin-right: 40px; /* Margem direita */
+  object-fit: cover; /* Redimensiona a imagem para cobrir o conteiner */
+}
+
+/* Estilos para o botão de fechar */
+#closeButtonProfile {
+  position: absolute; /* Posição absoluta */
+  top: 10px; /* Distância do topo */
+  right: 10px; /* Distância da direita */
+  font-size: 15px; /* Tamanho da fonte */
+  font-weight: bold; /* Peso da fonte */
+  cursor: pointer; /* Cursor do mouse */
+}

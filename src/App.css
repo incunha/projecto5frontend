@@ -1,0 +1,93 @@
+/* Estilos para a classe .App */
+.App {
+  background-color: white; /* Define a cor de fundo como branco */
+  min-height: 100vh; /* Define a altura mínima como 100% da altura da viewport */
+  display: flex; /* Define o modelo de exibição como flexível */
+  flex-direction: column; /* Define a direção do fluxo como coluna */
+  justify-content: space-between; /* Alinha os itens ao longo do eixo principal (vertical) com espaço extra entre eles */
+}
+
+/* Define variáveis de cor */
+:root {
+  font-family: Arial, Helvetica, sans-serif; /* Define a fonte padrão */
+}
+
+/* Estilos para o corpo do documento */
+body {
+  /* Definição de cores personalizadas */
+  --white: #f9f9f9;
+  --light-grey: #c8e4e7;
+  --grey: grey;
+  --green1: #2cccd3;
+  --green2: #21979c;
+  --green3: #223c4a;
+  --black: #0e1a21;
+  --overlay: #223c4aab;
+
+  margin: 0; /* Remove as margens padrão */
+  padding: 0; /* Remove os preenchimentos padrão */
+  background-color: var(--black); /* Define a cor de fundo como preto */
+  position: relative; /* Define a posição como relativa */
+  background-image: url("multimedia/background_main_task.png"); /* Define uma imagem de fundo */
+}
+
+/* Estilos para o botão .myButton */
+.myButton {
+  background-color: var(--green2); /* Define a cor de fundo do botão */
+  border: none; /* Remove a borda */
+  color: var(--green3); /* Define a cor do texto */
+  text-align: center; /* Centraliza o texto */
+  text-decoration: none; /* Remove a decoração de texto */
+  display: inline-block; /* Permite que o elemento se comporte como um bloco, mas mantenha a formatação do texto */
+  font-size: 16px; /* Define o tamanho da fonte */
+  margin: 4px 2px; /* Define as margens */
+  cursor: pointer; /* Mostra o cursor como apontador ao passar sobre o botão */
+  border-radius: 5px; /* Adiciona bordas arredondadas */
+  transition: background-color 0.3s, color 0.3s; /* Adiciona uma transição suave para a mudança de cor de fundo e texto */
+  padding: 5px 30px; /* Define o preenchimento */
+  border: #0e1a21 1px solid; /* Define a borda */
+}
+
+/* Estilos para o botão .myButton quando hover */
+.myButton:hover {
+  background-color: var(--green3); /* Altera a cor de fundo ao passar o mouse sobre o botão */
+  color: var(--green1); /* Altera a cor do texto ao passar o mouse sobre o botão */
+}
+
+/* Estilos para o container de botões */
+.buttonContainer {
+  display: flex; /* Define o modelo de exibição como flexível */
+  justify-content: space-between; /* Alinha os itens ao longo do eixo principal (horizontal) com espaço extra entre eles */
+  width: 100%; /* Define a largura como 100% */
+}
+
+/* Estilos para as colunas */
+.columns {
+  display: flex; /* Define o modelo de exibição como flexível */
+  flex-direction: row; /* Define a direção do fluxo como linha */
+  gap: 20px; /* Define o espaço entre as colunas */
+  position: absolute; /* Define a posição como absoluta */
+  right: 100px; /* Define a distância da direita */
+  left: 240px; /* Define a distância da esquerda */
+  top: 80px; /* Define a distância do topo */
+}
+
+.aside-button {
+  background-color: transparent;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  margin: 10px auto;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border: none;
+  font-weight: bold;
+  margin-top: 25px;
+  }
+  
+  .aside-button:hover {
+  font-size: 18px;
+  color: var(--green1);
+  }

@@ -1,0 +1,88 @@
+.task-card {
+    position: relative;
+    width: 220px; 
+    height: 30px; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: white; 
+    flex-shrink: 0; 
+    flex-grow: 0;
+  }
+
+  .task-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    pointer-events: none;
+  }
+  
+  .task-card.inactive::after {
+    opacity: 0.5;
+  }
+  
+  .task-card.active::after {
+    opacity: 0;
+  }
+  
+  .task-title {
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 10px;
+    height: 20px; 
+    overflow: hidden; 
+  }
+  
+  .user-image img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover; 
+    margin-top: 4px;
+  }
+
+  .deleteTaskButton {
+    position: absolute;
+    bottom: 1px;
+    right: 3px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .deleteTaskButton:hover {
+    font-size: 15px;
+    font-weight: bold;
+    
+  }
+
+  .restoreTaskButton {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    right: 0px;
+    top: 2px;
+  }
+
+  .restoreTaskButton img {
+    width: 15px;
+    height: 15px;
+  }
+
+  .restoreTaskButton img:hover {
+    width: 18px;
+    height: 18px;
+  }
+

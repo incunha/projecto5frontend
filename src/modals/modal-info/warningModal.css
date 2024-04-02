@@ -1,0 +1,26 @@
+/* Estilo para o overlay do modal de aviso */
+.warning-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+}
+
+/* Estilo para o conteúdo do modal de aviso */
+.warning-modal {
+  background-color: white; /* Fundo branco */
+  padding: 20px; /* Espaçamento interno */
+  border-radius: 10px; /* Bordas arredondadas */
+  width: 300px; /* Largura do modal */
+  max-width: 100%; /* Largura máxima é 100% */
+}
+
+/* Estilo para o título do modal de aviso */
+.warning-modal h2 {
+  color: red; /* Cor do texto em vermelho */
+}

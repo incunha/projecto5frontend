@@ -1,0 +1,70 @@
+.modal {
+  position: fixed; /* Define a posição fixa */
+  top: 50%; /* Centraliza verticalmente */
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translate(-50%, -50%); /* Centraliza completamente */
+  background: white; /* Cor de fundo */
+  padding: 20px; /* Espaçamento interno */
+  z-index: 1000; /* Índice z para sobrepor outros elementos */
+  width: 80%; /* Largura do modal */
+  max-width: 500px; /* Largura máxima do modal */
+  border-radius: 10px; /* Raio da borda */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+.modal-overlay {
+  position: fixed; /* Define a posição fixa */
+  top: 0; /* Estica a sobreposição até o topo */
+  left: 0; /* Estica a sobreposição até a esquerda */
+  right: 0; /* Estica a sobreposição até a direita */
+  bottom: 0; /* Estica a sobreposição até o fundo */
+  background: rgba(0, 0, 0, 0.7); /* Cor de fundo semi-transparente */
+  z-index: 999; /* Índice z para estar acima do modal */
+}
+
+.modal input[type="text"],
+.modal input[type="date"] {
+    width: 90%; /* Largura dos campos de texto */
+    padding: 10px; /* Espaçamento interno */
+    border-radius: 5px; /* Raio da borda */
+    border: 1px solid #ccc; /* Estilo da borda */
+}
+
+.modal input[type="date"] {
+  width: 150px; /* Largura específica para campos de data */
+}
+
+.taskDetails {
+  display: flex; /* Exibe os detalhes da tarefa em linha */
+  align-items: center; /* Alinha os itens verticalmente */
+}
+
+.taskDetailsEdit {
+  display: flex; /* Exibe os detalhes da tarefa em linha */
+  align-items: center; /* Alinha os itens verticalmente */
+  margin-bottom: 20px; /* Margem inferior */
+}
+
+.taskLabel {
+  font-weight: bold; /* Define o peso da fonte */
+  margin-right: 10px; /* Margem direita */
+}
+
+.taskFilters {
+  display: flex; /* Exibe os filtros em linha */
+  margin-bottom: 10px; /* Margem inferior */
+  margin-left: 2px; /* Margem esquerda */
+  width: 100px; /* Largura dos filtros */
+  height: 30px; /* Altura dos filtros */
+  justify-content: space-between; /* Distribui o espaço entre os itens */
+  border: 1px solid #999999; /* Estilo da borda */
+  border-radius: 5px; /* Raio da borda */
+}
+
+.buttonContainerTaskModal {
+  display: flex; /* Exibe os botões em linha */
+  justify-content: space-between; /* Distribui o espaço entre os botões */
+  width: 500px; /* Largura do contêiner de botões */
+  margin-top: 40px; /* Margem superior */
+}
+

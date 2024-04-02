@@ -1,0 +1,83 @@
+
+
+.add-task-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+}
+
+.add-task-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    max-width: 500px;
+    background: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center; 
+    align-items: center;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.inputAddTaskTitle {
+    width: 385px !important;
+    padding: 10px;
+}
+
+.add-task-modal input, .add-task-modal textarea, .add-task-modal select {
+    border: 1px solid var(--green3); 
+    border-radius: 5px;
+    width: 80%; 
+    height: 30px;
+}
+
+.add-task-modal textarea {
+    height: 250px; 
+    resize: none;
+}
+
+.add-task-modal select {
+    height: 40px; 
+}
+
+.containerAddTaskSelects {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    gap: 100px;
+}
+
+.containerAddTaskDates {
+    display: flex;
+    justify-content: space-between;
+    width: 85%;
+    gap: 80px;
+
+}
+.dateLabel {
+    font-size: 0.9em; 
+    text-align: center;
+  }
+
+.button-group-addTask {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin-top: 20px;
+}
+
+.warning {
+    color: red;
+}

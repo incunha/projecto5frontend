@@ -1,0 +1,25 @@
+.user-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    cursor : pointer;
+    border-radius: 5px;
+  }
+
+    .user-card:hover {
+     font-weight: bold;
+    }
+  
+  .user-photo {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
+  
+  .user-name {
+    margin-left: 10px;
+  }
+  .deleted {
+    opacity: 0.5;
+  }

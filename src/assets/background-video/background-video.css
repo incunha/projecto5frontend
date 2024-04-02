@@ -1,0 +1,29 @@
+/* Estilo para o contêiner do vídeo */
+.video-container {
+  position: fixed; /* Define a posição fixa */
+  top: 0; /* Alinha o topo do contêiner à parte superior da janela */
+  right: 0; /* Alinha a direita do contêiner à parte direita da janela */
+  bottom: 0; /* Alinha o fundo do contêiner à parte inferior da janela */
+  left: 0; /* Alinha a esquerda do contêiner à parte esquerda da janela */
+  overflow: hidden; /* Oculta o conteúdo que ultrapassa as bordas do contêiner */
+}
+
+/* Estilo para o vídeo de fundo */
+#background-video {
+  position: absolute; /* Define a posição absoluta */
+  top: 0; /* Alinha o topo do vídeo à parte superior do contêiner */
+  left: 0; /* Alinha a esquerda do vídeo à parte esquerda do contêiner */
+  width: 100%; /* Define a largura do vídeo como 100% do contêiner */
+  height: 100%; /* Define a altura do vídeo como 100% do contêiner */
+  object-fit: cover; /* Ajusta o tamanho do vídeo para cobrir todo o contêiner */
+}
+
+/* Estilo para a sobreposição */
+.overlay {
+  position: absolute; /* Define a posição absoluta */
+  top: 0; /* Alinha o topo da sobreposição à parte superior do contêiner */
+  left: 0; /* Alinha a esquerda da sobreposição à parte esquerda do contêiner */
+  width: 100%; /* Define a largura da sobreposição como 100% do contêiner */
+  height: 100%; /* Define a altura da sobreposição como 100% do contêiner */
+  background-color: rgba(87, 165, 198, 0.285); /* Cor de fundo com transparência */
+}

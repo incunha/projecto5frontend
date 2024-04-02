@@ -1,0 +1,35 @@
+/* Estilo do modal de aviso */
+.warning-modal {
+    display: flex; /* Define o container como flexível */
+    flex-direction: column; /* Organiza os itens em coluna */
+    align-items: center; /* Centraliza os itens horizontalmente */
+    justify-content: center; /* Centraliza os itens verticalmente */
+    gap: 20px; /* Espaçamento entre os elementos */
+    padding: 20px; /* Espaçamento interno */
+    background: white; /* Cor de fundo */
+    border-radius: 5px; /* Raio da borda */
+    color: var(--green3); /* Cor do texto */
+    z-index: 100; /* Ordem de empilhamento */
+    position: fixed; /* Define a posição como fixa */
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+    transform: translate(-50%, -50%); /* Translada para o centro */
+}
+
+/* Overlay do modal de aviso */
+.warning-modal-overlay {
+    position: fixed; /* Define a posição como fixa */
+    top: 0; /* Alinha no topo */
+    left: 0; /* Alinha na esquerda */
+    right: 0; /* Alinha na direita */
+    bottom: 0; /* Alinha na parte inferior */
+    background: rgba(0, 0, 0, 0.7); /* Cor de fundo com transparência */
+    z-index: 100; /* Ordem de empilhamento */
+}
+
+/* Estilo do grupo de botões de confirmação */
+.button-groupConfirmation {
+    display: flex; /* Define o container como flexível */
+    gap: 40px; /* Espaçamento entre os botões */
+}

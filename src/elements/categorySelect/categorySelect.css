@@ -1,0 +1,19 @@
+
+.mySelect {
+  color: #444; /* Define a cor do texto */
+  width: 150px; /* Define a largura do componente */
+  padding: 10px; /* Adiciona preenchimento interno ao componente */
+  border-radius: 5px; /* Arredonda as bordas do componente */
+  border: 1px solid #ccc; /* Define uma borda sólida com a cor cinza */
+  background-color: #f8f8f8; /* Define a cor de fundo do componente */
+  cursor: pointer; /* Altera o cursor para o formato de mão ao passar sobre o componente */
+  font-size: 14px; /* Define o tamanho da fonte */
+  font-weight: bold; /* Define o peso da fonte como negrito */
+  text-align: center; /* Centraliza o texto dentro do componente */
+  margin: 10px auto; /* Adiciona margem superior e inferior de 10px e alinha horizontalmente */
+  display: block; /* Define o componente como um bloco para ocupar toda a largura disponível */
+  transition: background-color 0.3s, color 0.3s; /* Adiciona uma transição suave de cor de fundo e texto */
+}
+
+
+
