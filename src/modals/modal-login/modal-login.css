@@ -7,6 +7,7 @@
   height: 90vh; /* Altura de 90% da viewport */
   opacity: 0; /* Opacidade inicial */
   animation: fadeIn 1s ease-in-out 0.5s forwards; /* Animação de fade-in */
+  margin: 20px; /* Margem top*/
 }
 
 .loginpanel {
@@ -117,3 +118,24 @@ form {
     margin-top: -20px; /* Margem superior */
 }
 
+/* Estilos para telas com largura de 600px ou menos (telemóveis) */
+@media (max-width: 600px) {
+  .loginpanel {
+    width: 70%; /* painel de login ocupar 70% da largura da tela */
+    padding: 20px; /* padding para evitar que o conteúdo toque as bordas da tela */
+  }
+}
+
+/* Estilos para telas com largura entre 601px e 900px (tablets) */
+@media (min-width: 601px) and (max-width: 900px) {
+  .loginpanel {
+    width: 50%; /* painel de login ocupar 50% da largura da tela */
+  }
+}
+
+/* Estilos para telas com largura de 901px ou mais (desktops) */
+@media (min-width: 901px) {
+  .loginpanel {
+    width: 30%; /* painel de login ocupar 30% da largura da tela */
+  }
+}
