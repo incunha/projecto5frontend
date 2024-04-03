@@ -15,3 +15,11 @@
   .sidebar a:hover {
     background-color: #ddd;
   }
+  .sidebar-sublink {
+    font-size: 0.9em; /* Faz o link aparecer um pouco menor */
+    margin-left: 10px; /* Move o link um pouco para a direita */
+  }
+
+  .sidebar-mainlink {
+    font-size: 1.2em; /* Faz o link aparecer um pouco maior */
+  }
