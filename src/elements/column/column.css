@@ -1,36 +1,41 @@
-
 .column {
-    padding: 20px;
-    margin: 10px;
-    border-radius: 5px;
-    flex: 1;
-    height: 550px;
-    margin-right: 15px;
-    margin-left: 15px;
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    padding-left: 40px;
-    border: 3px solid #c4c3c3a6;
-    overflow: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--green2) var(--white);
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  border-radius: 5px;
+  height: 550px;
+  border: 3px solid #c4c3c3a6;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--green2) var(--white);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .column {
+    max-width: 100%;
+    margin: 20px 10px; /* Reduz a margem em telas pequenas */
+  }
+}
+
+@media (min-width: 600px) {
+  .column {
+    flex: 1 0 200px; /* As colunas têm um tamanho base de 200px em telas maiores */
+    margin: 50px 30px 30px 70px; /* Aumenta a margem em telas maiores */
+  }
 }
 
 .column h2 {
-    color: var(--green3);
-    margin-bottom: 20px;
-    text-align: center;
-    border-bottom: 2px solid var(--green3);
-  }
-  
-  .column-content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--green2) var(--white);
-  }
+  color: var(--green3);
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 2px solid var(--green3);
+}
+
+.column-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--green2) var(--white);
+}

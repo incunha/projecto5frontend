@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './taskCard.css';
-import TaskModal from '../../modals/modal-task/modalTask';
-import useTasksStore from '../../../taskStore';
-import { useUserStore } from '../../../userStore';
 import ConfirmationModal from '../../modals/modal-confirmation/confirmationModal';
 
 function TaskCard({ task, active }) {

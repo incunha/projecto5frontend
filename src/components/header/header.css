@@ -1,17 +1,87 @@
 .header {
     background-color: var(--green3);
-    height: 60px;
+    height: 12vh;
     position: relative;
+  }
+
+  @media (max-width: 600px) {
+    .header {
+      height: 15vh; 
+    }
   }
   
   .dateHeader {
     color: white;
     position: absolute;
-    right: 150px;
+    right: 10%; 
+    top: 50%; 
+    transform: translateY(-50%); 
   }
   
   .header img {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+    width: 8%;
+    height: auto;
+    margin-right: 1em;
+  }
+  
+  @media (max-width: 600px) {
+    .header img {
+      width: 15%; 
+    }
+  }
+  
+  .user-image {
+    position: relative;
+    top: 1em; 
+  }
+  
+  .logoutButton {
+    background-color: var(--green3);
+    color: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1em; 
+    transition: background-color 0.3s;
+    margin-top: 1em; 
+    margin-right: 1em; 
+  }
+  
+  .logoutButton:hover {
+    background-color: rgba(221, 221, 221, 0.5);
+  }
+  
+  .logoutButton i {
+    margin-right: 0.5em;
+  }
+  
+  .logoutIcon {
+    margin-left: 0.5em; 
+  }
+  
+  .navbar-collapse {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .welcome-text {
+    color: white;
+  }
+  
+  .welcome-section {
+    margin-left: 2vw;
+    margin-top: 0.2em; 
+  }
+  
+
+  @media (max-width: 600px) {
+    .dateHeader {
+      right: 5%; 
+    }
+  
+    .logoutButton {
+      font-size: 0.8em; 
+    }
   }

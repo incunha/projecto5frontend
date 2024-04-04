@@ -42,11 +42,12 @@ function Profile() {
   };
 
   return (
-    <div className="profile profile-background d-flex justify-content-center align-items-center">
-      <Sidebar /> {/* Inclua o seu componente Sidebar */}
-      <Container>
-        <Row className="justify-content-center">
-          <Col xs={12} md={8} lg={6}>
+    <div className="profile profile-background d-flex justify-content-start align-items-start"> {/* Altere para align-items-start */}
+      <div className="d-flex"> {/* Adicione um div com display flex */}
+        <Sidebar />
+        <Container fluid>
+          <Row >
+            <Col xs={12} md={8} lg={6}>
             <div className="profile-content shadow p-3 mb-5 rounded">
               <Row>
                 <Col xs={12} md={4}>
@@ -102,6 +103,7 @@ function Profile() {
           </Col>
         </Row>
       </Container>
+      </div>
     </div>
   );
 }
