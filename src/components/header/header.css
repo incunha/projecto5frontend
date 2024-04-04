@@ -1,17 +1,17 @@
 .header {
-    background-color: var(--green3); /* Cor de fundo do cabeçalho */
-    height: 60px; /* Altura do cabeçalho */
-    display: flex; /* Permite que os elementos sejam exibidos em linha */
-    position: relative; /* Define o cabeçalho como um elemento de posição relativa */
-}
-
-.header div {
-    color: white; /* Cor do texto dentro do cabeçalho */
-    margin-top: 20px; /* Margem superior para espaçamento */
-}
-
-.dateHeader {
-    right: 150px; /* Distância do lado direito */
-    position: absolute; /* Define o posicionamento absoluto */
-}
+    background-color: var(--green3);
+    height: 60px;
+    position: relative;
+  }
   
+  .dateHeader {
+    color: white;
+    position: absolute;
+    right: 150px;
+  }
+  
+  .header img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import useUserStore from '../../userStore';
-import { Link } from 'react-router-dom';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import Sidebar from '../components/sideBar/sideBar';
 
 function Profile() {
   const user = useUserStore(state => state.user);
@@ -9,9 +10,11 @@ function Profile() {
   const token = sessionStorage.getItem('token');
 
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [userPhoto, setUserPhoto] = useState('');
 
   useEffect(() => {
     if (!user && token) {
@@ -21,9 +24,12 @@ function Profile() {
 
   useEffect(() => {
     if (user) {
-      setName(user.name);
+      const [first, ...last] = user.name.split(' ');
+      setFirstName(first);
+      setLastName(last.join(' '));
       setUsername(user.username);
       setEmail(user.email);
+      setUserPhoto(user.userPhoto);
     }
   }, [user]);
 
@@ -36,25 +42,66 @@ function Profile() {
   };
 
   return (
-    <div className="profile">
-        <Link to="/home" className="home-button">Home</Link>
-      <img src={user.userPhoto} alt="User" />
-      {isEditing ? (
-        <input value={name} onChange={e => setName(e.target.value)} />
-      ) : (
-        <p>{name}</p>
-      )}
-      {isEditing ? (
-        <input value={username} onChange={e => setUsername(e.target.value)} />
-      ) : (
-        <p>{username}</p>
-      )}
-      {isEditing ? (
-        <input value={email} onChange={e => setEmail(e.target.value)} />
-      ) : (
-        <p>{email}</p>
-      )}
-      <button onClick={handleEditClick}>{isEditing ? 'Save' : 'Edit'}</button>
+    <div className="profile profile-background d-flex justify-content-center align-items-center">
+      <Sidebar /> {/* Inclua o seu componente Sidebar */}
+      <Container>
+        <Row className="justify-content-center">
+          <Col xs={12} md={8} lg={6}>
+            <div className="profile-content shadow p-3 mb-5 rounded">
+              <Row>
+                <Col xs={12} md={4}>
+                  <img src={userPhoto} className="mx-auto mt-3 rounded-circle profile-img" alt="User" />
+                </Col>
+                <Col xs={12} md={8}>
+                  <div>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="mr-2 form-label">First Name:</Form.Label>
+                      {isEditing ? (
+                        <Form.Control className="form-control-custom" value={firstName} onChange={e => setFirstName(e.target.value)} />
+                      ) : (
+                        <span className="profile-text">{firstName}</span>
+                      )}
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="mr-2 form-label">Last Name:</Form.Label>
+                      {isEditing ? (
+                        <Form.Control className="form-control-custom" value={lastName} onChange={e => setLastName(e.target.value)} />
+                      ) : (
+                        <span className="profile-text">{lastName}</span>
+                      )}
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="mr-2 form-label">Username:</Form.Label>
+                      {isEditing ? (
+                        <Form.Control className="form-control-custom" value={username} onChange={e => setUsername(e.target.value)} />
+                      ) : (
+                        <span className="profile-text">{username}</span>
+                      )}
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="mr-2 form-label">Email:</Form.Label>
+                      {isEditing ? (
+                        <Form.Control className="form-control-custom" value={email} onChange={e => setEmail(e.target.value)} />
+                      ) : (
+                        <span className="profile-text">{email}</span>
+                      )}
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="mr-2 form-label">Photo URL:</Form.Label>
+                      {isEditing ? (
+                        <Form.Control className="form-control-custom" value={userPhoto} onChange={e => setUserPhoto(e.target.value)} />
+                      ) : (
+                        <span className="profile-text">{userPhoto}</span>
+                      )}
+                    </Form.Group>
+                    <Button variant="primary" onClick={handleEditClick}>{isEditing ? 'Save' : 'Edit'}</Button>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }

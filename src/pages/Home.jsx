@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../components/sideBar/sideBar';
+import Header from '../components/header/header';
 
 function Home() {
     const location = useLocation();
@@ -8,6 +9,7 @@ function Home() {
   
     return (
       <div>
+        <Header />
         <Sidebar />
       </div>
     );

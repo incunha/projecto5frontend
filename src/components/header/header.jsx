@@ -1,42 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import './header.css'; 
-import LogoutButton from '../../elements/buttons/button-logout/logoutButton';
-import UserName from '../../elements/username/username';
+import React, {useState, useEffect} from 'react';
+import  useUserStore from '../../../userStore';
+import { Navbar, Nav, Container, Image, Button } from 'react-bootstrap';
+import './header.css';
 
-function Header({ userName, userPhoto, updateUserInfo }) {
-    // State para armazenar a data e hora atual
-    const [currentDateTime, setCurrentDateTime] = useState(new Date());
+function Header() {
+  const user = useUserStore(state => state.user);
+  const logout = useUserStore(state => state.logout);
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
-    // Efeito para atualizar a data e hora a cada segundo
-    useEffect(() => {
-        const timer = setInterval(() => {
-          setCurrentDateTime(new Date());
-        }, 1000);
-    
-        // Limpa o intervalo quando o componente é desmontado
-        return () => {
-          clearInterval(timer);
-        };
-      }, []);
+  const handleLogout = () => {
+    logout();
+  };
 
-    return (
-        <header className="header">
-          {/* Componente UserName para exibir o nome do user e a sua foto */}
-          <UserName userName={userName} userPhoto={userPhoto} updateUserInfo={updateUserInfo} />
-          {/* Exibe a data e hora atual */}
-          <div className="dateHeader">{currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}</div>
-          {/* Botão de logout */}
-          <LogoutButton />
-        </header>
-    );
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000); // Atualiza a cada segundo
+
+    // Limpa o intervalo quando o componente é desmontado
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
+  return (
+    <Navbar className="header" expand="lg">
+      <Container>
+        <Navbar.Brand href="#home">
+          <div className="dateHeader">
+          {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
+          </div>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto">
+            <Nav.Link href="#home">{user?.firstName}</Nav.Link>
+            <Image src={user?.userPhoto} roundedCircle />
+            <Button variant="outline-danger" onClick={handleLogout}>Logout</Button>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
-
-// Definição das propriedades esperadas pelo componente Header
-Header.propTypes = {
-    userName: PropTypes.string.isRequired, // Nome do user (string)
-    userPhoto: PropTypes.string.isRequired, // URL da foto do user (string)
-    updateUserInfo: PropTypes.func.isRequired // Função para atualizar informações do user (função)
-};
 
 export default Header;
