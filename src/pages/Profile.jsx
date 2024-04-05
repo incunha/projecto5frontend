@@ -8,22 +8,27 @@ function Profile() {
   const user = useUserStore(state => state.user);
   const fetchUser = useUserStore(state => state.fetchUser);
   const token = sessionStorage.getItem('token');
-
   const [isEditing, setIsEditing] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
+  const fetchTaskTotals = useUserStore(state => state.fetchTaskTotals);
+  const taskTotals = useUserStore(state => state.taskTotals);
 
   useEffect(() => {
-    if (!user && token) {
+    if (token) {
       fetchUser(token);
     }
-  }, [user, token, fetchUser]);
-
+  }, [token, fetchUser]);
+  
   useEffect(() => {
-    if (user) {
+    fetchTaskTotals(token);
+  }, [fetchTaskTotals, token]);
+  
+  useEffect(() => {
+    if (user && user.name) {
       const [first, ...last] = user.name.split(' ');
       setFirstName(first);
       setLastName(last.join(' '));
@@ -33,21 +38,17 @@ function Profile() {
     }
   }, [user]);
 
-  if (!user) {
-    return null;
-  }
-
   const handleEditClick = () => {
     setIsEditing(!isEditing);
   };
 
+
   return (
-    <div className="profile profile-background d-flex justify-content-start align-items-start"> {/* Altere para align-items-start */}
-      <div className="d-flex"> {/* Adicione um div com display flex */}
-        <Sidebar />
-        <Container fluid>
-          <Row >
-            <Col xs={12} md={8} lg={6}>
+    <div className="profile profile-background d-flex justify-content-start align-items-center">
+      <Sidebar />
+      <Container fluid>
+        <Row>
+          <Col xs={12} md={8} lg={6} className="mx-auto">
             <div className="profile-content shadow p-3 mb-5 rounded">
               <Row>
                 <Col xs={12} md={4}>
@@ -97,13 +98,44 @@ function Profile() {
                     </Form.Group>
                     <Button variant="primary" onClick={handleEditClick}>{isEditing ? 'Save' : 'Edit'}</Button>
                   </div>
+                  <hr /> {/* Linha de separação */}
+                  <div>
+                    {taskTotals && taskTotals.length >= 4 && (
+                      <>
+                        <Row className="mb-3">
+                          <Col xs={6} md={4}>
+                            <strong>Total Tasks:</strong>
+                          </Col>
+                          <Col xs={6} md={8}>
+                            {taskTotals[0]}
+                          </Col>
+                        </Row>
+                        <Row className="mb-3">
+                          <Col xs={6} md={4}>
+                            <strong>To Do Tasks:</strong>
+                          </Col>
+                          <Col xs={6} md={8}>
+                            {taskTotals[1]}
+                          </Col>
+                        </Row>
+                        <Row className="mb-3">
+                          <Col xs={6} md={4}>
+                            <strong>Doing Tasks:</strong>
+                          </Col>
+                          <Col xs={6} md={8}>
+                            {taskTotals[2]}
+                          </Col>
+                        </Row>
+                        {/* Adicione mais linhas conforme necessário */}
+                      </>
+                    )}
+                  </div>
                 </Col>
               </Row>
             </div>
           </Col>
         </Row>
       </Container>
-      </div>
     </div>
   );
 }

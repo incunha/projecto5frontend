@@ -58,4 +58,17 @@
     margin-bottom: 2rem; 
     font-weight: bold;
   }
- 
+ /* Nova classe para o div das tarefas */
+.task-totals {
+    margin-top: 20px;
+  }
+  
+  /* Media queries para responsividade */
+  @media (max-width: 768px) {
+    .profile-content {
+      min-width: auto;
+    }
+    .form-control-custom, .form-control {
+      min-width: auto;
+    }
+  }
