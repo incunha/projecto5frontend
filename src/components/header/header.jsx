@@ -8,7 +8,7 @@ function Header() {
   const user = useUserStore(state => state.user);
   const fetchUser = useUserStore(state => state.fetchUser);
   const logout = useUserStore(state => state.logout);
-  const token = sessionStorage.getItem('token');
+  const token = useUserStore(state => state.token);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [firstName, setFirstName] = useState('');
 
@@ -34,7 +34,6 @@ function Header() {
       setCurrentDateTime(new Date());
     }, 1000); // Atualiza a cada segundo
 
-    // Limpa o intervalo quando o componente é desmontado
     return () => {
       clearInterval(timer);
     };

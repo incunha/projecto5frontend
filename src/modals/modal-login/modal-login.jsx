@@ -11,20 +11,6 @@ function ModalLogin() {
   const [errorMessage, setErrorMessage] = useState('');
   const { fetchUser } = useUserStore();
 
-  useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-      setToken(token);
-  
-      // Crie uma função assíncrona anônima para chamar fetchUser
-      (async () => {
-        await fetchUser(token);
-      })();
-  
-      navigate('/home');
-    }
-  }, [setToken, navigate]);
-
   const handleLoginClick = async () => {
     try {
       const response = await fetch('http://localhost:8080/projecto5backend/rest/users/login', {
@@ -35,14 +21,13 @@ function ModalLogin() {
             'password': loginPassword,
         },
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to login');
       }
-
+  
       const token = await response.text();
-      sessionStorage.setItem('token', token);
-      setToken(token);
+      setToken(token); 
       await fetchUser(token);
       navigate('/home');
     } catch (error) {
