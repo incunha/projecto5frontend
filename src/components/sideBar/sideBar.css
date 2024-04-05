@@ -1,25 +1,55 @@
 .sidebar {
-    width: 200px;
-    height: 100vh;
-    background-color: var(--green3);
-    padding: 20px;
-  }
-  
-  .sidebar a {
-    display: block;
-    color: #ffffff;
-    padding: 10px;
-    text-decoration: none;
-  }
-  
-.sidebar a:hover {
-    background-color: rgba(221, 221, 221, 0.5);
+  width: 200px;
+  height: 100vh;
+  background-color: var(--green3);
+  padding: 20px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: fixed;
 }
-  .sidebar-sublink {
-    font-size: 0.9em; /* Faz o link aparecer um pouco menor */
-    margin-left: 10px; /* Move o link um pouco para a direita */
-  }
 
-  .sidebar-mainlink {
-    font-size: 1.2em; /* Faz o link aparecer um pouco maior */
+
+@media (max-width: 767px) {
+  .sidebar {
+    width: auto;
   }
+}
+
+.navbar-light .navbar-toggler {
+  border: none;
+  color: transparent;
+}
+
+.sidebar a {
+  display: block;
+  color: #ffffff;
+  padding: 10px;
+  text-decoration: none;
+}
+
+.sidebar a[href="/home"] {
+  color: #ffffff !important;
+}
+.sidebar .navbar-toggler-icon {
+  color: #ffffff;
+}
+
+
+.sidebar a:active {
+  color: #ffffff;
+}
+
+.sidebar a:hover {
+  background-color: rgba(221, 221, 221, 0.5);
+}
+
+.sidebar-sublink {
+  font-size: 0.9em; /* Faz o link aparecer um pouco menor */
+  margin-left: 10px; /* Move o link um pouco para a direita */
+}
+
+.sidebar-mainlink {
+  font-size: 1.2em; /* Faz o link aparecer um pouco maior */
+}

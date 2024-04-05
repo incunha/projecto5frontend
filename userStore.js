@@ -8,6 +8,7 @@ const useUserStore = create(persist(
     taskTotals: null,
     setToken: (token) => set({ token }),
     setUser: (user) => set({ user }),
+
     fetchUser: async (token) => {
       try {
         const response = await fetch('http://localhost:8080/projecto5backend/rest/users/myUserDto', {
@@ -45,7 +46,26 @@ const useUserStore = create(persist(
       } catch (error) {
         console.error('Failed to fetch task totals', error);
       }
-    }
+    },
+    fetchOtherUser: async (token, username) => {
+      try {
+        const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/${username}`, {
+          method: 'GET',
+          headers: {
+            Accept: "*/*",
+            token: token,
+          },
+        });
+        if (response.ok) {
+          const user = await response.json();
+          set({ user });
+        } else {
+          console.error('Failed to fetch other user data');
+        }
+      } catch (error) {
+        console.error('Failed to fetch other user data', error);
+      }
+    },
   }),
   {
     name:'userStore',
