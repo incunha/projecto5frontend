@@ -1,0 +1,8 @@
+.user-photo {
+    display: block;
+    margin-top: 50px; /* Aumenta a margem superior */
+    width: 200px; /* Aumenta a largura */
+    height: 200px; /* Aumenta a altura */
+    border-radius: 50%;
+    object-fit: cover;
+  }

@@ -23,19 +23,14 @@ function Profile() {
 
   useEffect(() => {
     if (paramUsername && paramUsername !== user?.username) {
-      console.log(`Fetching other user: ${paramUsername}`);
       fetchOtherUser(token, paramUsername).then((data) => {
-        console.log('Other user data:', data);
         setOtherUser(data);
       });
     }
   }, [fetchUser, fetchOtherUser, paramUsername, user, token]);
 
   useEffect(() => {
-    console.log('user:', user);
-    console.log('otherUser:', otherUser);
     const currentUser = paramUsername === user?.username ? user : otherUser;
-    console.log('Current user:', currentUser);
     if (currentUser && currentUser.name) {
       const [first, ...last] = currentUser.name.split(' ');
       setFirstName(first);
@@ -66,6 +61,7 @@ function Profile() {
     event.preventDefault();
     setIsEditing(!isEditing);
   };
+
   return (
     <div className="profile profile-background d-flex justify-content-start align-items-center">
       <Sidebar />
@@ -87,7 +83,7 @@ function Profile() {
                           defaultValue={username}
                           placeholder="Username"
                           type="text"
-                          disabled={!isEditing}
+                          disabled
                           onChange={e => setUsername(e.target.value)}
                         />
                       </FormGroup>
@@ -101,7 +97,7 @@ function Profile() {
                           placeholder="Email" 
                           type="email" 
                           defaultValue={email}
-                          disabled={!isEditing}
+                          disabled
                           onChange={e => setEmail(e.target.value)}
                         />
                       </FormGroup>
@@ -133,6 +129,32 @@ function Profile() {
                       </FormGroup>
                     </Col>
                   </Row>
+                  <Row>
+                  <Col className="pr-1" md="6">
+                      <FormGroup>
+                        <Form.Label>Profile Picture</Form.Label>
+                        <FormControl
+                          defaultValue={userPhoto}
+                          placeholder="Profile Picture"
+                          type="text"
+                          disabled={!isEditing}
+                          onChange={e => setUserPhoto(e.target.value)}
+                          />
+                      </FormGroup>
+                    </Col>
+                    <Col className="pl-1" md="6">
+                      <FormGroup>
+                        <Form.Label>Phone Number</Form.Label>
+                        <FormControl
+                          defaultValue={lastName}
+                          placeholder="Phone number"
+                          type="text"
+                          disabled={!isEditing}
+                          onChange={e => setLastName(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Col>
+                    </Row>
                   <Row>
                     <div className="update ml-auto mr-auto">
                     <Button

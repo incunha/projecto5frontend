@@ -1,25 +1,15 @@
 .user-card {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    cursor : pointer;
-    border-radius: 5px;
-  }
+  width: 100%;
+  margin-bottom: 1rem;
+}
 
-    .user-card:hover {
-     font-weight: bold;
-    }
-  
-  .user-photo {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-  }
-  
-  .user-name {
-    margin-left: 10px;
-  }
-  .deleted {
-    opacity: 0.5;
-  }
+.user-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  text-align: center;
+}

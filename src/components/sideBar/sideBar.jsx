@@ -10,6 +10,7 @@ function Sidebar() {
   const {username} = useUserStore(state => state.user);
   const location = useLocation();
   const showButtons = location.pathname === '/home';
+  const showUserButtons = location.pathname === '/users';
   const [expanded, setExpanded] = useState(true);
   const navigate = useNavigate();
 
@@ -46,9 +47,15 @@ function Sidebar() {
         <Nav.Link className="sidebar-mainlink" href="/users">
           <FaUsers /> {expanded && 'Users'}
         </Nav.Link>
+        {showUserButtons && expanded && (
+          <>
+            <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> New User</Nav.Link>
+            <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> Deleted Users</Nav.Link>
+          </>
+        )}
         <Nav.Link className="sidebar-mainlink" onClick={() => navigate(`/profile/${username}`)}>
-  <FaUser /> {expanded && 'Profile'}
-</Nav.Link>
+          <FaUser /> {expanded && 'Profile'}
+        </Nav.Link>
       </Nav>
     </Navbar>
   );

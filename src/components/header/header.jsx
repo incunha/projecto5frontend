@@ -3,6 +3,7 @@ import  useUserStore from '../../../userStore';
 import { Navbar, Nav, Container, Image, Button } from 'react-bootstrap';
 import './header.css';
 import { FaSignOutAlt } from 'react-icons/fa';
+import { useNavigate} from 'react-router-dom';
 
 function Header() {
   const user = useUserStore(state => state.user);
@@ -11,6 +12,7 @@ function Header() {
   const token = useUserStore(state => state.token);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [firstName, setFirstName] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user && token) {
@@ -26,7 +28,8 @@ function Header() {
   }, [user]);
 
   const handleLogout = () => {
-    logout();
+    logout(token);
+    navigate('/');
   };
 
   useEffect(() => {
