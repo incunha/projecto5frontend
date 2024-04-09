@@ -46,21 +46,21 @@ function Home() {
   onCardClick: () => {},
 }));
 
-  return (
-    <div>
-      <Header />
-      <div style={{ display: 'flex' }}>
-        <Sidebar />
-        <Row style={{ width: '100%' }}>
-          {columnData.map((column, index) => (
-            <Col xs={12} md={4} key={index}>
-              <Column {...column}/>
-            </Col>
-          ))}
-        </Row>
-      </div>
+return (
+  <div>
+    <Header />
+    <div style={{ display: 'flex' }}>
+      <Sidebar />
+      <Row style={{ width: '100%' }}>
+        {columnData.map((column, index) => (
+          <Col xs={12} md={4} key={index}>
+            <Column {...column} itemPropName="item" /> 
+          </Col>
+        ))}
+      </Row>
     </div>
-  );
+  </div>
+);
 }
 
 export default Home;

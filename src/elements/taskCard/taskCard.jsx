@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 
-function TaskCard({ task }) {
+function TaskCard({ item }) { // Use item instead of task
   return (
     <Card>
       <Card.Body>
-        <Card.Title>{task.title}</Card.Title>
-        <Card.Text>{task.category}</Card.Text>
+        <Card.Title>{item.title}</Card.Title> 
+        <Card.Text>{item.category}</Card.Text> 
       </Card.Body>
     </Card>
   );

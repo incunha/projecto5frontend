@@ -1,13 +1,14 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import './userCard.css'; // Importe o arquivo CSS para estilizar o cartão
+import './userCard.css'; 
 
-function UserCard({ user }) {
+function UserCard({ item }) {
+
   return (
     <Card className="user-card">
-      <Card.Img variant="top" src={user.image} className="user-image" />
+      <Card.Img variant="top" src={item.userPhoto} className="user-image" />
       <Card.Body>
-        <Card.Title className="user-name">{user.name}</Card.Title>
+        <Card.Title className="user-name">{item.name}</Card.Title>
       </Card.Body>
     </Card>
   );

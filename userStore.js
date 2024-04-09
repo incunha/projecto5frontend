@@ -38,6 +38,7 @@ const useUserStore = create(persist(
           headers: {
             Accept: "*/*",
             token: token,
+            console: console.log('token', token),
           },
         });
         if (response.ok) {

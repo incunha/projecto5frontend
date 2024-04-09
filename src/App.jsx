@@ -7,6 +7,7 @@ import Users from "./pages/Users";
 import Profile from "./pages/Profile";
 import CreateUser from "./pages/CreateUser";
 import ConfirmAccount from "./pages/ConfirmAccount";
+import CreateTask from "./pages/CreateTask";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/new-user" element={<CreateUser />} />
+        <Route path="/new-task" element={<CreateTask />} />
         <Route path="/confirm-account" element={<ConfirmAccount />} />
       </Routes>
     </div>

@@ -69,11 +69,11 @@ function Profile() {
         <Row>
           <Col xs={12} md={8}>
             <Card className="card-user shadow p-3 mb-5 rounded">
-              <CardHeader className="d-flex flex-column align-items-center">
+              <Card.Header className="d-flex flex-column align-items-center">
                 <Image src={userPhoto} roundedCircle style={{ width: '100px', height: '100px' }} />
-                <CardTitle tag="h5" className="mt-3">{isEditing ? 'Edit Profile' : `${firstName} ${lastName}`}</CardTitle>
-              </CardHeader>
-              <CardBody>
+                <Card.Title tag="h5" className="mt-3">{isEditing ? 'Edit Profile' : `${firstName} ${lastName}`}</Card.Title>
+              </Card.Header>
+              <Card.Body>
                 <Form>
                   <Row>
                     <Col className="px-1" md="6">
@@ -130,7 +130,7 @@ function Profile() {
                     </Col>
                   </Row>
                   <Row>
-                  <Col className="pr-1" md="6">
+                    <Col className="pr-1" md="6">
                       <FormGroup>
                         <Form.Label>Profile Picture</Form.Label>
                         <FormControl
@@ -139,7 +139,7 @@ function Profile() {
                           type="text"
                           disabled={!isEditing}
                           onChange={e => setUserPhoto(e.target.value)}
-                          />
+                        />
                       </FormGroup>
                     </Col>
                     <Col className="pl-1" md="6">
@@ -154,80 +154,80 @@ function Profile() {
                         />
                       </FormGroup>
                     </Col>
-                    </Row>
+                  </Row>
                   <Row>
                     <div className="update ml-auto mr-auto">
-                    <Button
-  className="btn-round mt-3"
-  color="primary"
-  type="submit"
-  onClick={handleEditClick}
-  hidden={paramUsername !== user?.username}
->
-  {isEditing ? 'Save' : 'Edit'}
-</Button>
+                      <Button
+                        className="btn-round mt-3"
+                        color="primary"
+                        type="submit"
+                        onClick={handleEditClick}
+                        hidden={paramUsername !== user?.username}
+                      >
+                        {isEditing ? 'Save' : 'Edit'}
+                      </Button>
                     </div>
                   </Row>
                 </Form>
-              </CardBody>
+              </Card.Body>
             </Card>
-
+  
             <Card className="card-user shadow p-3 mb-5 rounded">
-      <CardHeader>
-        <CardTitle tag="h5">Tasks:</CardTitle>
-      </CardHeader>
-      <CardBody>
-  <Form>
-  <Row>
-  <Col md="12">
-    <FormGroup>
-      <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Total Tasks:</Form.Label>
-      <Form.Text>{taskTotals && taskTotals[0]}</Form.Text>
-    </FormGroup>
-  </Col>
-</Row>
-<Row>
-  <Col md="12">
-    <FormGroup>
-      <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>To Do Tasks:</Form.Label>
-      <Form.Text>{taskTotals && taskTotals[1]}</Form.Text>
-    </FormGroup>
-  </Col>
-</Row>
-<Row>
-  <Col md="12">
-    <FormGroup>
-      <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Doing Tasks:</Form.Label>
-      <Form.Text>{taskTotals && taskTotals[2]}</Form.Text>
-    </FormGroup>
-  </Col>
-</Row>
-<Row>
-  <Col md="12">
-    <FormGroup>
-      <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Done Tasks:</Form.Label>
-      <Form.Text>{taskTotals && taskTotals[3]}</Form.Text>
-    </FormGroup>
-  </Col>
-</Row>
-  </Form>
-</CardBody>
-    </Card>
+              <Card.Header>
+                <Card.Title tag="h5">Tasks:</Card.Title>
+              </Card.Header>
+              <Card.Body>
+                <Form>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Total Tasks:</Form.Label>
+                        <Form.Text>{taskTotals && taskTotals[0]}</Form.Text>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>To Do Tasks:</Form.Label>
+                        <Form.Text>{taskTotals && taskTotals[1]}</Form.Text>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Doing Tasks:</Form.Label>
+                        <Form.Text>{taskTotals && taskTotals[2]}</Form.Text>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Done Tasks:</Form.Label>
+                        <Form.Text>{taskTotals && taskTotals[3]}</Form.Text>
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                </Form>
+              </Card.Body>
+            </Card>
           </Col>
           <Col xs={12} md={4}>
-          <Card className="card-user shadow p-3 mb-5 rounded">
-            <CardHeader>
-              <CardTitle tag="h5">Messages</CardTitle>
-            </CardHeader>
-            <CardBody>
-              {/* Aqui é onde as mensagens serão renderizadas no futuro */}
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  </div>
-);
+            <Card className="card-user shadow p-3 mb-5 rounded">
+              <Card.Header>
+                <Card.Title tag="h5">Messages</Card.Title>
+              </Card.Header>
+              <Card.Body>
+                {/* Aqui é onde as mensagens serão renderizadas no futuro */}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
 }
 
 export default Profile;

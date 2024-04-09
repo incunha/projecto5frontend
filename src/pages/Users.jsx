@@ -2,14 +2,15 @@ import React, {useEffect} from 'react';
 import { Row } from 'react-bootstrap';
 import Sidebar from '../components/sideBar/sideBar';
 import Column from '../elements/column/column';
-import UserCard from '../elements/userCard/userCard'; 
+import UserCard from '../elements/userCard/userCard';
 import useUserStore from '../../userStore'
+
 function Users() {
-  const { users, fetchActiveUsers } = useUserStore();
+  const { fetchActiveUsers, token, activeUsers } = useUserStore();
 
   useEffect(() => {
-    fetchActiveUsers();
-  }, [fetchActiveUsers]);
+    fetchActiveUsers(token);
+  }, [fetchActiveUsers, token]);
 
   const userColumns = [
     { role: 'developer', title: 'Developer' },
@@ -21,14 +22,21 @@ function Users() {
     <div>
       <Sidebar />
       <Row>
-        {userColumns.map(({ role, title }) => (
-          <Column
-            key={title}
-            title={title}
-            items={users ? users.filter(user => user.role === role) : []}
-            CardComponent={UserCard}
-          />
-        ))}
+        {userColumns.map(({ role, title }) => {
+          // Filtrar os usuários ativos por papel
+          const usersByRole = activeUsers.filter(user => user.role === role);
+  
+          return (
+            <Column
+              key={title}
+              title={title}
+              items={usersByRole}
+              CardComponent={UserCard}
+              itemPropName="item"
+              type="user"
+            />
+          );
+        })}
       </Row>
     </div>
   );
