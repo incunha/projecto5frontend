@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import './CreateUser.css';
 import Sidebar from '../components/sideBar/sideBar';
+import useUserStore from '../../userStore';
 
 function CreateUser() {
   const [firstName, setFirstName] = useState('');
@@ -10,9 +11,34 @@ function CreateUser() {
   const [contact, setContact] = useState('');
   const [role, setRole] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
+  const [username, setUsername] = useState(''); // New state for username
+  const token = useUserStore(state => state.token);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const response = await fetch('http://localhost:8080/projecto5backend/rest/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': "*/*",
+        'token': token,
+      },
+      body: JSON.stringify({
+        name: `${firstName} ${lastName}`,
+        email,
+        contactNumber: contact,
+        role,
+        userPhoto: photoUrl,
+        username, // Include username in the request body
+      })
+    });
+
+    if (response.ok) {
+      alert('A confirmation email has been sent to the email address');
+    } else {
+      alert('An error occurred while creating the account');
+    }
   };
 
   return (
@@ -57,6 +83,12 @@ function CreateUser() {
                 <option value="productOwner">Product Owner</option>
               </Form.Control>
             </Form.Group>
+
+            <Form.Group controlId="username"> {/* New form group for username */}
+              <Form.Label>Username</Form.Label>
+              <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+            </Form.Group>
+
             <Form.Group controlId="photoUrl">
                   <Form.Label>User Photo URL</Form.Label>
                   <Form.Control type="text" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} />

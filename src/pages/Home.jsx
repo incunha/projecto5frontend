@@ -12,7 +12,6 @@ function Home() {
   const [showButtons, setShowButtons] = useState(false);
   const [tasks, setTasks] = useState([]);
   const token = useUserStore(state => state.token);~
-  console.log(token);
 
   useEffect(() => {
     fetch('http://localhost:8080/projecto5backend/rest/tasks?active=true', {

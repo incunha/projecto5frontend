@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Users from "./pages/Users";
 import Profile from "./pages/Profile";
 import CreateUser from "./pages/CreateUser";
+import ConfirmAccount from "./pages/ConfirmAccount";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/new-user" element={<CreateUser />} />
+        <Route path="/confirm-account/:token" element={<ConfirmAccount />} />
       </Routes>
     </div>
   );
