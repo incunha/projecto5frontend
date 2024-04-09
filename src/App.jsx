@@ -17,7 +17,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/new-user" element={<CreateUser />} />
-        <Route path="/confirm-account/:token" element={<ConfirmAccount />} />
+        <Route path="/confirm-account" element={<ConfirmAccount />} />
       </Routes>
     </div>
   );

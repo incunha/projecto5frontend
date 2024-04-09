@@ -79,12 +79,12 @@ function CreateUser() {
               <Form.Control as="select" value={role} onChange={(e) => setRole(e.target.value)}>
                 <option value="">Select...</option>
                 <option value="developer">Developer</option>
-                <option value="scrumMaster">Scrum Master</option>
-                <option value="productOwner">Product Owner</option>
+                <option value="ScrumMaster">Scrum Master</option>
+                <option value="Owner">Product Owner</option>
               </Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="username"> {/* New form group for username */}
+            <Form.Group controlId="username"> 
               <Form.Label>Username</Form.Label>
               <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
             </Form.Group>

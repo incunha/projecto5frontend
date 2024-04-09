@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
 import useUserStore from '../../userStore';
-import { Button, Form, FormGroup, Container, Row, Col, Card, CardHeader, CardBody, CardTitle, FormControl, Image } from 'react-bootstrap';
+import { Button, Form, FormGroup, Container, Row, Col, Card, FormControl, Image } from 'react-bootstrap';
 import Sidebar from '../components/sideBar/sideBar';
 import { useParams } from 'react-router-dom';
 

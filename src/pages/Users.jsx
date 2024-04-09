@@ -25,7 +25,7 @@ function Users() {
           <Column
             key={title}
             title={title}
-            items={users.filter(user => user.role === role)}
+            items={users ? users.filter(user => user.role === role) : []}
             CardComponent={UserCard}
           />
         ))}
