@@ -22,7 +22,7 @@ function CreateTask() {
   };
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const payload = {
@@ -34,24 +34,27 @@ function CreateTask() {
       category,
     };
 
-    fetch('http://localhost:8080/projecto5backend/rest/tasks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': "*/*",
-        'token': token,
-      },
-      body: JSON.stringify(payload),
-    })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+    console.log(payload)
+    console.log(token)
 
-    })
-    .catch((error) => {
+    try {
+      const response = await fetch('http://localhost:8080/projecto5backend/rest/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': "*/*",
+          'token': token,
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error creating task: ${response.statusText}`);
+      }
+  
+    } catch (error) {
       console.error('Error creating task', error);
-    });
+    }
   };
 
   return (
@@ -85,7 +88,7 @@ function CreateTask() {
               <Form.Label>Category</Form.Label>
               <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <option key={category.name} value={category.name}>
                     {category.name}
                   </option>
                 ))}
