@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../components/sideBar/sideBar';
 import Header from '../components/header/header';
@@ -6,33 +5,17 @@ import Column from '../elements/column/column';
 import { Row, Col } from 'react-bootstrap'; 
 import TaskCard from '../elements/taskCard/taskCard';
 import useUserStore from '../../userStore';
+import useTaskStore from '../../taskStore';
+import React, { useState, useEffect } from 'react';
 
 function Home() {
   const location = useLocation();
   const [showButtons, setShowButtons] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const token = useUserStore(state => state.token);~
+  const token = useUserStore(state => state.token);
+  const { tasks, fetchActiveTasks } = useTaskStore();
 
   useEffect(() => {
-    fetch('http://localhost:8080/projecto5backend/rest/tasks?active=true', {
-      headers:
-      {
-        Accept: "*/*",
-        token: token,
-      },
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      setTasks(data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+    fetchActiveTasks(token);
   }, []);
 
   const columnData = [

@@ -23,7 +23,7 @@ function Users() {
       <Sidebar />
       <Row>
         {userColumns.map(({ role, title }) => {
-          // Filtrar os usuários ativos por papel
+          // Filtrar os users ativos por role
           const usersByRole = activeUsers.filter(user => user.role === role);
   
           return (

@@ -1,0 +1,102 @@
+export const setToken = (set, token) => set({ token });
+export const setUser = (set, user) => set({ user });
+
+export const fetchUser = async (set, token) => {
+    try {
+        const response = await fetch('http://localhost:8080/projecto5backend/rest/users/myUserDto', {
+          method: 'GET',
+          headers: {
+            Accept: "*/*",
+            token: token,
+          },
+        });
+        if (response.ok) {
+          const user = await response.json();
+          set({ user });
+        } else {
+          console.error('Failed to fetch user data');
+        }
+      } catch (error) {
+        console.error('Failed to fetch user data', error);
+      }
+    };
+  
+  export const fetchActiveUsers = async (set, token) => {
+    try {
+        const response = await fetch('http://localhost:8080/projecto5backend/rest/users?active=true', {
+          method: 'GET',
+          headers: {
+            Accept: "*/*",
+            token: token,
+            console: console.log('token', token),
+          },
+        });
+        if (response.ok) {
+          const activeUsers = await response.json();
+          set({ activeUsers });
+        } else {
+          console.error('Failed to fetch active users');
+        }
+      } catch (error) {
+        console.error('Failed to fetch active users', error);
+      }
+    };
+  
+  export const fetchTaskTotals = async (set, token) => {
+    try {
+        const response = await fetch ('http://localhost:8080/projecto5backend/rest/users/totalTasks', {
+          method: 'GET',
+          headers: {
+            Accept: "*/*",
+            token: token,
+          },
+        });
+        if (response.ok) {
+          const taskTotals = await response.json();
+          set({ taskTotals });
+        } else {
+          console.error('Failed to fetch task totals');
+        }
+      } catch (error) {
+        console.error('Failed to fetch task totals', error);
+      }
+    };
+  
+  export const logout = async (set, token) => {
+    try {
+        const response = await fetch('http://localhost:8080/projecto5backend/rest/users/logout', {
+          method: 'GET',
+          headers: {
+            Accept: "*/*",
+            token: token,
+          },
+        });
+        if (response.ok) {
+          set({ user: null, token: null });
+        } else {
+          console.error('Failed to logout');
+        }
+      } catch (error) {
+        console.error('Failed to logout', error);
+      }
+    };
+  
+  export const fetchOtherUser = async (set, token, username) => {
+    try {
+        const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/${username}`, {
+          method: 'GET',
+          headers: {
+            Accept: "*/*",
+            token: token,
+          },
+        });
+        if (response.ok) {
+          const user = await response.json();
+          set({ user });
+        } else {
+          console.error('Failed to fetch other user data');
+        }
+      } catch (error) {
+        console.error('Failed to fetch other user data', error);
+      }
+  };

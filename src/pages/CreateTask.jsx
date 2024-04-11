@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import useCategoryStore from '../../categoryStore'; 
 import useUserStore from '../../userStore';
+import { createTask } from '../../taskActions';
+import { useNavigate } from 'react-router-dom';
 
 
 function CreateTask() {
@@ -13,6 +15,7 @@ function CreateTask() {
   const [category, setCategory] = useState('');
   const token = useUserStore((state) => state.token);
   const categories = useCategoryStore();
+  const navigate = useNavigate();
 
 
   const priorityOptions = {
@@ -21,10 +24,9 @@ function CreateTask() {
     High: 300,
   };
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     const payload = {
       title,
       description,
@@ -34,28 +36,10 @@ function CreateTask() {
       category,
     };
 
-    console.log(payload)
-    console.log(token)
+    await createTask(token, payload);
+  navigate('/home');
+};
 
-    try {
-      const response = await fetch('http://localhost:8080/projecto5backend/rest/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': "*/*",
-          'token': token,
-        },
-        body: JSON.stringify(payload),
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Error creating task: ${response.statusText}`);
-      }
-  
-    } catch (error) {
-      console.error('Error creating task', error);
-    }
-  };
 
   return (
     <Container>
