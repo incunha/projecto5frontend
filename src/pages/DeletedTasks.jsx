@@ -1,4 +1,3 @@
-
 import Sidebar from '../components/sideBar/sideBar';
 import Header from '../components/header/header';
 import Column from '../elements/column/column';
@@ -6,14 +5,15 @@ import { Row, Col } from 'react-bootstrap';
 import TaskCard from '../elements/taskCard/taskCard';
 import useUserStore from '../../userStore';
 import useTaskStore from '../../taskStore';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function Home() {
+function DeletedTasks() {
+  const [showButtons, setShowButtons] = useState(false);
   const token = useUserStore(state => state.token);
-  const { tasks, fetchActiveTasks } = useTaskStore();
+  const { deletedTasks, fetchInactiveTasks } = useTaskStore();
 
   useEffect(() => {
-    fetchActiveTasks(token);
+    fetchInactiveTasks(token);
   }, []);
 
   const columnData = [
@@ -22,7 +22,7 @@ function Home() {
   { status: 30, title: 'Done' },
 ].map(({ status, title }) => ({
   title,
-  items: tasks.filter(task => task.status === status),
+  items: deletedTasks.filter(task => task.status === status),
   CardComponent: TaskCard,
   onCardClick: () => {},
 }));
@@ -44,4 +44,4 @@ return (
 );
 }
 
-export default Home;
+export default DeletedTasks;

@@ -5,6 +5,7 @@ import {
   setUser, 
   fetchUser, 
   fetchActiveUsers, 
+  fetchInactiveUsers,
   fetchTaskTotals, 
   logout, 
   fetchOtherUser 
@@ -16,14 +17,16 @@ const useUserStore = create(persist(
     user: null,
     taskTotals: null,
     activeUsers: [],
+    inactiveUsers: [],
 
     setToken: (token) => setToken(set, token),
     setUser: (user) => setUser(set, user),
     fetchUser: (token) => fetchUser(set, token),
     fetchActiveUsers: (token) => fetchActiveUsers(set, token),
-    fetchTaskTotals: (token) => fetchTaskTotals(set, token),
+    fetchInactiveUsers: (token) => fetchInactiveUsers(set, token),
+    fetchTaskTotals: (token, username) => fetchTaskTotals(token, username),
     logout: (token) => logout(set, token),
-    fetchOtherUser: (token, username) => fetchOtherUser(set, token, username),
+    fetchOtherUser: (token, username) => fetchOtherUser(token, username),
   }),
   {
     name:'userStore',

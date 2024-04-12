@@ -8,6 +8,10 @@ import Profile from "./pages/Profile";
 import CreateUser from "./pages/CreateUser";
 import ConfirmAccount from "./pages/ConfirmAccount";
 import CreateTask from "./pages/CreateTask";
+import DeletedTasks from "./pages/DeletedTasks";
+import DeletedUsers from "./pages/DeletedUsers";
+import TaskDetaisl from "./pages/TaskDetails";
+
 
 function App() {
   return (
@@ -19,7 +23,10 @@ function App() {
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/new-user" element={<CreateUser />} />
         <Route path="/new-task" element={<CreateTask />} />
+        <Route path="/deleted-users" element={<DeletedUsers />} />
+        <Route path="/deleted-tasks" element={<DeletedTasks />} />
         <Route path="/confirm-account" element={<ConfirmAccount />} />
+        <Route path="/task-details/:id" element={<TaskDetaisl />} />
       </Routes>
     </div>
   );

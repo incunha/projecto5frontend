@@ -19,18 +19,27 @@ function Profile() {
   const fetchTaskTotals = useUserStore(state => state.fetchTaskTotals);
   const taskTotals = useUserStore(state => state.taskTotals);
   const fetchOtherUser = useUserStore(state => state.fetchOtherUser);
-  const [otherUser, setOtherUser] = useState(null);
+  const [viewedUser, setViewedUser] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    if (paramUsername && paramUsername !== user?.username) {
-      fetchOtherUser(token, paramUsername).then((data) => {
-        setOtherUser(data);
-      });
+    const socket = new WebSocket('ws://localhost:8080/projecto5backend/chat'); // Substitua 'seu_servidor_websocket' pelo URL correto
+    socket.onmessage = function(event) {
+      const message = JSON.parse(event.data);
+      setMessages(prevMessages => [...prevMessages, message]);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (paramUsername !== user?.username) {
+      fetchOtherUser(token, paramUsername).then(data => setViewedUser(data));
+    } else {
+      setViewedUser(user);
     }
-  }, [fetchUser, fetchOtherUser, paramUsername, user, token]);
+  }, [paramUsername, user, token, fetchOtherUser]);
 
   useEffect(() => {
-    const currentUser = paramUsername === user?.username ? user : otherUser;
+    const currentUser = viewedUser;
     if (currentUser && currentUser.name) {
       const [first, ...last] = currentUser.name.split(' ');
       setFirstName(first);
@@ -39,23 +48,15 @@ function Profile() {
       setEmail(currentUser.email);
       setUserPhoto(currentUser.userPhoto);
     }
-  }, [user, otherUser, paramUsername]);
+  }, [viewedUser]);
 
   useEffect(() => {
-    fetchTaskTotals(token);
-  }, [fetchTaskTotals, token]);
-
-  useEffect(() => {
-    const currentUser = paramUsername === user?.username ? user : otherUser;
-    if (currentUser && currentUser.name) {
-      const [first, ...last] = currentUser.name.split(' ');
-      setFirstName(first);
-      setLastName(last.join(' '));
-      setUsername(currentUser.username);
-      setEmail(currentUser.email);
-      setUserPhoto(currentUser.userPhoto);
-    }
-  }, [user, otherUser, paramUsername]);
+    const fetchTotals = async () => {
+      await fetchTaskTotals(token, paramUsername);
+    };
+    fetchTotals();
+      console.log(paramUsername);
+  }, [paramUsername]);
 
   const handleEditClick = (event) => {
     event.preventDefault();
@@ -220,7 +221,13 @@ function Profile() {
                 <Card.Title tag="h5">Messages</Card.Title>
               </Card.Header>
               <Card.Body>
-                {/* Aqui é onde as mensagens serão renderizadas no futuro */}
+                {messages.map((message, index) => (
+                  <div key={index}>
+                    <p>De: {message.sender}</p>
+                    <p>{message.message}</p>
+                    <hr />
+                  </div>
+                ))}
               </Card.Body>
             </Card>
           </Col>

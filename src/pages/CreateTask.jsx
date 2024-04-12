@@ -36,7 +36,7 @@ function CreateTask() {
       category,
     };
 
-    await createTask(token, payload);
+  await createTask(token, payload);
   navigate('/home');
 };
 

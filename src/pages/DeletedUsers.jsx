@@ -6,11 +6,11 @@ import UserCard from '../elements/userCard/userCard';
 import useUserStore from '../../userStore'
 
 function Users() {
-  const { fetchActiveUsers, token, activeUsers } = useUserStore();
+  const { fetchInactiveUsers, token, inactiveUsers } = useUserStore();
 
   useEffect(() => {
-    fetchActiveUsers(token);
-  }, []);
+    fetchInactiveUsers(token);
+  }, [fetchInactiveUsers, token]);
 
   const userColumns = [
     { role: 'developer', title: 'Developer' },
@@ -24,7 +24,7 @@ function Users() {
       <Row>
         {userColumns.map(({ role, title }) => {
           // Filtrar os users ativos por role
-          const usersByRole = activeUsers.filter(user => user.role === role);
+          const usersByRole = inactiveUsers.filter(user => user.role === role);
   
           return (
             <Column
