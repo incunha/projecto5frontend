@@ -1,6 +1,9 @@
 import useUserStore from "./userStore";
 
-export const setToken = (set, token) => set({ token });
+export const setToken = (set, token) => {
+  console.log('Setting token:', token); // Adicione esta linha
+  set({ token });
+};
 export const setUser = (set, user) => set({ user });
 
 export const fetchUser = async (set, token) => {
@@ -66,7 +69,6 @@ export const fetchUser = async (set, token) => {
   
       export const fetchTaskTotals = async (token, username) => {
         try {
-          console.log('fetchTaskTotals', token, username);
           const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/totalTasks?username=${username}`, {
             method: 'GET',
             headers: {
@@ -105,8 +107,6 @@ export const fetchUser = async (set, token) => {
     };
   
   export const fetchOtherUser = async (token, username) => {
-    console.log(`Token: ${token}`);
-    console.log(`Username: ${username}`);
     try {
         const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/${username}`, {
           method: 'GET',

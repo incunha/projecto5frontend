@@ -30,6 +30,7 @@ const useUserStore = create(persist(
   }),
   {
     name:'userStore',
+    getStorage: () => sessionStorage,
   }
 ));
 

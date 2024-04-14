@@ -21,14 +21,69 @@ function Profile() {
   const fetchOtherUser = useUserStore(state => state.fetchOtherUser);
   const [viewedUser, setViewedUser] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [websocket, setWebsocket] = useState(null);
+  const [connectionStatus, setConnectionStatus] = useState('DISCONNECTED');
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:8080/projecto5backend/chat'); // Substitua 'seu_servidor_websocket' pelo URL correto
+    fetch(`http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`, {
+    headers: {
+      'Accept': '*/*',
+      'token': token,
+    }
+  })
+      .then(response => response.json())
+      .then(data => {
+        setMessages(data);
+      })
+      .catch(error => {
+        console.error('Error fetching messages:', error);
+      });
+  }, [user, paramUsername]);
+
+  useEffect(() => {
+    const socket = new WebSocket('ws://localhost:8080/projecto5backend/chat'); 
+    setWebsocket(socket);
+
+    socket.onopen = function(event) {
+      setConnectionStatus('CONNECTED');
+    };
+
     socket.onmessage = function(event) {
       const message = JSON.parse(event.data);
       setMessages(prevMessages => [...prevMessages, message]);
     };
+
+    socket.onclose = function(event) {
+      setConnectionStatus('DISCONNECTED');
+    };
+
+    socket.onerror = function(event) {
+      console.error('WebSocket error observed:', event);
+    };
+
+    return () => {
+      if (websocket) {
+        websocket.close();
+      }
+    };
   }, []);
+
+  const handleChatSubmit = (event) => {
+    event.preventDefault();
+    if (connectionStatus === 'CONNECTED') {
+      const messageToSend = {
+        sender: user.username,
+        receiver: paramUsername,
+        message: newMessage,
+        timestamp: new Date().toISOString()
+      };
+      websocket.send(JSON.stringify(messageToSend));
+      setNewMessage('');
+    } else {
+      console.error('WebSocket connection is not ready.');
+    }
+  };
 
   useEffect(() => {
     if (paramUsername !== user?.username) {
@@ -221,14 +276,25 @@ function Profile() {
                 <Card.Title tag="h5">Messages</Card.Title>
               </Card.Header>
               <Card.Body>
-                {messages.map((message, index) => (
-                  <div key={index}>
-                    <p>De: {message.sender}</p>
-                    <p>{message.message}</p>
-                    <hr />
-                  </div>
-                ))}
-              </Card.Body>
+  {messages.map((message, index) => (
+    <div key={index} style={{ textAlign: message.sender === user.username ? 'right' : 'left' }}>
+      <p>{message.sender}</p>
+      <p>{message.message}</p>
+      <hr />
+    </div>
+  ))}
+  <Form onSubmit={handleChatSubmit}>
+    <FormGroup>
+      <FormControl
+        type="text"
+        placeholder="Type your message..."
+        value={newMessage}
+        onChange={e => setNewMessage(e.target.value)}
+      />
+    </FormGroup>
+    <Button type="submit">Send</Button>
+  </Form>
+</Card.Body>
             </Card>
           </Col>
         </Row>
