@@ -42,7 +42,7 @@ function Profile() {
   }, [user, paramUsername]);
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:8080/projecto5backend/chat'); 
+    const socket = new WebSocket(`ws://localhost:8080/projecto5backend/chat/${user.username}`); 
     setWebsocket(socket);
 
     socket.onopen = function(event) {
