@@ -1,0 +1,10 @@
+
+
+.message-container {
+  max-height: 400px; /* Altura máxima da área de mensagens */
+  overflow-y: auto; /* Adicione uma barra de rolagem vertical quando necessário */
+}
+
+.page-content {
+  overflow-y: auto; /* Adicione uma barra de rolagem vertical ao conteúdo da página, se necessário */
+}

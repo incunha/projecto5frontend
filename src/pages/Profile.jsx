@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Profile.css';
 import useUserStore from '../../userStore';
 import { Button, Form, FormGroup, Container, Row, Col, Card, FormControl, Image } from 'react-bootstrap';
 import Sidebar from '../components/sideBar/sideBar';
 import { useParams } from 'react-router-dom';
+import Header from '../components/header/header';
 
 function Profile() {
   const { username: paramUsername } = useParams();
@@ -24,6 +25,17 @@ function Profile() {
   const [newMessage, setNewMessage] = useState('');
   const [websocket, setWebsocket] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState('DISCONNECTED');
+  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }
+  
+  useEffect(scrollToBottom, [messages]);
 
   useEffect(() => {
     fetch(`http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`, {
@@ -85,6 +97,29 @@ function Profile() {
     }
   };
 
+  const messageStyles = {
+    sent: {
+      backgroundColor: '#DCF8C6',
+      color: 'black',
+      borderRadius: '18px',
+      padding: '10px',
+      marginBottom: '10px',
+      alignSelf: 'flex-end',
+      maxWidth: '80%',
+      wordWrap: 'break-word'
+    },
+    received: {
+      backgroundColor: '#ECECEC',
+      color: 'black',
+      borderRadius: '18px',
+      padding: '10px',
+      marginBottom: '10px',
+      alignSelf: 'flex-start',
+      maxWidth: '80%',
+      wordWrap: 'break-word'
+    }
+  };
+
   useEffect(() => {
     if (paramUsername !== user?.username) {
       fetchOtherUser(token, paramUsername).then(data => setViewedUser(data));
@@ -119,186 +154,201 @@ function Profile() {
   };
 
   return (
-    <div className="profile profile-background d-flex justify-content-start align-items-center">
-      <Sidebar />
-      <Container fluid>
-        <Row>
-          <Col xs={12} md={8}>
-            <Card className="card-user shadow p-3 mb-5 rounded">
-              <Card.Header className="d-flex flex-column align-items-center">
-                <Image src={userPhoto} roundedCircle style={{ width: '100px', height: '100px' }} />
-                <Card.Title tag="h5" className="mt-3">{isEditing ? 'Edit Profile' : `${firstName} ${lastName}`}</Card.Title>
-              </Card.Header>
-              <Card.Body>
-                <Form>
-                  <Row>
-                    <Col className="px-1" md="6">
-                      <FormGroup>
-                        <Form.Label>Username</Form.Label>
-                        <FormControl
-                          defaultValue={username}
-                          placeholder="Username"
-                          type="text"
-                          disabled
-                          onChange={e => setUsername(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="6">
-                      <FormGroup>
-                        <Form.Label htmlFor="exampleInputEmail1">
-                          Email address
-                        </Form.Label>
-                        <FormControl 
-                          placeholder="Email" 
-                          type="email" 
-                          defaultValue={email}
-                          disabled
-                          onChange={e => setEmail(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-1" md="6">
-                      <FormGroup>
-                        <Form.Label>First Name</Form.Label>
-                        <FormControl
-                          defaultValue={firstName}
-                          placeholder="First Name"
-                          type="text"
-                          disabled={!isEditing}
-                          onChange={e => setFirstName(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="6">
-                      <FormGroup>
-                        <Form.Label>Last Name</Form.Label>
-                        <FormControl
-                          defaultValue={lastName}
-                          placeholder="Last Name"
-                          type="text"
-                          disabled={!isEditing}
-                          onChange={e => setLastName(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-1" md="6">
-                      <FormGroup>
-                        <Form.Label>Profile Picture</Form.Label>
-                        <FormControl
-                          defaultValue={userPhoto}
-                          placeholder="Profile Picture"
-                          type="text"
-                          disabled={!isEditing}
-                          onChange={e => setUserPhoto(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="pl-1" md="6">
-                      <FormGroup>
-                        <Form.Label>Phone Number</Form.Label>
-                        <FormControl
-                          defaultValue={lastName}
-                          placeholder="Phone number"
-                          type="text"
-                          disabled={!isEditing}
-                          onChange={e => setLastName(e.target.value)}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <div className="update ml-auto mr-auto">
-                      <Button
-                        className="btn-round mt-3"
-                        color="primary"
-                        type="submit"
-                        onClick={handleEditClick}
-                        hidden={paramUsername !== user?.username}
-                      >
-                        {isEditing ? 'Save' : 'Edit'}
-                      </Button>
-                    </div>
-                  </Row>
-                </Form>
-              </Card.Body>
-            </Card>
-  
-            <Card className="card-user shadow p-3 mb-5 rounded">
-              <Card.Header>
-                <Card.Title tag="h5">Tasks:</Card.Title>
-              </Card.Header>
-              <Card.Body>
-                <Form>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Total Tasks:</Form.Label>
-                        <Form.Text>{taskTotals && taskTotals[0]}</Form.Text>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>To Do Tasks:</Form.Label>
-                        <Form.Text>{taskTotals && taskTotals[1]}</Form.Text>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Doing Tasks:</Form.Label>
-                        <Form.Text>{taskTotals && taskTotals[2]}</Form.Text>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Done Tasks:</Form.Label>
-                        <Form.Text>{taskTotals && taskTotals[3]}</Form.Text>
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col xs={12} md={4}>
-            <Card className="card-user shadow p-3 mb-5 rounded">
-              <Card.Header>
-                <Card.Title tag="h5">Messages</Card.Title>
-              </Card.Header>
-              <Card.Body>
-  {messages.map((message, index) => (
-    <div key={index} style={{ textAlign: message.sender === user.username ? 'right' : 'left' }}>
-      <p>{message.sender}</p>
-      <p>{message.message}</p>
-      <hr />
-    </div>
-  ))}
-  <Form onSubmit={handleChatSubmit}>
-    <FormGroup>
-      <FormControl
-        type="text"
-        placeholder="Type your message..."
-        value={newMessage}
-        onChange={e => setNewMessage(e.target.value)}
-      />
-    </FormGroup>
-    <Button type="submit">Send</Button>
-  </Form>
-</Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+    <div className='profile-container'>
+      <Row className="flex-nowrap">
+        <Col>
+          <Header />
+        </Col>
+      </Row>
+      <Row className="flex-nowrap">
+        <Col xs="auto">
+          <Sidebar />
+        </Col>
+        <Col className="page-content">
+          <Container fluid>
+            <Row>
+              <Col xs={12} md={8}>
+                <Card className="card-user shadow p-3 mb-5 rounded">
+                  <Card.Header className="d-flex flex-column align-items-center">
+                    <Image src={userPhoto} roundedCircle style={{ width: '100px', height: '100px' }} />
+                    <Card.Title tag="h5" className="mt-3">{isEditing ? 'Edit Profile' : `${firstName} ${lastName}`}</Card.Title>
+                  </Card.Header>
+                  <Card.Body>
+                    <Form>
+                      <Row>
+                        <Col className="px-1" md="6">
+                          <FormGroup>
+                            <Form.Label>Username</Form.Label>
+                            <FormControl
+                              defaultValue={username}
+                              placeholder="Username"
+                              type="text"
+                              disabled
+                              onChange={e => setUsername(e.target.value)}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col className="pl-1" md="6">
+                          <FormGroup>
+                            <Form.Label htmlFor="exampleInputEmail1">
+                              Email address
+                            </Form.Label>
+                            <FormControl 
+                              placeholder="Email" 
+                              type="email" 
+                              defaultValue={email}
+                              disabled
+                              onChange={e => setEmail(e.target.value)}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col className="pr-1" md="6">
+                          <FormGroup>
+                            <Form.Label>First Name</Form.Label>
+                            <FormControl
+                              defaultValue={firstName}
+                              placeholder="First Name"
+                              type="text"
+                              disabled={!isEditing}
+                              onChange={e => setFirstName(e.target.value)}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col className="pl-1" md="6">
+                          <FormGroup>
+                            <Form.Label>Last Name</Form.Label>
+                            <FormControl
+                              defaultValue={lastName}
+                              placeholder="Last Name"
+                              type="text"
+                              disabled={!isEditing}
+                              onChange={e => setLastName(e.target.value)}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col className="pr-1" md="6">
+                          <FormGroup>
+                            <Form.Label>Profile Picture</Form.Label>
+                            <FormControl
+                              defaultValue={userPhoto}
+                              placeholder="Profile Picture"
+                              type="text"
+                              disabled={!isEditing}
+                              onChange={e => setUserPhoto(e.target.value)}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col className="pl-1" md="6">
+                          <FormGroup>
+                            <Form.Label>Phone Number</Form.Label>
+                            <FormControl
+                              defaultValue={lastName}
+                              placeholder="Phone number"
+                              type="text"
+                              disabled={!isEditing}
+                              onChange={e => setLastName(e.target.value)}
+                            />
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <div className="update ml-auto mr-auto">
+                          <Button
+                            className="btn-round mt-3"
+                            color="primary"
+                            type="submit"
+                            onClick={handleEditClick}
+                            hidden={paramUsername !== user?.username}
+                          >
+                            {isEditing ? 'Save' : 'Edit'}
+                          </Button>
+                        </div>
+                      </Row>
+                    </Form>
+                  </Card.Body>
+                </Card>
+      
+                <Card className="card-user shadow p-3 mb-5 rounded">
+                  <Card.Header>
+                    <Card.Title tag="h5">Tasks:</Card.Title>
+                  </Card.Header>
+                  <Card.Body>
+                    <Form>
+                      <Row>
+                        <Col md="12">
+                          <FormGroup>
+                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Total Tasks:</Form.Label>
+                            <Form.Text>{taskTotals && taskTotals[0]}</Form.Text>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md="12">
+                          <FormGroup>
+                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>To Do Tasks:</Form.Label>
+                            <Form.Text>{taskTotals && taskTotals[1]}</Form.Text>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md="12">
+                          <FormGroup>
+                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Doing Tasks:</Form.Label>
+                            <Form.Text>{taskTotals && taskTotals[2]}</Form.Text>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md="12">
+                          <FormGroup>
+                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Done Tasks:</Form.Label>
+                            <Form.Text>{taskTotals && taskTotals[3]}</Form.Text>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col xs={12} md={4}>
+                {paramUsername !== user?.username && (
+                  <Card className="card-user shadow p-3 mb-5 rounded">
+                    <Card.Header>
+                      <Card.Title tag="h5">Messages</Card.Title>
+                    </Card.Header>
+                    <Card.Body ref={messagesContainerRef} style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                      {messages.map((message, index) => (
+                        <div key={index} style={message.sender === user.username ? messageStyles.sent : messageStyles.received}>
+                          <p>{message.sender}</p>
+                          <p>{message.message}</p>
+                        </div>
+                      ))}
+                      <div ref={messagesEndRef} />
+                    </Card.Body>
+                    <Card.Footer>
+                      <Form onSubmit={handleChatSubmit}>
+                        <FormGroup>
+                          <FormControl
+                            type="text"
+                            placeholder="Type your message..."
+                            value={newMessage}
+                            onChange={e => setNewMessage(e.target.value)}
+                          />
+                        </FormGroup>
+                        <Button type="submit">Send</Button>
+                      </Form>
+                    </Card.Footer>
+                  </Card>
+                )}
+              </Col>
+            </Row>
+          </Container>
+        </Col>
+      </Row>
     </div>
   );
 }
