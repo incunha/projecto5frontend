@@ -51,13 +51,19 @@ function Header() {
   const handleNotificationsClick = (event) => {
     event.preventDefault();
     setNotificationsOpen(prevState => !prevState);
-    resetNotifications();
   };
 
   const handleNotificationClick = (event, username) => {
     event.stopPropagation();
     navigate(`/profile/${username}`);
   };
+  useEffect(() => {
+    // Se a caixa de notificações foi fechada, resetar as notificações
+    if (!isNotificationsOpen) {
+      resetNotifications();
+    }
+  }, [isNotificationsOpen, resetNotifications]);
+  
 
   return (
     <Navbar className="header" expand="lg">
@@ -78,14 +84,14 @@ function Header() {
   <FontAwesomeIcon icon={faBell}  className="notification-icon" />
   {notificationCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{notificationCount}</span>}
   {isNotificationsOpen && (
-    <div style={{ position: 'absolute', right: 0, backgroundColor: 'white', width: '200px' }}>
-      {notifications.map((notification, index) => (
-        <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.from)}>
-          <strong>{notification.from}</strong>: {notification.message}
-        </div>
-      ))}
-    </div>
-  )}
+  <div style={{ position: 'absolute', right: 0, backgroundColor: 'white', width: '200px' }}>
+    {notifications.map((notification, index) => (
+      <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.from)}>
+       <strong>{notification.from}</strong>: {notification.message}
+      </div>
+    ))}
+  </div>
+)}
 </span>
           <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
             Logout <FaSignOutAlt className="logoutIcon" />

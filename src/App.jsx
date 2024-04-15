@@ -23,12 +23,7 @@ function App() {
     const websocket = new WebSocket(`ws://localhost:8080/projecto5backend/notifications/${username}`);
 
     websocket.onmessage = (event) => {
-      const message = event.data;
-
-      // Se a mensagem for de outro usuário e o usuário atual não estiver na página de perfil desse usuário, incrementar as notificações
-      if (message.from !== username && location.pathname !== `/profile/${message.from}`) {
-        incrementNotifications();
-      }
+      incrementNotifications({ from: 'System', message: event.data });
     };
 
     // Fechar a conexão WebSocket quando o componente for desmontado

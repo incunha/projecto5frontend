@@ -19,7 +19,7 @@ const useUserStore = create(persist(
     activeUsers: [],
     inactiveUsers: [],
     notifications: [],
-    notificationsCount: 0,
+    notificationCount: 0,
 
     setToken: (token) => setToken(set, token),
     setUser: (user) => setUser(set, user),
@@ -30,11 +30,11 @@ const useUserStore = create(persist(
     logout: (token) => logout(set, token),
     fetchOtherUser: (token, username) => fetchOtherUser(token, username),
 
-    incrementNotifications: (notification) => set(state => ({ 
-      notifications: [...state.notifications, notification],
-      notificationCount: state.notificationCount + 1 // Incrementa o contador de notificações
+    incrementNotifications: (message) => set(state => ({ 
+      notifications: [...state.notifications, message],
+      notificationCount: state.notificationCount + 1
     })),
-    resetNotifications: () => set({ notifications: [], notificationCount: 0 }), // Reseta o contador de notificações e a lista de notificações
+    resetNotifications: () => set({ notifications: [], notificationCount: 0 }),
   }),
   {
     name:'userStore',
