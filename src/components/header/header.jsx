@@ -16,7 +16,9 @@ function Header() {
   const [firstName, setFirstName] = useState('');
   const navigate = useNavigate();
   const notifications = useUserStore(state => state.notifications);
+  const notificationCount = useUserStore(state => state.notificationCount);
   const resetNotifications = useUserStore(state => state.resetNotifications);
+  const [isNotificationsOpen, setNotificationsOpen] = useState(false);
 
   useEffect(() => {
     if (!user && token) {
@@ -46,14 +48,23 @@ function Header() {
     };
   }, []);
 
+  const handleNotificationsClick = (event) => {
+    event.preventDefault();
+    setNotificationsOpen(prevState => !prevState);
+    resetNotifications();
+  };
+
+  const handleNotificationClick = (event, username) => {
+    event.stopPropagation();
+    navigate(`/profile/${username}`);
+  };
+
   return (
     <Navbar className="header" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">
-          <div className="dateHeader">
+        <div className="dateHeader">
           {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
-          </div>
-        </Navbar.Brand>
+        </div>
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
           <Nav className="ml-auto welcome-section">
             {user && (
@@ -63,10 +74,19 @@ function Header() {
               </>
             )}
           </Nav>
-          <Navbar.Brand href="#home" onClick={resetNotifications}>
+          <span onClick={handleNotificationsClick} style={{ position: 'relative', cursor: 'pointer' }}>
   <FontAwesomeIcon icon={faBell}  className="notification-icon" />
-  {notifications > 0 && <span className="notification-count">{notifications}</span>}
-</Navbar.Brand>
+  {notificationCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{notificationCount}</span>}
+  {isNotificationsOpen && (
+    <div style={{ position: 'absolute', right: 0, backgroundColor: 'white', width: '200px' }}>
+      {notifications.map((notification, index) => (
+        <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.from)}>
+          <strong>{notification.from}</strong>: {notification.message}
+        </div>
+      ))}
+    </div>
+  )}
+</span>
           <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
             Logout <FaSignOutAlt className="logoutIcon" />
           </Button>

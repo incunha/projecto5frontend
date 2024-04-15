@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import useUserStore from "../userStore";
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
@@ -12,8 +14,29 @@ import DeletedTasks from "./pages/DeletedTasks";
 import DeletedUsers from "./pages/DeletedUsers";
 import TaskDetaisl from "./pages/TaskDetails";
 
-
 function App() {
+  const location = useLocation();
+  const username = useUserStore(state => state.user.username);
+  const incrementNotifications = useUserStore(state => state.incrementNotifications);
+
+  useEffect(() => {
+    const websocket = new WebSocket(`ws://localhost:8080/projecto5backend/notifications/${username}`);
+
+    websocket.onmessage = (event) => {
+      const message = event.data;
+
+      // Se a mensagem for de outro usuário e o usuário atual não estiver na página de perfil desse usuário, incrementar as notificações
+      if (message.from !== username && location.pathname !== `/profile/${message.from}`) {
+        incrementNotifications();
+      }
+    };
+
+    // Fechar a conexão WebSocket quando o componente for desmontado
+    return () => {
+      websocket.close();
+    };
+  }, [location, incrementNotifications, username]); // Adicionar username como dependência
+
   return (
     <div className="App">
       <Routes>

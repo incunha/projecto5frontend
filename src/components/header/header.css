@@ -88,3 +88,11 @@
   .notification-icon {
     color: white;
   }
+  .notification-dropdown {
+    position: absolute;
+    right: 0;
+    background-color: white;
+    width: 200px;
+    border: 1px solid #ccc;
+    z-index: 1000; /* Garante que a caixa de notificações esteja acima dos outros elementos */
+  }
