@@ -28,6 +28,7 @@ function Profile() {
   const [connectionStatus, setConnectionStatus] = useState('DISCONNECTED');
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
+  const updateUser = useUserStore(state => state.setUser);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -160,6 +161,20 @@ function Profile() {
     setIsEditing(!isEditing);
   };
 
+  const handleEditSubmit = (event) => {
+    event.preventDefault();
+    if (isEditing) {
+      const updatedUser = {
+        ...user,
+        name: `${firstName} ${lastName}`,
+        email: email,
+        userPhoto: userPhoto
+      };
+      updateUser(token, updatedUser);
+    }
+    setIsEditing(!isEditing);
+  };
+
 
   return (
     <div className='profile-container'>
@@ -269,7 +284,7 @@ function Profile() {
                             className="btn-round mt-3"
                             color="primary"
                             type="submit"
-                            onClick={handleEditClick}
+                            onClick={handleEditSubmit}
                             hidden={paramUsername !== user?.username}
                           >
                             {isEditing ? 'Save' : 'Edit'}

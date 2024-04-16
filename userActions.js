@@ -183,5 +183,27 @@ export const fetchUser = async (set, token) => {
     } catch (error) {
       console.error('Failed to fetch unread notifications count', error);
     }
-  }
+  };
+
+  export const updateUser = async (token, user) => {
+    try {
+      const response = await fetch('http://localhost:8080/projecto5backend/rest/users', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'token': token,
+        },
+        body: JSON.stringify(user)
+      });
+      if (response.ok) {
+        const updatedUser = await response.json();
+        useUserStore.setState({ user: updatedUser });
+      } else {
+        console.error('Failed to update user');
+      }
+    } catch (error) {
+      console.error('Failed to update user', error);
+    }
+  };
 
