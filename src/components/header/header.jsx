@@ -6,6 +6,8 @@ import { FaSignOutAlt } from 'react-icons/fa';
 import { useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { markAllNotificationsAsRead, fetchNotifications, fetchUnreadNotificationsCount } from '../../../userActions';
+import { TbArrowWaveRightDown } from 'react-icons/tb';
 
 function Header() {
   const user = useUserStore(state => state.user);
@@ -19,6 +21,7 @@ function Header() {
   const notificationCount = useUserStore(state => state.notificationCount);
   const resetNotifications = useUserStore(state => state.resetNotifications);
   const [isNotificationsOpen, setNotificationsOpen] = useState(false);
+  const unreadNotificationsCount = useUserStore(state => state.unreadNotificationsCount);
 
   useEffect(() => {
     if (!user && token) {
@@ -48,8 +51,14 @@ function Header() {
     };
   }, []);
 
-  const handleNotificationsClick = (event) => {
+  const handleNotificationsClick = async (event) => {
     event.preventDefault();
+    await markAllNotificationsAsRead(token);
+    const notifications = await fetchNotifications(token);
+    console.log(notifications);
+    useUserStore.setState({ notifications: notifications });
+    const unreadCount = await fetchUnreadNotificationsCount(token);
+    useUserStore.setState({ unreadNotificationsCount: unreadCount });
     setNotificationsOpen(prevState => !prevState);
   };
 
@@ -82,16 +91,16 @@ function Header() {
           </Nav>
           <span onClick={handleNotificationsClick} style={{ position: 'relative', cursor: 'pointer' }}>
   <FontAwesomeIcon icon={faBell}  className="notification-icon" />
-  {notificationCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{notificationCount}</span>}
+  {unreadNotificationsCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{unreadNotificationsCount}</span>}
   {isNotificationsOpen && (
-  <div style={{ position: 'absolute', right: 0, backgroundColor: 'white', width: '200px' }}>
-    {notifications.map((notification, index) => (
-      <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.from)}>
-       <strong>{notification.from}</strong>: {notification.message}
-      </div>
-    ))}
+    <div style={{ position: 'absolute', right: 0, backgroundColor: 'white', width: '200px' }}>
+      {notifications.map((notification, index) => (
+  <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
+    <strong>{notification.sender}</strong>: {notification.notification}
   </div>
-)}
+))}
+    </div>
+  )}
 </span>
           <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
             Logout <FaSignOutAlt className="logoutIcon" />

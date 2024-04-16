@@ -126,3 +126,62 @@ export const fetchUser = async (set, token) => {
       }
   };
 
+  export const fetchNotifications = async (token) => {
+    try {
+      const response = await fetch('http://localhost:8080/projecto5backend/rest/users/notifications', {
+        method: 'GET',
+        headers: {
+          Accept: "*/*",
+          token: token,
+        },
+      });
+      if (response.ok) {
+        const notifications = await response.json();
+        return notifications;
+      } else {
+        console.error('Failed to fetch notifications');
+      }
+    } catch (error) {
+      console.error('Failed to fetch notifications', error);
+    }
+  };
+
+  export const markAllNotificationsAsRead = async (token) => {
+    try {
+      const response = await fetch('http://localhost:8080/projecto5backend/rest/users/notifications/read', {
+        method: 'PUT',
+        headers: {
+          Accept: "*/*",
+          token: token,
+        },
+      });
+      if (response.ok) {
+        console.log('All notifications marked as read');
+      } else {
+        console.error('Failed to mark all notifications as read');
+      }
+    } catch (error) {
+      console.error('Failed to mark all notifications as read', error);
+    }
+  };
+
+  export const fetchUnreadNotificationsCount = async (token) => {
+    try {
+      const response = await fetch('http://localhost:8080/projecto5backend/rest/users/notifications/unread', {
+        method: 'GET',
+        headers: {
+          Accept: "*/*",
+          token: token,
+        },
+      });
+      if (response.ok) {
+        const count = await response.text();
+        return count;
+      } else {
+        console.error('Failed to fetch unread notifications count');
+      }
+    } catch (error) {
+      console.error('Failed to fetch unread notifications count', error);
+    }
+  }
+

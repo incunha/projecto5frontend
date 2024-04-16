@@ -13,24 +13,52 @@ import CreateTask from "./pages/CreateTask";
 import DeletedTasks from "./pages/DeletedTasks";
 import DeletedUsers from "./pages/DeletedUsers";
 import TaskDetaisl from "./pages/TaskDetails";
+import {fetchNotifications, fetchUnreadNotificationsCount} from '../userActions'; 
+import { markAllNotificationsAsRead } from "../userActions";
 
 function App() {
   const location = useLocation();
-  const username = useUserStore(state => state.user.username);
-  const incrementNotifications = useUserStore(state => state.incrementNotifications);
+  const username = useUserStore(state => state.user ? state.user.username : '');
+  const token = useUserStore(state => state.token); // Obtenha o token do estado
+  const setUnreadNotificationsCount = useUserStore(state => state.setUnreadNotificationsCount); // Obtenha a ação setUnreadNotifications do estado
+  const notifications = useUserStore(state => state.notifications);
+  const unreadNotificationsCount = useUserStore(state => state.unreadNotificationsCount);
+  const receiveNotification = useUserStore(state => state.receiveNotification); // Obtenha a ação receiveNotification do estado
 
   useEffect(() => {
-    const websocket = new WebSocket(`ws://localhost:8080/projecto5backend/notifications/${username}`);
-
-    websocket.onmessage = (event) => {
-      incrementNotifications({ from: 'System', message: event.data });
-    };
-
-    // Fechar a conexão WebSocket quando o componente for desmontado
-    return () => {
-      websocket.close();
-    };
-  }, [location, incrementNotifications, username]); // Adicionar username como dependência
+    if (username) {
+      fetchUnreadNotificationsCount(token).then(unreadCount => {
+        setUnreadNotificationsCount(unreadCount);
+      });
+  
+      const websocket = new WebSocket(`ws://localhost:8080/projecto5backend/notifications/${username}`);
+      websocket.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+  
+      websocket.onmessage = (event) => {
+        console.log('Received message:', event.data);
+        const messageParts = event.data.split('New message from ');
+        if (messageParts.length < 2) {
+          console.error('Unexpected message format:', event.data);
+          return;
+        }
+        const from = messageParts[1];
+        const message = 'New message';
+        console.log('Current notifications:', notifications);
+        console.log('Current unread notification count:', unreadNotificationsCount);
+        receiveNotification({ from, message }); // Use a nova ação aqui
+      };
+  
+      // Fechar a conexão WebSocket quando o componente for desmontado
+      return () => {
+        console.log('Unmounting App component');
+        if (websocket.readyState === WebSocket.OPEN) {
+          websocket.close();
+        }
+      };
+    }
+  }, [username, token, setUnreadNotificationsCount, notifications, unreadNotificationsCount, receiveNotification]); 
 
   return (
     <div className="App">
