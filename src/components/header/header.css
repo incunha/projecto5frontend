@@ -93,6 +93,9 @@
     right: 0;
     background-color: white;
     width: 200px;
-    border: 1px solid #ccc;
-    z-index: 1000; /* Garante que a caixa de notificações esteja acima dos outros elementos */
+    max-height: 300px;
+    overflow-y: scroll;
+    z-index: 1000;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
   }

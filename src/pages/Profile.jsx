@@ -5,6 +5,7 @@ import { Button, Form, FormGroup, Container, Row, Col, Card, FormControl, Image 
 import Sidebar from '../components/sideBar/sideBar';
 import { useParams } from 'react-router-dom';
 import Header from '../components/header/header';
+import { format } from 'date-fns';
 
 function Profile() {
   const { username: paramUsername } = useParams();
@@ -38,20 +39,19 @@ function Profile() {
   useEffect(scrollToBottom, [messages]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`, {
-    headers: {
-      'Accept': '*/*',
-      'token': token,
-    }
-  })
-      .then(response => response.json())
-      .then(data => {
-        setMessages(data);
-      })
-      .catch(error => {
-        console.error('Error fetching messages:', error);
+    const fetchMessages = async () => {
+      const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`, {
+        headers: {
+          'Accept': '*/*',
+          'token': token,
+        }
       });
-  }, [user, paramUsername]);
+      const data = await response.json();
+      setMessages(data);
+    };
+
+    fetchMessages();
+  }, [user, paramUsername, token]);
 
   useEffect(() => {
     const socket = new WebSocket(`ws://localhost:8080/projecto5backend/chat/${user.username}`); 
@@ -63,6 +63,11 @@ function Profile() {
 
     socket.onmessage = function(event) {
       const message = JSON.parse(event.data);
+      // Check if the sendDate is valid
+      if (isNaN(new Date(message.sendDate).getTime())) {
+        // If the sendDate is not valid, create a new timestamp
+        message.sendDate = new Date().toISOString();
+      }
       setMessages(prevMessages => [...prevMessages, message]);
     };
 
@@ -105,8 +110,9 @@ function Profile() {
       padding: '10px',
       marginBottom: '10px',
       alignSelf: 'flex-end',
-      maxWidth: '80%',
-      wordWrap: 'break-word'
+      maxWidth: '60%',
+      wordWrap: 'break-word',
+      justifyContent: 'flex-end'
     },
     received: {
       backgroundColor: '#ECECEC',
@@ -115,8 +121,9 @@ function Profile() {
       padding: '10px',
       marginBottom: '10px',
       alignSelf: 'flex-start',
-      maxWidth: '80%',
-      wordWrap: 'break-word'
+      maxWidth: '60%',
+      wordWrap: 'break-word',
+      justifyContent: 'flex-start'
     }
   };
 
@@ -152,6 +159,7 @@ function Profile() {
     event.preventDefault();
     setIsEditing(!isEditing);
   };
+
 
   return (
     <div className='profile-container'>
@@ -321,12 +329,22 @@ function Profile() {
                       <Card.Title tag="h5">Messages</Card.Title>
                     </Card.Header>
                     <Card.Body ref={messagesContainerRef} style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                      {messages.map((message, index) => (
-                        <div key={index} style={message.sender === user.username ? messageStyles.sent : messageStyles.received}>
-                          <p>{message.sender}</p>
-                          <p>{message.message}</p>
-                        </div>
-                      ))}
+                    {messages.map((message, index) => (
+  <div key={index} style={{ display: 'flex', justifyContent: message.sender === user.username ? 'flex-end' : 'flex-start' }}>
+    <div style={message.sender === user.username ? messageStyles.sent : messageStyles.received}>
+      <p>{message.sender}</p>
+      <p>{message.message}</p>
+      <p style={{ fontSize: '0.8rem' }}>
+        {
+          message.sendDate ? 
+          (isNaN(new Date(message.sendDate).getTime()) ? 'Invalid date' : format(new Date(message.sendDate), 'dd/MM/yyyy HH:mm')) 
+          : 'No timestamp'
+        }
+        {message.read && message.sender === user.username && ' ✓✓'}
+      </p>
+    </div>
+  </div>
+))}
                       <div ref={messagesEndRef} />
                     </Card.Body>
                     <Card.Footer>

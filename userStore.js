@@ -38,11 +38,14 @@ const useUserStore = create(persist(
     incrementUnreadNotificationsCount: () => set(state => ({ unreadNotificationsCount: state.unreadNotificationsCount + 1 })),
     resetNotifications: () => set({ notifications: [], notificationCount: 0 }),
     setUnreadNotificationsCount: (count) => set({ unreadNotificationsCount: count }),
-    receiveNotification: (message) => set(state => ({ // Adicione esta linha
-      notifications: [...state.notifications, message],
-      notificationCount: state.notificationCount + 1,
-      unreadNotificationsCount: state.unreadNotificationsCount + 1
-    })),
+    receiveNotification: (message) => set(state => {
+      const isCurrentRouteUserProfile = window.location.pathname === `/profile/${message.from}`;
+      return {
+        notifications: [...state.notifications, message],
+        notificationCount: state.notificationCount + 1,
+        unreadNotificationsCount: isCurrentRouteUserProfile ? state.unreadNotificationsCount : state.unreadNotificationsCount + 1
+      };
+    }),
   }),
   {
     name:'userStore',

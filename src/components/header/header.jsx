@@ -91,14 +91,14 @@ function Header() {
   <FontAwesomeIcon icon={faBell}  className="notification-icon" />
   {unreadNotificationsCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{unreadNotificationsCount}</span>}
   {isNotificationsOpen && (
-    <div style={{ position: 'absolute', right: 0, backgroundColor: 'white', width: '200px' }}>
-      {notifications.map((notification, index) => (
-  <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
-    <strong>{notification.sender}</strong>: {notification.notification}
+  <div className="notification-dropdown">
+    {notifications.map((notification, index) => (
+      <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
+        <strong>{notification.sender}</strong>: {notification.notification}
+      </div>
+    ))}
   </div>
-))}
-    </div>
-  )}
+)}
 </span>
           <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
             Logout <FaSignOutAlt className="logoutIcon" />
