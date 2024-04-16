@@ -7,7 +7,6 @@ import { useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { markAllNotificationsAsRead, fetchNotifications, fetchUnreadNotificationsCount } from '../../../userActions';
-import { TbArrowWaveRightDown } from 'react-icons/tb';
 
 function Header() {
   const user = useUserStore(state => state.user);
@@ -55,7 +54,6 @@ function Header() {
     event.preventDefault();
     await markAllNotificationsAsRead(token);
     const notifications = await fetchNotifications(token);
-    console.log(notifications);
     useUserStore.setState({ notifications: notifications });
     const unreadCount = await fetchUnreadNotificationsCount(token);
     useUserStore.setState({ unreadNotificationsCount: unreadCount });

@@ -20,7 +20,6 @@ const useUserStore = create(persist(
     activeUsers: [],
     inactiveUsers: [],
     notifications: [],
-    notificationCount: 0,
     unreadNotificationsCount: 0,
     
 

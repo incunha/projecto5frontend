@@ -156,7 +156,7 @@ export const fetchUser = async (set, token) => {
         },
       });
       if (response.ok) {
-        console.log('All notifications marked as read');
+        
       } else {
         console.error('Failed to mark all notifications as read');
       }

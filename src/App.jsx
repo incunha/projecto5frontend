@@ -13,17 +13,16 @@ import CreateTask from "./pages/CreateTask";
 import DeletedTasks from "./pages/DeletedTasks";
 import DeletedUsers from "./pages/DeletedUsers";
 import TaskDetaisl from "./pages/TaskDetails";
-import {fetchNotifications, fetchUnreadNotificationsCount} from '../userActions'; 
-import { markAllNotificationsAsRead } from "../userActions";
+import {fetchUnreadNotificationsCount} from '../userActions'; 
 
 function App() {
   const location = useLocation();
   const username = useUserStore(state => state.user ? state.user.username : '');
-  const token = useUserStore(state => state.token); // Obtenha o token do estado
-  const setUnreadNotificationsCount = useUserStore(state => state.setUnreadNotificationsCount); // Obtenha a ação setUnreadNotifications do estado
+  const token = useUserStore(state => state.token);
+  const setUnreadNotificationsCount = useUserStore(state => state.setUnreadNotificationsCount);
   const notifications = useUserStore(state => state.notifications);
   const unreadNotificationsCount = useUserStore(state => state.unreadNotificationsCount);
-  const receiveNotification = useUserStore(state => state.receiveNotification); // Obtenha a ação receiveNotification do estado
+  const receiveNotification = useUserStore(state => state.receiveNotification);
 
   useEffect(() => {
     if (username) {
@@ -32,33 +31,32 @@ function App() {
       });
   
       const websocket = new WebSocket(`ws://localhost:8080/projecto5backend/notifications/${username}`);
-      websocket.onerror = (error) => {
-        console.error('WebSocket error:', error);
-      };
+      websocket.onerror = (error) => {};
   
       websocket.onmessage = (event) => {
-        console.log('Received message:', event.data);
         const messageParts = event.data.split('New message from ');
         if (messageParts.length < 2) {
-          console.error('Unexpected message format:', event.data);
           return;
         }
         const from = messageParts[1];
         const message = 'New message';
-        console.log('Current notifications:', notifications);
-        console.log('Current unread notification count:', unreadNotificationsCount);
-        receiveNotification({ from, message }); // Use a nova ação aqui
+
+        // Verifique se a rota atual corresponde ao perfil do usuário que está enviando a mensagem
+        if (location.pathname === `/profile/${from}`) {
+          // Se for o caso, simplesmente ignore a mensagem
+          return;
+        }
+
+        receiveNotification({ from, message });
       };
   
-      // Fechar a conexão WebSocket quando o componente for desmontado
       return () => {
-        console.log('Unmounting App component');
         if (websocket.readyState === WebSocket.OPEN) {
           websocket.close();
         }
       };
     }
-  }, [username, token, setUnreadNotificationsCount, notifications, unreadNotificationsCount, receiveNotification]); 
+  }, [username, token, setUnreadNotificationsCount, notifications, unreadNotificationsCount, receiveNotification, location.pathname]); 
 
   return (
     <div className="App">
