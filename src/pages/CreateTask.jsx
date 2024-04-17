@@ -14,7 +14,7 @@ function CreateTask() {
   const [endDate, setEndDate] = useState('');
   const [category, setCategory] = useState('');
   const token = useUserStore((state) => state.token);
-  const categories = useCategoryStore();
+  const categories = useCategoryStore(token);
   const navigate = useNavigate();
 
 

@@ -118,3 +118,34 @@ export const createTask = async (token, payload) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
   };
+
+  export const deleteTask = async (id, token) => {
+    const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks/active/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': "*/*",
+        'token': token,
+      },
+    });
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  };
+
+  export const restoreTask = async (task, token) => {
+    const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': "*/*",
+        'token': token,
+      },
+      body: JSON.stringify(task),
+    });
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  };
