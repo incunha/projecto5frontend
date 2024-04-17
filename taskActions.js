@@ -134,15 +134,14 @@ export const createTask = async (token, payload) => {
     }
   };
 
-  export const restoreTask = async (task, token) => {
-    const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks`, {
-      method: 'PUT',
+  export const restoreTask = async (id, token) => {
+    const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks/active/${id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'Accept': "*/*",
         'token': token,
       },
-      body: JSON.stringify(task),
     });
   
     if (!response.ok) {
