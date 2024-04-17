@@ -17,6 +17,7 @@ function Profile() {
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [contactNumber, setcontactNumber] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
   const fetchTaskTotals = useUserStore(state => state.fetchTaskTotals);
   const taskTotals = useUserStore(state => state.taskTotals);
@@ -29,6 +30,7 @@ function Profile() {
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
   const updateUser = useUserStore(state => state.setUser);
+  const setUser = useUserStore(state => state.setUser);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -36,22 +38,24 @@ function Profile() {
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
   }
+
+  const fetchMessages = async () => {
+    if (user && user.username) { 
+    const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`, {
+      headers: {
+        'Accept': '*/*',
+        'token': token,
+      }
+    });
+    const data = await response.json();
+    setMessages(data);
+  }
+  };
   
   useEffect(scrollToBottom, [messages]);
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`, {
-        headers: {
-          'Accept': '*/*',
-          'token': token,
-        }
-      });
-      const data = await response.json();
-      setMessages(data);
-    };
-
-    fetchMessages();
+   {username  !== user.username ? fetchMessages() : null}
   }, [user, paramUsername, token]);
 
   useEffect(() => {
@@ -143,6 +147,7 @@ function Profile() {
       setFirstName(first);
       setLastName(last.join(' '));
       setUsername(currentUser.username);
+      setcontactNumber(currentUser.contactNumber);
       setEmail(currentUser.email);
       setUserPhoto(currentUser.userPhoto);
     }
@@ -156,21 +161,26 @@ function Profile() {
       console.log(paramUsername);
   }, [paramUsername]);
 
-  const handleEditClick = (event) => {
-    event.preventDefault();
-    setIsEditing(!isEditing);
-  };
+ 
 
-  const handleEditSubmit = (event) => {
+  const handleEditSubmit = async (event) => {
+    console.log('handleEditSubmit called'); // Log when handleEditSubmit is called
     event.preventDefault();
     if (isEditing) {
+      const name = `${firstName} ${lastName}`;
       const updatedUser = {
-        ...user,
-        name: `${firstName} ${lastName}`,
-        email: email,
+        name: name,
+        username: user.username,
+        email: user.email,
+        contactNumber: contactNumber,
         userPhoto: userPhoto
       };
-      updateUser(token, updatedUser);
+      try {
+        await updateUser(token, updatedUser);
+        setUser(updatedUser);
+      } catch (error) {
+        console.error('Failed to update user', error);
+      }
     }
     setIsEditing(!isEditing);
   };
@@ -269,11 +279,11 @@ function Profile() {
                           <FormGroup>
                             <Form.Label>Phone Number</Form.Label>
                             <FormControl
-                              defaultValue={lastName}
+                              defaultValue={contactNumber}
                               placeholder="Phone number"
                               type="text"
                               disabled={!isEditing}
-                              onChange={e => setLastName(e.target.value)}
+                              onChange={e => setcontactNumber(e.target.value)}
                             />
                           </FormGroup>
                         </Col>

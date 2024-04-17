@@ -190,20 +190,21 @@ export const fetchUser = async (set, token) => {
       const response = await fetch('http://localhost:8080/projecto5backend/rest/users', {
         method: 'PUT',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'token': token,
+          token: token,
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
       });
       if (response.ok) {
         const updatedUser = await response.json();
         useUserStore.setState({ user: updatedUser });
+        return updatedUser; // Retorne o usuário atualizado
       } else {
-        console.error('Failed to update user');
+        console.error('Failed to update user data');
+        throw new Error('Failed to update user data'); // Lançar um erro se a atualização falhar
       }
     } catch (error) {
-      console.error('Failed to update user', error);
+      console.error('Failed to update user data', error);
+      throw error; // Lançar o erro capturado
     }
   };
-

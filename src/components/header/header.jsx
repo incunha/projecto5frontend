@@ -29,9 +29,10 @@ function Header() {
   }, [user, token, fetchUser]);
 
   useEffect(() => {
-    if (user) {
-      const [first, ...last] = user.name.split(' ');
-      setFirstName(first);
+    if (user && user.name) {
+      const names = user.name.split(' ');
+      console.log('names', names);
+      setFirstName(names[0]);
     }
   }, [user]);
 
