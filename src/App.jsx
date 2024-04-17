@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useUserStore from "../userStore";
 import './App.css';
@@ -23,6 +23,7 @@ function App() {
   const notifications = useUserStore(state => state.notifications);
   const unreadNotificationsCount = useUserStore(state => state.unreadNotificationsCount);
   const receiveNotification = useUserStore(state => state.receiveNotification);
+  const [connected, setConnected] = useState(false);
 
   useEffect(() => {
     if (username) {
@@ -49,6 +50,14 @@ function App() {
 
         receiveNotification({ from, message });
       };
+
+      websocket.onclose = (e) => {
+        if (e.code!==1000) {
+          setTimeout(() => {
+            setConnected(!connected);
+          }, 1000);
+        }
+      };
   
       return () => {
         if (websocket.readyState === WebSocket.OPEN) {
@@ -56,7 +65,7 @@ function App() {
         }
       };
     }
-  }, [username, token, setUnreadNotificationsCount, notifications, unreadNotificationsCount, receiveNotification, location.pathname]); 
+  }, [username, token, setUnreadNotificationsCount, notifications, unreadNotificationsCount, receiveNotification, location.pathname, connected]); 
 
   return (
     <div className="App">

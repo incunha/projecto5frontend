@@ -19,10 +19,12 @@ export const createTask = async (token, payload) => {
     }
   };
 
-  export const fetchActiveTasks = async (set, token) => {
+  export const fetchAllActiveTasks = async (set, token) => {
     try {
       const response = await fetch('http://localhost:8080/projecto5backend/rest/tasks?active=true', {
+        method: 'GET',
         headers: {
+          'Content-Type': 'application/json',
           Accept: "*/*",
           token: token,
         },
@@ -33,7 +35,33 @@ export const createTask = async (token, payload) => {
       }
   
       const data = await response.json();
-      set(data);
+      set({ tasks: data });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  export const fetchActiveTasks = async (set, token, username, category) => {
+    try {
+      let url = 'http://localhost:8080/projecto5backend/rest/tasks?active=true';
+      if (username) url += `&username=${username}`;
+      if (category) url += `&category=${category}`;
+  
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: "*/*",
+          token: token,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      set({ tasks: data });
     } catch (error) {
       console.error('Error:', error);
     }

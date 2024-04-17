@@ -31,6 +31,7 @@ function Profile() {
   const messagesContainerRef = useRef(null);
   const updateUser = useUserStore(state => state.setUser);
   const setUser = useUserStore(state => state.setUser);
+  const [connected, setConnected] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -78,6 +79,12 @@ function Profile() {
 
     socket.onclose = function(event) {
       setConnectionStatus('DISCONNECTED');
+      if(event.code !== 1000) {
+        setTimeout(() => {
+          setConnected(!connected)
+         
+        }, 1000);
+      }
     };
 
     socket.onerror = function(event) {

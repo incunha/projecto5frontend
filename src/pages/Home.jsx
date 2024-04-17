@@ -7,14 +7,20 @@ import TaskCard from '../elements/taskCard/taskCard';
 import useUserStore from '../../userStore';
 import useTaskStore from '../../taskStore';
 import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { fetchAllActiveTasks } from '../../taskActions';
 
 function Home() {
   const token = useUserStore(state => state.token);
-  const { tasks, fetchActiveTasks } = useTaskStore();
+  const { tasks, fetchAllActiveTasks, selectedFilter } = useTaskStore();
+  const [searchParams] = useSearchParams();
+  const user = searchParams.get('username');
+  const category = searchParams.get('category')
 
   useEffect(() => {
-    fetchActiveTasks(token);
-  }, []);
+    fetchAllActiveTasks(token);
+  }, [token]);
+  
 
   const columnData = [
   { status: 10, title: 'To Do' },

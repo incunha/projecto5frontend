@@ -5,6 +5,7 @@ import './sideBar.css';
 import { useLocation , useNavigate, useSearchParams } from 'react-router-dom';
 import useUserStore from '../../../userStore';
 import useTaskStore from '../../../taskStore';
+import useCategoryStore from '../../../categoryStore';
 
 function Sidebar() {
   const {username} = useUserStore(state => state.user);
@@ -15,6 +16,10 @@ function Sidebar() {
   const [expanded, setExpanded] = useState(true);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const { setSelectedFilter } = useTaskStore();
+  const token = useUserStore(state => state.token);
+  const categories = useCategoryStore(token);
+  const activeUsers = useUserStore(state => state.activeUsers);
 
   // Adicione o estado para o usuário e a categoria selecionados
   const [selectedUser, setSelectedUser] = useState('');
@@ -35,11 +40,17 @@ function Sidebar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Chame fetchActiveTasks sempre que o usuário ou a categoria selecionados mudarem
   useEffect(() => {
-    fetchActiveTasks(selectedUser, selectedCategory);
-    setSearchParams({ category: selectedCategory, user: selectedUser });
-  }, [selectedUser, selectedCategory]);
+    useUserStore.getState().fetchActiveUsers(token);
+  }, [token]);
+
+  useEffect(() => {
+    fetchActiveTasks(token, selectedUser, selectedCategory);
+    const params = {};
+    if (selectedUser) params.username = selectedUser;
+    if (selectedCategory) params.category = selectedCategory;
+    setSearchParams(params);
+  }, [token, selectedUser, selectedCategory]);
 
   return (
     <Navbar expand="md" className="flex-column sidebar" expanded={expanded}>
@@ -55,26 +66,32 @@ function Sidebar() {
             <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> New Task</Nav.Link>
             <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> Deleted Tasks</Nav.Link>
             {/* Adicione os dropdowns aqui */}
-            <Dropdown onSelect={setSelectedUser}>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Filter by User
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {/* Substitua isso pelos seus usuários */}
-                <Dropdown.Item eventKey="User1">User1</Dropdown.Item>
-                <Dropdown.Item eventKey="User2">User2</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown onSelect={setSelectedCategory}>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Filter by Category
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {/* Substitua isso pelas suas categorias */}
-                <Dropdown.Item eventKey="Category1">Category1</Dropdown.Item>
-                <Dropdown.Item eventKey="Category2">Category2</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)}>
+  <Dropdown.Toggle variant="success" id="dropdown-basic">
+    {selectedUser || 'Filter by User'}
+  </Dropdown.Toggle>
+  <Dropdown.Menu>
+    {/* Mapeie os usuários para renderizar os itens do dropdown */}
+    {activeUsers.map((user) => (
+      <Dropdown.Item key={user.username} eventKey={user.username}>
+        {user.username}
+      </Dropdown.Item>
+    ))}
+  </Dropdown.Menu>
+</Dropdown>
+<Dropdown onSelect={(selectedValue) => setSelectedCategory(selectedValue)}>
+  <Dropdown.Toggle variant="success" id="dropdown-basic">
+    {selectedCategory || 'Filter by Category'}
+  </Dropdown.Toggle>
+  <Dropdown.Menu>
+    {/* Mapeie as categorias para renderizar os itens do dropdown */}
+    {categories.map((category) => (
+      <Dropdown.Item key={category.id} eventKey={category.name}>
+        {category.name}
+      </Dropdown.Item>
+    ))}
+  </Dropdown.Menu>
+</Dropdown>
           </>
         )}
         <Nav.Link className="sidebar-mainlink" href="/users">

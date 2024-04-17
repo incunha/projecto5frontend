@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 import useUserStore from './userStore';
 import { fetchCategories } from './categoryActions';
 
-export default function useCategoryStore() {
+export default function useCategoryStore(token) {
   const [categories, setCategories] = useState([]);
-  const token = useUserStore((state) => state.token);
 
   useEffect(() => {
     fetchCategories(setCategories, token);
