@@ -1,7 +1,6 @@
 import useUserStore from "./userStore";
 
 export const setToken = (set, token) => {
-  console.log('Setting token:', token); // Adicione esta linha
   set({ token });
 };
 export const setUser = (set, user) => set({ user });
@@ -33,7 +32,6 @@ export const fetchUser = async (set, token) => {
           headers: {
             Accept: "*/*",
             token: token,
-            console: console.log('token', token),
           },
         });
         if (response.ok) {
