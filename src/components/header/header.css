@@ -6,7 +6,8 @@
 
 @media (max-width: 600px) {
   .header {
-    height: 15vh; 
+    height: 15vh;
+    width: auto;
   }
 }
 

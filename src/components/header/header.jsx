@@ -7,8 +7,10 @@ import { useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { markAllNotificationsAsRead, fetchNotifications, fetchUnreadNotificationsCount } from '../../../userActions';
+import notification from '../../Notifications';
 
 function Header() {
+  notification();
   const user = useUserStore(state => state.user);
   const fetchUser = useUserStore(state => state.fetchUser);
   const logout = useUserStore(state => state.logout);

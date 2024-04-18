@@ -6,194 +6,135 @@ import Sidebar from '../components/sideBar/sideBar';
 import { useParams } from 'react-router-dom';
 import Header from '../components/header/header';
 import { format } from 'date-fns';
+import { useMessages } from '../Messages';
 
 function Profile() {
-  const { username: paramUsername } = useParams();
-  const user = useUserStore(state => state.user);
-  const fetchUser = useUserStore(state => state.fetchUser);
-  const token = useUserStore(state => state.token);
-  const [isEditing, setIsEditing] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [contactNumber, setcontactNumber] = useState('');
-  const [userPhoto, setUserPhoto] = useState('');
-  const fetchTaskTotals = useUserStore(state => state.fetchTaskTotals);
-  const taskTotals = useUserStore(state => state.taskTotals);
-  const fetchOtherUser = useUserStore(state => state.fetchOtherUser);
-  const [viewedUser, setViewedUser] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [websocket, setWebsocket] = useState(null);
-  const [connectionStatus, setConnectionStatus] = useState('DISCONNECTED');
-  const messagesEndRef = useRef(null);
-  const messagesContainerRef = useRef(null);
-  const updateUser = useUserStore(state => state.setUser);
-  const setUser = useUserStore(state => state.setUser);
-  const [connected, setConnected] = useState(false);
+    const { username: paramUsername } = useParams();
+    const user = useUserStore(state => state.user);
+    const fetchUser = useUserStore(state => state.fetchUser);
+    const token = useUserStore(state => state.token);
+    const [isEditing, setIsEditing] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [contactNumber, setcontactNumber] = useState('');
+    const [userPhoto, setUserPhoto] = useState('');
+    const fetchTaskTotals = useUserStore(state => state.fetchTaskTotals);
+    const taskTotals = useUserStore(state => state.taskTotals);
+    const fetchOtherUser = useUserStore(state => state.fetchOtherUser);
+    const [viewedUser, setViewedUser] = useState(null);
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState('');
+    const messagesEndRef = useRef(null);
+    const messagesContainerRef = useRef(null);
+    const updateUser = useUserStore(state => state.setUser);
+    const setUser = useUserStore(state => state.setUser);
+    const handleChatSubmit = useMessages(user, setMessages, newMessage, setNewMessage, paramUsername);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        }
     }
-  }
 
-  const fetchMessages = async () => {
-    if (user && user.username) { 
-    const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`, {
-      headers: {
-        'Accept': '*/*',
-        'token': token,
-      }
-    });
-    const data = await response.json();
-    setMessages(data);
-  }
-  };
-  
-  useEffect(scrollToBottom, [messages]);
-
-  useEffect(() => {
-   {username  !== user.username ? fetchMessages() : null}
-  }, [user, paramUsername, token]);
-
-  useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:8080/projecto5backend/chat/${user.username}`); 
-    setWebsocket(socket);
-
-    socket.onopen = function(event) {
-      setConnectionStatus('CONNECTED');
+    const fetchMessages = async () => {
+        if (user && user.username) { 
+            const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`, {
+                headers: {
+                    'Accept': '*/*',
+                    'token': token,
+                }
+            });
+            const data = await response.json();
+            setMessages(data);
+        }
     };
 
-    socket.onmessage = function(event) {
-      const message = JSON.parse(event.data);
-      // Check if the sendDate is valid
-      if (isNaN(new Date(message.sendDate).getTime())) {
-        // If the sendDate is not valid, create a new timestamp
-        message.sendDate = new Date().toISOString();
-      }
-      setMessages(prevMessages => [...prevMessages, message]);
+    useEffect(scrollToBottom, [messages]);
+
+    useEffect(() => {
+        {username  !== user.username ? fetchMessages() : null}
+    }, [user, paramUsername, token]);
+
+    const messageStyles = {
+        sent: {
+            backgroundColor: '#DCF8C6',
+            color: 'black',
+            borderRadius: '18px',
+            padding: '10px',
+            marginBottom: '10px',
+            alignSelf: 'flex-end',
+            maxWidth: '60%',
+            wordWrap: 'break-word',
+            justifyContent: 'flex-end'
+        },
+        received: {
+            backgroundColor: '#ECECEC',
+            color: 'black',
+            borderRadius: '18px',
+            padding: '10px',
+            marginBottom: '10px',
+            alignSelf: 'flex-start',
+            maxWidth: '60%',
+            wordWrap: 'break-word',
+            justifyContent: 'flex-start'
+        }
     };
 
-    socket.onclose = function(event) {
-      setConnectionStatus('DISCONNECTED');
-      if(event.code !== 1000) {
-        setTimeout(() => {
-          setConnected(!connected)
-         
-        }, 1000);
-      }
+    useEffect(() => {
+        if (paramUsername !== user?.username) {
+            fetchOtherUser(token, paramUsername).then(data => setViewedUser(data));
+        } else {
+            setViewedUser(user);
+        }
+    }, [paramUsername, user, token, fetchOtherUser]);
+
+    useEffect(() => {
+        const currentUser = viewedUser;
+        if (currentUser && currentUser.name) {
+            const [first, ...last] = currentUser.name.split(' ');
+            setFirstName(first);
+            setLastName(last.join(' '));
+            setUsername(currentUser.username);
+            setcontactNumber(currentUser.contactNumber);
+            setEmail(currentUser.email);
+            setUserPhoto(currentUser.userPhoto);
+        }
+    }, [viewedUser]);
+
+    useEffect(() => {
+        const fetchTotals = async () => {
+            await fetchTaskTotals(token, paramUsername);
+        };
+        fetchTotals();
+        console.log(paramUsername);
+    }, [paramUsername]);
+
+    const handleEditSubmit = async (event) => {
+        console.log('handleEditSubmit called'); // Log when handleEditSubmit is called
+        event.preventDefault();
+        if (isEditing) {
+            const name = `${firstName} ${lastName}`;
+            const updatedUser = {
+                name: name,
+                username: user.username,
+                email: user.email,
+                contactNumber: contactNumber,
+                userPhoto: userPhoto
+            };
+            try {
+                await updateUser(token, updatedUser);
+                setUser(updatedUser);
+            } catch (error) {
+                console.error('Failed to update user', error);
+            }
+        }
+        setIsEditing(!isEditing);
     };
 
-    socket.onerror = function(event) {
-      console.error('WebSocket error observed:', event);
-    };
-
-    return () => {
-      if (websocket) {
-        websocket.close();
-      }
-    };
-  }, []);
-
-  const handleChatSubmit = (event) => {
-    event.preventDefault();
-    if (connectionStatus === 'CONNECTED') {
-      const messageToSend = {
-        sender: user.username,
-        receiver: paramUsername,
-        message: newMessage,
-        timestamp: new Date().toISOString()
-      };
-      websocket.send(JSON.stringify(messageToSend));
-      setNewMessage('');
-    } else {
-      console.error('WebSocket connection is not ready.');
-    }
-  };
-
-  const messageStyles = {
-    sent: {
-      backgroundColor: '#DCF8C6',
-      color: 'black',
-      borderRadius: '18px',
-      padding: '10px',
-      marginBottom: '10px',
-      alignSelf: 'flex-end',
-      maxWidth: '60%',
-      wordWrap: 'break-word',
-      justifyContent: 'flex-end'
-    },
-    received: {
-      backgroundColor: '#ECECEC',
-      color: 'black',
-      borderRadius: '18px',
-      padding: '10px',
-      marginBottom: '10px',
-      alignSelf: 'flex-start',
-      maxWidth: '60%',
-      wordWrap: 'break-word',
-      justifyContent: 'flex-start'
-    }
-  };
-
-  useEffect(() => {
-    if (paramUsername !== user?.username) {
-      fetchOtherUser(token, paramUsername).then(data => setViewedUser(data));
-    } else {
-      setViewedUser(user);
-    }
-  }, [paramUsername, user, token, fetchOtherUser]);
-
-  useEffect(() => {
-    const currentUser = viewedUser;
-    if (currentUser && currentUser.name) {
-      const [first, ...last] = currentUser.name.split(' ');
-      setFirstName(first);
-      setLastName(last.join(' '));
-      setUsername(currentUser.username);
-      setcontactNumber(currentUser.contactNumber);
-      setEmail(currentUser.email);
-      setUserPhoto(currentUser.userPhoto);
-    }
-  }, [viewedUser]);
-
-  useEffect(() => {
-    const fetchTotals = async () => {
-      await fetchTaskTotals(token, paramUsername);
-    };
-    fetchTotals();
-      console.log(paramUsername);
-  }, [paramUsername]);
-
- 
-
-  const handleEditSubmit = async (event) => {
-    console.log('handleEditSubmit called'); // Log when handleEditSubmit is called
-    event.preventDefault();
-    if (isEditing) {
-      const name = `${firstName} ${lastName}`;
-      const updatedUser = {
-        name: name,
-        username: user.username,
-        email: user.email,
-        contactNumber: contactNumber,
-        userPhoto: userPhoto
-      };
-      try {
-        await updateUser(token, updatedUser);
-        setUser(updatedUser);
-      } catch (error) {
-        console.error('Failed to update user', error);
-      }
-    }
-    setIsEditing(!isEditing);
-  };
-
-
-  return (
+    return (
     <div className='profile-container'>
       <Row className="flex-nowrap">
         <Col>
