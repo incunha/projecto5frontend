@@ -3,7 +3,8 @@ import { Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { deleteTask, restoreTask } from '../../../taskActions';
 import useUserStore from '../../../userStore';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUndo } from '@fortawesome/free-solid-svg-icons';
 
 
 function TaskCard({ item, isDeleted }) { 
@@ -53,8 +54,22 @@ function TaskCard({ item, isDeleted }) {
     <Card.Text>{item.category}</Card.Text> 
       {isDeleted ? (
         <>
-          <Button variant="success" onClick={handleRestore}>Restore</Button>
-          <Button variant="danger" onClick={handleDelete}>X</Button>
+          <Button 
+  variant="link" 
+  onClick={handleRestore} 
+  className="btn-sm" 
+  style={{color: 'black', textDecoration: 'none', fontWeight: 'bold', position: 'absolute', bottom: '0', left: '0'}} 
+>
+  <FontAwesomeIcon icon={faUndo} /> 
+</Button>
+          <Button 
+  variant="link" 
+  onClick={handleDelete} 
+  className="btn-sm" 
+  style={{color: 'black', textDecoration: 'none', fontWeight: 'bold', position: 'absolute', bottom: '0', right: '0'}} 
+>
+  X
+</Button> 
         </>
       ) : (
         <Button 
