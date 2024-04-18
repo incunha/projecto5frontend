@@ -31,7 +31,6 @@ function Header() {
   useEffect(() => {
     if (user && user.name) {
       const names = user.name.split(' ');
-      console.log('names', names);
       setFirstName(names[0]);
     }
   }, [user]);

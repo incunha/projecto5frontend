@@ -27,6 +27,7 @@ function Home() {
   { status: 20, title: 'Doing' },
   { status: 30, title: 'Done' },
 ].map(({ status, title }) => ({
+  status,
   title,
   items: tasks.filter(task => task.status === status),
   CardComponent: TaskCard,
@@ -41,7 +42,7 @@ return (
       <Row style={{ width: '100%' }}>
         {columnData.map((column, index) => (
           <Col xs={12} md={4} key={index}>
-            <Column {...column} itemPropName="item" /> 
+            <Column {...column} itemPropName="item" status={column.status} /> 
           </Col>
         ))}
       </Row>

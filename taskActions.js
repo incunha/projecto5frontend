@@ -148,3 +148,27 @@ export const createTask = async (token, payload) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
   };
+
+  export const changeTaskStatus = async (id, status, token) => {
+    const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks/status/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': "*/*",
+        'token': token,
+      },
+      body: JSON.stringify({ status: Number(status) }),
+    });
+  
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
+    const text = await response.text();
+  
+    try {
+      return JSON.parse(text);
+    } catch {
+      return text;
+    }
+  };

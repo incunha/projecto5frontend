@@ -1,30 +1,35 @@
 import React from 'react';
 import './column.css';
 import { Col } from 'react-bootstrap'; 
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { changeTaskStatus } from '../../../taskActions';
+import useUserStore from '../../../userStore';
 
-function Column({ title, items, CardComponent, className, itemPropName, isDeleted }) {
-  const handleDragEnd = (result) => {
-    // Aqui você pode lidar com o resultado do arrasto.
-    // Por exemplo, você pode atualizar o estado da sua aplicação
-    // com base na nova ordem dos itens.
+function Column({ title, items, CardComponent, className, itemPropName, isDeleted, status }) {
+
+  const token = useUserStore(state => state.token);
+
+  const handleUpdate = async (id, status) => {
+    try {
+      await changeTaskStatus(id, status, token); 
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <Col xs={12} sm={6} md={4} lg={3} className={`column ${className}`}>
+    <Col xs={12} sm={6} md={4} lg={3} className={`column ${className}`} 
+      onDragOver={(e) => e.preventDefault()} 
+      onDrop={(e) => {
+        const itemId = e.dataTransfer.getData('text/plain'); 
+        handleUpdate(itemId, status); 
+      }}
+    >
       <h2 className="column-title">{title}</h2>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId={title}>
-          {(provided) => (
-            <div className="column-content" ref={provided.innerRef} {...provided.droppableProps}>
-              {items.map((item, index) => (
-                <CardComponent key={index} index={index} {...{ [itemPropName]: item, isDeleted }} />
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <div className="column-content">
+        {items.map((item, index) => (
+          <CardComponent key={index} {...{ [itemPropName]: item, isDeleted }} />
+        ))}
+      </div>
     </Col>
   );
 }
