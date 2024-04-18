@@ -66,8 +66,8 @@ function Sidebar() {
             <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> New Task</Nav.Link>
             <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> Deleted Tasks</Nav.Link>
             {/* Adicione os dropdowns aqui */}
-            <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)}>
-  <Dropdown.Toggle variant="success" id="dropdown-basic">
+            <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
+  <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
     {selectedUser || 'Filter by User'}
   </Dropdown.Toggle>
   <Dropdown.Menu>

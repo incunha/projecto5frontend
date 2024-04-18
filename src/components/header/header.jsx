@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import  useUserStore from '../../../userStore';
-import { Navbar, Nav, Container, Image, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container, Image, Button, Row, Col } from 'react-bootstrap';
 import './header.css';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { useNavigate} from 'react-router-dom';
@@ -74,38 +74,40 @@ function Header() {
 
   return (
     <Navbar className="header" expand="lg">
-      <Container>
-        <div className="dateHeader">
+  <Container fluid>
+    <Row className="align-items-center">
+      <Col md={6}>
+        {user && (
+          <>
+            <span className="welcome-text">Welcome, {firstName}</span>
+            <Image className="user-image" src={user.userPhoto} roundedCircle />
+          </>
+        )}
+        <span onClick={handleNotificationsClick} style={{ position: 'relative', cursor: 'pointer' }}>
+          <FontAwesomeIcon icon={faBell}  className="notification-icon" />
+          {unreadNotificationsCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{unreadNotificationsCount}</span>}
+          {isNotificationsOpen && (
+            <div className="notification-dropdown">
+              {notifications.map((notification, index) => (
+                <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
+                  <strong>{notification.sender}</strong>: {notification.notification}
+                </div>
+              ))}
+            </div>
+          )}
+        </span>
+      </Col>
+      <Col md={6} className="d-flex justify-content-end">
+        <div className="dateHeader mr-2">
           {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
         </div>
-        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
-          <Nav className="ml-auto welcome-section">
-            {user && (
-              <>
-                <span className="welcome-text">Welcome, {firstName}</span>
-                <Image className="user-image" src={user.userPhoto} roundedCircle />
-              </>
-            )}
-          </Nav>
-          <span onClick={handleNotificationsClick} style={{ position: 'relative', cursor: 'pointer' }}>
-  <FontAwesomeIcon icon={faBell}  className="notification-icon" />
-  {unreadNotificationsCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{unreadNotificationsCount}</span>}
-  {isNotificationsOpen && (
-  <div className="notification-dropdown">
-    {notifications.map((notification, index) => (
-      <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
-        <strong>{notification.sender}</strong>: {notification.notification}
-      </div>
-    ))}
-  </div>
-)}
-</span>
-          <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
-            Logout <FaSignOutAlt className="logoutIcon" />
-          </Button>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+        <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
+          Logout <FaSignOutAlt className="logoutIcon" />
+        </Button>
+      </Col>
+    </Row>
+  </Container>
+</Navbar>
   );
 }
 

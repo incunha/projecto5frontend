@@ -72,22 +72,3 @@ body {
   top: 80px; /* Define a distância do topo */
 }
 
-.aside-button {
-  background-color: transparent;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: block;
-  font-size: 16px;
-  margin: 10px auto;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  border: none;
-  font-weight: bold;
-  margin-top: 25px;
-  }
-  
-  .aside-button:hover {
-  font-size: 18px;
-  color: var(--green1);
-  }

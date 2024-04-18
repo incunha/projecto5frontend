@@ -53,3 +53,12 @@
 .sidebar-mainlink {
   font-size: 1.2em; /* Faz o link aparecer um pouco maior */
 }
+
+.dropdown-margin {
+  margin-bottom: 10px;
+}
+
+.dropdown-toggle {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}

@@ -4,6 +4,7 @@ import Sidebar from '../components/sideBar/sideBar';
 import Column from '../elements/column/column';
 import UserCard from '../elements/userCard/userCard';
 import useUserStore from '../../userStore'
+import Header from '../components/header/header';
 
 function Users() {
   const { fetchInactiveUsers, token, inactiveUsers } = useUserStore();
@@ -20,6 +21,7 @@ function Users() {
 
   return (
     <div>
+      <Header />
       <Sidebar />
       <Row>
         {userColumns.map(({ role, title }) => {
