@@ -32,25 +32,43 @@ function TaskCard({ item, isDeleted }) {
     }
   };
 
+  let cardStyle = {};
+  if (item.priority === 100) {
+    cardStyle.backgroundColor = 'green';
+  } else if (item.priority === 200) {
+    cardStyle.backgroundColor = 'yellow';
+  } else if (item.priority === 300) {
+    cardStyle.backgroundColor = 'red';
+  }
+
   return (
-    <Card onDoubleClick={handleDoubleClick}
-    draggable="true"
-    onDragStart={(e) => {e.dataTransfer.setData('text/plain', item.id);}}
-    >
-      <Card.Body>
-        <Card.Title>{item.title}</Card.Title> 
-        <Card.Text>{item.category}</Card.Text> 
-        {isDeleted ? (
-          <>
-            <Button variant="success" onClick={handleRestore}>Restore</Button>
-            <Button variant="danger" onClick={handleDelete}>X</Button>
-          </>
-        ) : (
-          <Button variant="danger" onClick={handleDelete}>X</Button> 
-        )}
-      </Card.Body>
-    </Card>
-  );
+    <Card 
+  style={{...cardStyle, width: '18rem', margin: '10px'}} 
+  onDoubleClick={handleDoubleClick}
+  draggable="true"
+  onDragStart={(e) => {e.dataTransfer.setData('text/plain', item.id);}}
+>
+<Card.Body style={{height: '7rem', overflow: 'auto'}}> 
+    <Card.Title>{item.title}</Card.Title> 
+    <Card.Text>{item.category}</Card.Text> 
+      {isDeleted ? (
+        <>
+          <Button variant="success" onClick={handleRestore}>Restore</Button>
+          <Button variant="danger" onClick={handleDelete}>X</Button>
+        </>
+      ) : (
+        <Button 
+  variant="link" 
+  onClick={handleDelete} 
+  className="btn-sm" 
+  style={{color: 'black', textDecoration: 'none', fontWeight: 'bold', position: 'absolute', bottom: '0', right: '0'}} 
+>
+  X
+</Button> 
+      )}
+    </Card.Body>
+  </Card>
+);
 }
 
 export default TaskCard;
