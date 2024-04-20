@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import Header from '../components/header/header';
 import { format } from 'date-fns';
 import { useMessages } from '../Messages';
+import { deleteUser } from '../../userActions';
 
 function Profile() {
     const { username: paramUsername } = useParams();
@@ -30,7 +31,7 @@ function Profile() {
     const messagesContainerRef = useRef(null);
     const updateUser = useUserStore(state => state.setUser);
     const setUser = useUserStore(state => state.setUser);
-    const handleChatSubmit = useMessages(user, setMessages, newMessage, setNewMessage, paramUsername);
+    const handleChatSubmit = useMessages( setMessages, newMessage, setNewMessage, paramUsername);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -133,6 +134,17 @@ function Profile() {
         }
         setIsEditing(!isEditing);
     };
+
+    const handleDeleteSubmit = async () => {
+      try {
+          // Aqui você chama a função deleteUser de userActions
+          await deleteUser(token, user.username);
+          console.log('User deleted successfully');
+          // Aqui você pode redirecionar o usuário para a página de login ou fazer logout do usuário
+      } catch (error) {
+          console.error('Failed to delete user', error);
+      }
+  };
 
     return (
     <div className='profile-container'>
@@ -247,6 +259,15 @@ function Profile() {
                           >
                             {isEditing ? 'Save' : 'Edit'}
                           </Button>
+                           <Button
+            className="btn-round mt-3 ml-2"
+            color="danger"
+            type="button"
+            onClick={handleDeleteSubmit}
+            hidden={paramUsername === user?.username}
+          >
+            Delete
+          </Button>
                         </div>
                       </Row>
                     </Form>

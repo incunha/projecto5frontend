@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
+import useUserStore from '../userStore';
 
-export function useMessages(user, setMessages, newMessage, setNewMessage, paramUsername) {
+export function useMessages( setMessages, newMessage, setNewMessage, paramUsername) {
   const [websocket, setWebsocket] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState('DISCONNECTED');
   const [connected, setConnected] = useState(false);
+  const token = useUserStore(state => state.token);
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:8080/projecto5backend/chat/${user.username}`); 
+    const socket = new WebSocket(`ws://localhost:8080/projecto5backend/chat/${token}/${paramUsername}`); 
     setWebsocket(socket);
 
     socket.onopen = function(event) {
@@ -45,7 +47,7 @@ export function useMessages(user, setMessages, newMessage, setNewMessage, paramU
     event.preventDefault();
     if (connectionStatus === 'CONNECTED') {
       const messageToSend = {
-        sender: user.username,
+        sender: useUserStore.getState().user.username,
         receiver: paramUsername, 
         message: newMessage,
         timestamp: new Date().toISOString()

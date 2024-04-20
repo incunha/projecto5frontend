@@ -5,11 +5,13 @@ import { deleteTask, restoreTask } from '../../../taskActions';
 import useUserStore from '../../../userStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
+import { useTasksWebSocket } from '../../TasksWebSocket';
 
 
 function TaskCard({ item, isDeleted }) { 
   const navigate = useNavigate();
   const token = useUserStore(state => state.token);
+  const sendMessage = useTasksWebSocket();
 
   const handleDoubleClick = () => {
     navigate(`/task-details/${item.id}`);
@@ -28,6 +30,8 @@ function TaskCard({ item, isDeleted }) {
   const handleDelete = async () => {
     try {
       await deleteTask(item.id, token); 
+      sendMessage(item.id);
+      console.log('Task deleted:', item.id);
     } catch (error) {
       console.error('Failed to delete task:', error);
     }

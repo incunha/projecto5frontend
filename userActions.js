@@ -206,3 +206,23 @@ export const fetchUser = async (set, token) => {
       throw error; // Lançar o erro capturado
     }
   };
+
+  export const deleteUser = async (token, username) => {
+    try {
+      const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/${username}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': '*/*',
+          'token': token,
+        },
+      });
+  
+      if (response.ok) {
+        console.log('User deleted successfully');
+      } else {
+        console.error('Failed to delete user');
+      }
+    } catch (error) {
+      console.error('Failed to delete user', error);
+    }
+  };
