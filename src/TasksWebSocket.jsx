@@ -5,7 +5,9 @@ import useTaskStore from '../taskStore';
 export function useTasksWebSocket() {
   const [websocket, setWebsocket] = useState(null);
   const token = useUserStore(state => state.token);
-  const { removeTask, addTask } = useTaskStore();
+  const { removeTask, addTask, updateTask, tasks } = useTaskStore();
+
+  
 
   useEffect(() => {
     const socket = new WebSocket(`ws://localhost:8080/projecto5backend/task/${token}`); 
@@ -17,19 +19,17 @@ export function useTasksWebSocket() {
 
     socket.onmessage = function(event) {
       console.log('Received message:', event.data); 
-    
       const message = JSON.parse(event.data);
-    
+      console.log('Parsed message:', message);
+      
       if (message) {
-        if (message.task) {
-          const taskExists = tasks.some(task => task.id === message.task.id);
-          if (taskExists) {
-            updateTask(message.task);
-          } else {
-            addTask(message.task);
-          }
+        console.log('Message:', message);
+        if (message.task) { 
+          console.log('Adding task:', message.task);
+          addTask(message.task);
         }
         else if (message.id) {
+          console.log('Removing task:', message.id);
           removeTask(message.id);
         }
       }
@@ -48,7 +48,8 @@ export function useTasksWebSocket() {
         socket.close();
       }
     };
-  }, []);
+  }, [token, addTask, removeTask]);
+
   const sendMessage = (message) => {
     if (websocket && websocket.readyState === WebSocket.OPEN) {
       websocket.send(JSON.stringify(message));
@@ -56,6 +57,5 @@ export function useTasksWebSocket() {
   };
 
   return sendMessage;
-
   
 }

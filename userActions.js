@@ -226,3 +226,25 @@ export const fetchUser = async (set, token) => {
       console.error('Failed to delete user', error);
     }
   };
+
+  export const restoreUser = async (token, username) => {
+    try {
+      const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/active/${username}`, {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'token': token,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to restore user: ${response.statusText}`);
+      }
+  
+      console.log('User restored successfully');
+    } catch (error) {
+      console.error('Failed to restore user', error);
+      throw error;
+    }
+  };

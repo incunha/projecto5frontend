@@ -12,9 +12,19 @@ const useTaskStore = create((set) => ({
     console.log('New tasks:', newTasks);
     return { tasks: newTasks };
   }),
-  addTask: (task) => set((state) => ({
-    tasks: [...state.tasks, task]
-  })),
+ // useTaskStore.js
+addTask: (newTask) => set((state) => {
+  console.log('Adding task:', newTask);
+  const taskExists = state.tasks.some(task => task.id === newTask.id);
+  if (!taskExists) {
+    return { tasks: [...state.tasks, newTask] };
+  }
+  return state;
+}),
+  updateTask: (task) => set((state) => {
+    const newTasks = state.tasks.map(t => t.id === task.id ? task : t);
+    return { tasks: newTasks };
+  }),
 }));
 
 export default useTaskStore;

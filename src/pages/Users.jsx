@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { Row } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import Sidebar from '../components/sideBar/sideBar';
 import Column from '../elements/column/column';
 import UserCard from '../elements/userCard/userCard';
@@ -22,23 +22,28 @@ function Users() {
   return (
     <div>
       <Header />
-      <Sidebar />
       <Row>
-        {userColumns.map(({ role, title }) => {
-          // Filtrar os users ativos por role
-          const usersByRole = activeUsers.filter(user => user.role === role);
-  
-          return (
-            <Column
-              key={title}
-              title={title}
-              items={usersByRole}
-              CardComponent={UserCard}
-              itemPropName="item"
-              type="user"
-            />
-          );
-        })}
+        <Col md={3}>
+          <Sidebar />
+        </Col>
+        <Col md={9}>
+          <Row>
+            {userColumns.map(({ role, title }) => {
+              const usersByRole = activeUsers.filter(user => user.role === role);
+              return (
+                <Col md={4} key={title}>
+                  <Column
+                    title={title}
+                    items={usersByRole}
+                    CardComponent={UserCard}
+                    itemPropName="item"
+                    type="user"
+                  />
+                </Col>
+              );
+            })}
+          </Row>
+        </Col>
       </Row>
     </div>
   );

@@ -2,6 +2,7 @@ import './modal-login.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../../../userStore';
+import { useTranslation } from 'react-i18next';
 
 function ModalLogin() {
   const setToken = useUserStore(state => state.setToken);
@@ -10,6 +11,11 @@ function ModalLogin() {
   const [loginPassword, setLoginPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { fetchUser } = useUserStore();
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
 
   const handleLoginClick = async () => {
     try {
@@ -36,16 +42,21 @@ function ModalLogin() {
     }
   };
 
+
   return (
     <div className="center-container">
       <div className="loginpanel">
         <img src="multimedia/logo_scrum_01.png" alt="Logo" height="150" />
-        <div className="input-container">
-          <input type="text" id="login" placeholder="username" required value={loginUsername} onChange={e => setLoginUsername(e.target.value)} />
-          <input type="password" id="password" placeholder="password" required value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
+        <div className="language-buttons">
+          <button onClick={() => changeLanguage('en')}>EN</button>
+          <button onClick={() => changeLanguage('pt')}>PT</button>
         </div>
-        <button id="loginButton" className="myButton" onClick={handleLoginClick}>Login</button>
-        <p id="errorMessage">{errorMessage}</p>
+        <div className="input-container">
+          <input type="text" id="login" placeholder={t('username')} required value={loginUsername} onChange={e => setLoginUsername(e.target.value)} />
+          <input type="password" id="password" placeholder={t('password')} required value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
+        </div>
+        <button id="loginButton" className="myButton" onClick={handleLoginClick}>{t('login')}</button>
+        <p id="errorMessage">{t(errorMessage)}</p>
       </div>
     </div>
   );

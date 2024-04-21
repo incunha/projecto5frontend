@@ -4,6 +4,7 @@ import useCategoryStore from '../../categoryStore';
 import useUserStore from '../../userStore';
 import { createTask } from '../../taskActions';
 import { useNavigate } from 'react-router-dom';
+import { useTasksWebSocket } from '../TasksWebSocket';
 
 
 function CreateTask() {
@@ -37,6 +38,7 @@ function CreateTask() {
     };
 
   await createTask(token, payload);
+  
   navigate('/home');
 };
 

@@ -7,7 +7,8 @@ import { useParams } from 'react-router-dom';
 import Header from '../components/header/header';
 import { format } from 'date-fns';
 import { useMessages } from '../Messages';
-import { deleteUser } from '../../userActions';
+import { deleteUser, restoreUser } from '../../userActions';
+
 
 function Profile() {
     const { username: paramUsername } = useParams();
@@ -114,7 +115,7 @@ function Profile() {
     }, [paramUsername]);
 
     const handleEditSubmit = async (event) => {
-        console.log('handleEditSubmit called'); // Log when handleEditSubmit is called
+        console.log('handleEditSubmit called'); 
         event.preventDefault();
         if (isEditing) {
             const name = `${firstName} ${lastName}`;
@@ -138,12 +139,21 @@ function Profile() {
     const handleDeleteSubmit = async () => {
       try {
           // Aqui você chama a função deleteUser de userActions
-          await deleteUser(token, user.username);
+          await deleteUser(token, paramUsername);
           console.log('User deleted successfully');
           // Aqui você pode redirecionar o usuário para a página de login ou fazer logout do usuário
       } catch (error) {
           console.error('Failed to delete user', error);
       }
+  };
+
+  const handleRestoreSubmit = async () => {
+    try {
+      await restoreUser(token, paramUsername);
+      console.log('User restored successfully');
+    } catch (error) {
+      console.error('Failed to restore user', error);
+    }
   };
 
     return (
@@ -268,6 +278,15 @@ function Profile() {
           >
             Delete
           </Button>
+          <Button
+  className="btn-round mt-3 ml-2"
+  color="success"
+  type="button"
+  onClick={handleRestoreSubmit}
+  hidden={viewedUser?.active ===true || paramUsername === user?.username}
+>
+  Restore
+</Button>
                         </div>
                       </Row>
                     </Form>

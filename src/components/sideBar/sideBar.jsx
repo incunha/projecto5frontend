@@ -6,6 +6,7 @@ import { useLocation , useNavigate, useSearchParams } from 'react-router-dom';
 import useUserStore from '../../../userStore';
 import useTaskStore from '../../../taskStore';
 import useCategoryStore from '../../../categoryStore';
+import { useTranslation } from 'react-i18next';
 
 function Sidebar() {
   const {username} = useUserStore(state => state.user);
@@ -20,6 +21,7 @@ function Sidebar() {
   const token = useUserStore(state => state.token);
   const categories = useCategoryStore(token);
   const activeUsers = useUserStore(state => state.activeUsers);
+  const { t } = useTranslation();
 
   // Adicione o estado para o usuário e a categoria selecionados
   const [selectedUser, setSelectedUser] = useState('');
@@ -63,8 +65,8 @@ function Sidebar() {
         </Nav.Link>
         {showButtons && expanded && (
           <>
-            <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> New Task</Nav.Link>
-            <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> Deleted Tasks</Nav.Link>
+            <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> {t('New Task')}</Nav.Link>
+        <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
             {/* Adicione os dropdowns aqui */}
             <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
   <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
@@ -99,13 +101,13 @@ function Sidebar() {
         </Nav.Link>
         {showUserButtons && expanded && (
           <>
-            <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> New User</Nav.Link>
-            <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> Deleted Users</Nav.Link>
+             <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> {t('New User')}</Nav.Link>
+        <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> {t('Deleted Users')}</Nav.Link>
           </>
         )}
-        <Nav.Link className="sidebar-mainlink" onClick={() => navigate(`/profile/${username}`)}>
-          <FaUser /> {expanded && 'Profile'}
-        </Nav.Link>
+         <Nav.Link className="sidebar-mainlink" onClick={() => navigate(`/profile/${username}`)}>
+      <FaUser /> {expanded && t('Profile')}
+    </Nav.Link>
       </Nav>
     </Navbar>
   );
