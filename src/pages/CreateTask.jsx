@@ -5,6 +5,7 @@ import useUserStore from '../../userStore';
 import { createTask } from '../../taskActions';
 import { useNavigate } from 'react-router-dom';
 import { useTasksWebSocket } from '../TasksWebSocket';
+import Sidebar from '../components/sideBar/sideBar';
 
 
 function CreateTask() {
@@ -46,6 +47,9 @@ function CreateTask() {
   return (
     <Container>
       <Row className="justify-content-md-center">
+        <Col xs={12} md={2}>
+          <Sidebar /> {/* Adicione o componente Sidebar aqui */}
+        </Col>
         <Col xs={12} md={8}>
           <h2 className="text-center mb-4">Create Task</h2>
           <Form onSubmit={handleSubmit}>

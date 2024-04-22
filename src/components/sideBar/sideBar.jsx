@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Navbar, Dropdown } from 'react-bootstrap';
-import { FaHome, FaUsers, FaUser, FaPlus, FaTrash, FaBars } from 'react-icons/fa';
+import { FaHome, FaUsers, FaUser, FaPlus, FaTrash, FaBars, FaChartLine, FaList } from 'react-icons/fa';
 import './sideBar.css';
 import { useLocation , useNavigate, useSearchParams } from 'react-router-dom';
 import useUserStore from '../../../userStore';
@@ -19,7 +19,7 @@ function Sidebar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { setSelectedFilter } = useTaskStore();
   const token = useUserStore(state => state.token);
-  const categories = useCategoryStore(token);
+  const { categories, fetchCategories } = useCategoryStore();
   const activeUsers = useUserStore(state => state.activeUsers);
   const { t } = useTranslation();
 
@@ -44,6 +44,12 @@ function Sidebar() {
 
   useEffect(() => {
     useUserStore.getState().fetchActiveUsers(token);
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      fetchCategories(token);
+    }
   }, [token]);
 
   useEffect(() => {
@@ -93,6 +99,10 @@ function Sidebar() {
     </Dropdown>
   </>
 )}
+
+<Nav.Link className="sidebar-mainlink" href="/categories">
+  <FaList /> {expanded && t('Categories')}
+</Nav.Link>
 <Nav.Link className="sidebar-mainlink" href="/users">
   <FaUsers /> {expanded && t('Users')}
 </Nav.Link>
@@ -102,9 +112,15 @@ function Sidebar() {
     <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> {t('Deleted Users')}</Nav.Link>
   </>
 )}
+
+<Nav.Link className="sidebar-mainlink" href="/dashboard">
+  <FaChartLine /> {expanded && t('Dashboard')}
+</Nav.Link>
 <Nav.Link className="sidebar-mainlink" onClick={() => navigate(`/profile/${username}`)}>
   <FaUser /> {expanded && t('Profile')}
 </Nav.Link>
+
+
       </Nav>
     </Navbar>
   );

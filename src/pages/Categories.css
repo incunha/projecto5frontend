@@ -1,0 +1,36 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .content-container {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .categories-container {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  .categories-container table {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+  
+  .action-button {
+    background: none;
+    border: none;
+    margin: 0 10px;
+  }
+  
+  .add-button {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+  }

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../../../userStore';
 import { useTranslation } from 'react-i18next';
+import { Modal, Button } from 'react-bootstrap';
 
 function ModalLogin() {
   const setToken = useUserStore(state => state.setToken);
@@ -12,6 +13,27 @@ function ModalLogin() {
   const [errorMessage, setErrorMessage] = useState('');
   const { fetchUser } = useUserStore();
   const { t, i18n } = useTranslation();
+  const [showModal, setShowModal] = useState(false);
+  const [email, setEmail] = useState('');
+
+  const handleForgotPasswordClick = () => {
+    setShowModal(true);
+  };
+
+  const handleRecoverPassword = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/forgotPassword/${email}`, {
+        method: 'PATCH',
+        headers: {
+          'Accept': '*/*',
+        },
+      });
+      setShowModal(false);
+    } catch (error) {
+      console.error('Failed to recover password');
+    }
+  };
+
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -58,6 +80,24 @@ function ModalLogin() {
         </div>
         <button id="loginButton" className="myButton" onClick={handleLoginClick}>{t('login')}</button>
         <p id="errorMessage">{t(errorMessage)}</p>
+        <p className="forgot-password" onClick={handleForgotPasswordClick}>Forgot Password?</p> {/* Adicione este link abaixo do botão de login */}
+
+<Modal show={showModal} onHide={() => setShowModal(false)}>
+  <Modal.Header closeButton>
+    <Modal.Title>Forgot Password</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <input type="email" placeholder="Insira seu e-mail" value={email} onChange={e => setEmail(e.target.value)} />
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowModal(false)}>
+      Close
+    </Button>
+    <Button variant="primary" onClick={handleRecoverPassword}>
+      Recover Password
+    </Button>
+  </Modal.Footer>
+</Modal>
       </div>
     </div>
   );

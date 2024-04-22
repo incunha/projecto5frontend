@@ -11,6 +11,9 @@ import CreateTask from "./pages/CreateTask";
 import DeletedTasks from "./pages/DeletedTasks";
 import DeletedUsers from "./pages/DeletedUsers";
 import TaskDetaisl from "./pages/TaskDetails";
+import Dashboard from "./pages/Dashboard";
+import RecoverPassword from "./pages/RecoverPassword";
+import Categories from "./pages/Categories";
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
         <Route path="/deleted-tasks" element={<DeletedTasks />} />
         <Route path="/confirm-account" element={<ConfirmAccount />} />
         <Route path="/task-details/:id" element={<TaskDetaisl />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/recover-password" element={<RecoverPassword />} />
+        <Route path="/categories" element={<Categories/>} />
       </Routes>
     </div>
   );

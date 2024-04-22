@@ -1,13 +1,25 @@
-import { useState, useEffect } from 'react';
-import useUserStore from './userStore';
-import { fetchCategories } from './categoryActions';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { 
+  fetchCategories, 
+  createCategory, 
+  updateCategory, 
+  removeCategory
+} from './categoryActions';
 
-export default function useCategoryStore(token) {
-  const [categories, setCategories] = useState([]);
+const useCategoryStore = create(persist(
+  (set) => ({
+    categories: [],
 
-  useEffect(() => {
-    fetchCategories(setCategories, token);
-  }, [token]);
+    fetchCategories: (token) => fetchCategories(set, token),
+    createCategory: (category, token) => createCategory(set, category, token),
+    updateCategory: (category, token) => updateCategory(set, category, token),
+    removeCategory: (name, token) => removeCategory(set, name, token),
+  }),
+  {
+    name:'categoryStore',
+    getStorage: () => sessionStorage,
+  }
+));
 
-  return categories;
-}
+export default useCategoryStore;
