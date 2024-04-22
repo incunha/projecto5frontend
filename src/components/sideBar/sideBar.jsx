@@ -57,57 +57,54 @@ function Sidebar() {
   return (
     <Navbar expand="md" className="flex-column sidebar" expanded={expanded}>
       <Nav defaultActiveKey="/home" className="flex-column">
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-auto" onClick={() => setExpanded(!expanded)}>
-          <FaBars color="white" />
-        </Navbar.Toggle>
-        <Nav.Link className="sidebar-mainlink" href="/home">
-          <FaHome /> {expanded && 'Home'}
-        </Nav.Link>
-        {showButtons && expanded && (
-          <>
-            <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> {t('New Task')}</Nav.Link>
-        <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
-            {/* Adicione os dropdowns aqui */}
-            <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
-  <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
-    {selectedUser || 'Filter by User'}
-  </Dropdown.Toggle>
-  <Dropdown.Menu>
-    {/* Mapeie os usuários para renderizar os itens do dropdown */}
-    {activeUsers.map((user) => (
-      <Dropdown.Item key={user.username} eventKey={user.username}>
-        {user.username}
-      </Dropdown.Item>
-    ))}
-  </Dropdown.Menu>
-</Dropdown>
-<Dropdown onSelect={(selectedValue) => setSelectedCategory(selectedValue)}>
-  <Dropdown.Toggle variant="success" id="dropdown-basic">
-    {selectedCategory || 'Filter by Category'}
-  </Dropdown.Toggle>
-  <Dropdown.Menu>
-    {/* Mapeie as categorias para renderizar os itens do dropdown */}
-    {categories.map((category) => (
-      <Dropdown.Item key={category.id} eventKey={category.name}>
-        {category.name}
-      </Dropdown.Item>
-    ))}
-  </Dropdown.Menu>
-</Dropdown>
-          </>
-        )}
-        <Nav.Link className="sidebar-mainlink" href="/users">
-          <FaUsers /> {expanded && 'Users'}
-        </Nav.Link>
-        {showUserButtons && expanded && (
-          <>
-             <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> {t('New User')}</Nav.Link>
-        <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> {t('Deleted Users')}</Nav.Link>
-          </>
-        )}
-         <Nav.Link className="sidebar-mainlink" onClick={() => navigate(`/profile/${username}`)}>
-      <FaUser /> {expanded && t('Profile')}
-    </Nav.Link>
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-auto" onClick={() => setExpanded(!expanded)}>
+  <FaBars color="white" />
+</Navbar.Toggle>
+<Nav.Link className="sidebar-mainlink" href="/home">
+  <FaHome /> {expanded && t('Home')}
+</Nav.Link>
+{showButtons && expanded && (
+  <>
+    <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> {t('New Task')}</Nav.Link>
+    <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
+    <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
+      <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
+        {selectedUser || t('Filter by User')}
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
+        {activeUsers.map((user) => (
+          <Dropdown.Item key={user.username} eventKey={user.username}>
+            {user.username}
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
+    <Dropdown onSelect={(selectedValue) => setSelectedCategory(selectedValue)}>
+      <Dropdown.Toggle variant="success" id="dropdown-basic">
+        {selectedCategory || t('Filter by Category')}
+      </Dropdown.Toggle>
+      <Dropdown.Menu>
+        {categories.map((category) => (
+          <Dropdown.Item key={category.id} eventKey={category.name}>
+            {category.name}
+          </Dropdown.Item>
+        ))}
+      </Dropdown.Menu>
+    </Dropdown>
+  </>
+)}
+<Nav.Link className="sidebar-mainlink" href="/users">
+  <FaUsers /> {expanded && t('Users')}
+</Nav.Link>
+{showUserButtons && expanded && (
+  <>
+    <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> {t('New User')}</Nav.Link>
+    <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> {t('Deleted Users')}</Nav.Link>
+  </>
+)}
+<Nav.Link className="sidebar-mainlink" onClick={() => navigate(`/profile/${username}`)}>
+  <FaUser /> {expanded && t('Profile')}
+</Nav.Link>
       </Nav>
     </Navbar>
   );

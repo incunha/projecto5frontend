@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom';
 import { fetchTaskDetails, updateTask } from '../../taskActions';
 import useUserStore from '../../userStore';
 import { Container, Form, Button, Card, Row, Col } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 function TaskDetails() {
   const { id } = useParams();
   const [task, setTask] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const token = useUserStore(state => state.token);
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchTaskDetails(id, token)
@@ -28,20 +30,20 @@ function TaskDetails() {
 
   return (
     <Container className="mt-5">
-      <h1>Task Details</h1>
+      <h1>{t('Task Details')}</h1>
       {task && (
         <Card>
           <Card.Body>
             <Form>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formTitle">
-                  <Form.Label>Title:</Form.Label>
+                  <Form.Label>{t('Title')}:</Form.Label>
                   {isEditing 
                     ? <Form.Control type="text" value={task.title} onChange={e => setTask({ ...task, title: e.target.value })} /> 
                     : <Form.Label>{task.title}</Form.Label>}
                 </Form.Group>
                 <Form.Group as={Col} controlId="formDescription">
-                  <Form.Label>Description:</Form.Label>
+                  <Form.Label>{t('Description')}:</Form.Label>
                   {isEditing 
                     ? <Form.Control as="textarea" value={task.description} onChange={e => setTask({ ...task, description: e.target.value })} /> 
                     : <Form.Label>{task.description}</Form.Label>}
@@ -49,7 +51,7 @@ function TaskDetails() {
               </Row>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formCategory">
-                  <Form.Label>Category:</Form.Label>
+                  <Form.Label>{t('Category')}:</Form.Label>
                   {isEditing 
                     ? <Form.Control type="text" value={task.category} onChange={e => setTask({ ...task, category: e.target.value })} /> 
                     : <Form.Label>{task.category}</Form.Label>}
@@ -69,22 +71,20 @@ function TaskDetails() {
                     : <Form.Label>{task.status}</Form.Label>}
                 </Form.Group>
                 <Form.Group as={Col} controlId="formInitialDate">
-                  <Form.Label>Initial Date:</Form.Label>
-                  {isEditing 
-                    ? <Form.Control type="date" value={task.initialDate} onChange={e => setTask({ ...task, initialDate: e.target.value })} /> 
-                    : <Form.Label>{task.startDate}</Form.Label>}
-                </Form.Group>
-              </Row>
-              <Row className="mb-3">
-                <Form.Group as={Col} controlId="formFinalDate">
-                  <Form.Label>Final Date:</Form.Label>
-                  {isEditing 
-                    ? <Form.Control type="date" value={task.finalDate} onChange={e => setTask({ ...task, finalDate: e.target.value })} /> 
-                    : <Form.Label>{task.endDate}</Form.Label>}
-                </Form.Group>
+  <Form.Label>{t('Initial Date')}:</Form.Label>
+  {isEditing 
+    ? <Form.Control type="date" value={task.initialDate} onChange={e => setTask({ ...task, initialDate: e.target.value })} /> 
+    : <Form.Label>{task.startDate}</Form.Label>}
+</Form.Group>
+<Form.Group as={Col} controlId="formFinalDate">
+  <Form.Label>{t('Final Date')}:</Form.Label>
+  {isEditing 
+    ? <Form.Control type="date" value={task.finalDate} onChange={e => setTask({ ...task, finalDate: e.target.value })} /> 
+    : <Form.Label>{task.endDate}</Form.Label>}
+</Form.Group>
               </Row>
               <Button variant="primary" onClick={isEditing ? handleSaveClick : handleEditClick}>
-                {isEditing ? 'Save' : 'Edit'}
+                {isEditing ? t('Save') : t('Edit')}
               </Button>
             </Form>
           </Card.Body>

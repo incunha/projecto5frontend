@@ -3,6 +3,7 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import './CreateUser.css';
 import Sidebar from '../components/sideBar/sideBar';
 import useUserStore from '../../userStore';
+import { useTranslation } from 'react-i18next';
 
 function CreateUser() {
   const [firstName, setFirstName] = useState('');
@@ -13,6 +14,7 @@ function CreateUser() {
   const [photoUrl, setPhotoUrl] = useState('');
   const [username, setUsername] = useState(''); // New state for username
   const token = useUserStore(state => state.token);
+  const { t } = useTranslation();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -52,55 +54,55 @@ function CreateUser() {
             <Col xs={12} md={8}>
               <Row>
                 <Col md={8}>
-                  <h1 className="mt-5">Create New User</h1>
+                <h1 className="mt-5">{t('Create New User')}</h1>
               <Form onSubmit={handleSubmit} className="mt-5">
             <Form.Group controlId="firstName">
-              <Form.Label>First Name</Form.Label>
+            <Form.Label>{t('First Name')}</Form.Label>
               <Form.Control type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
             </Form.Group>
 
             <Form.Group controlId="lastName">
-              <Form.Label>Last Name</Form.Label>
+            <Form.Label>{t('Last Name')}</Form.Label>
               <Form.Control type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
             </Form.Group>
 
             <Form.Group controlId="email">
-              <Form.Label>Email</Form.Label>
+            <Form.Label>{t('Email')}</Form.Label>
               <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </Form.Group>
 
             <Form.Group controlId="contact">
-              <Form.Label>Contact</Form.Label>
+            <Form.Label>{t('Contact')}</Form.Label>
               <Form.Control type="text" value={contact} onChange={(e) => setContact(e.target.value)} />
             </Form.Group>
 
             <Form.Group controlId="role">
-              <Form.Label>Role</Form.Label>
+            <Form.Label>{t('Role')}</Form.Label>
               <Form.Control as="select" value={role} onChange={(e) => setRole(e.target.value)}>
-                <option value="">Select...</option>
-                <option value="developer">Developer</option>
-                <option value="ScrumMaster">Scrum Master</option>
-                <option value="Owner">Product Owner</option>
+              <option value="">{t('Select...')}</option>
+                        <option value="developer">{t('Developer')}</option>
+                        <option value="ScrumMaster">{t('Scrum Master')}</option>
+                        <option value="Owner">{t('Product Owner')}</option>
               </Form.Control>
             </Form.Group>
 
             <Form.Group controlId="username"> 
-              <Form.Label>Username</Form.Label>
+            <Form.Label>{t('Username')}</Form.Label>
               <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
             </Form.Group>
 
             <Form.Group controlId="photoUrl">
-                  <Form.Label>User Photo URL</Form.Label>
+            <Form.Label>{t('User Photo URL')}</Form.Label>
                   <Form.Control type="text" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} />
                 </Form.Group>
 
                 <Button variant="primary" type="submit" className="mt-3">
-                  Create
+                {t('Create')}
                 </Button>
                 </Form>
               </Col>
               <Col md={4}>
-                {photoUrl && <img src={photoUrl} alt="User" className="user-photo" />}
+              {photoUrl && <img src={photoUrl} alt={t('User')} className="user-photo" />}
               </Col>
             </Row>
           </Col>

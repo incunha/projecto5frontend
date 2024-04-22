@@ -6,26 +6,28 @@ import TaskCard from '../elements/taskCard/taskCard';
 import useUserStore from '../../userStore';
 import useTaskStore from '../../taskStore';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function DeletedTasks() {
   const [showButtons, setShowButtons] = useState(false);
   const token = useUserStore(state => state.token);
   const { deletedTasks, fetchInactiveTasks } = useTaskStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchInactiveTasks(token);
   }, []);
 
   const columnData = [
-  { status: 10, title: 'To Do' },
-  { status: 20, title: 'Doing' },
-  { status: 30, title: 'Done' },
-].map(({ status, title }) => ({
-  title,
-  items: deletedTasks.filter(task => task.status === status),
-  CardComponent: TaskCard,
-  onCardClick: () => {},
-}));
+    { status: 10, title: t('To Do') },
+    { status: 20, title: t('Doing') },
+    { status: 30, title: t('Done') },
+  ].map(({ status, title }) => ({
+    title,
+    items: deletedTasks.filter(task => task.status === status),
+    CardComponent: TaskCard,
+    onCardClick: () => {},
+  }));
 
 return (
   <div>

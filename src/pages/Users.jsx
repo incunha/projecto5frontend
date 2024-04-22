@@ -5,18 +5,20 @@ import Column from '../elements/column/column';
 import UserCard from '../elements/userCard/userCard';
 import useUserStore from '../../userStore'
 import Header from '../components/header/header';
+import { useTranslation } from 'react-i18next';
 
 function Users() {
   const { fetchActiveUsers, token, activeUsers } = useUserStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchActiveUsers(token);
   }, []);
 
   const userColumns = [
-    { role: 'developer', title: 'Developer' },
-    { role: 'ScrumMaster', title: 'Scrum Master' },
-    { role: 'Owner', title: 'Product Owner' },
+    { role: 'developer', title: t('Developer') },
+    { role: 'ScrumMaster', title: t('Scrum Master') },
+    { role: 'Owner', title: t('Product Owner') },
   ];
 
   return (

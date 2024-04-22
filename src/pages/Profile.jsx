@@ -8,6 +8,7 @@ import Header from '../components/header/header';
 import { format } from 'date-fns';
 import { useMessages } from '../Messages';
 import { deleteUser, restoreUser } from '../../userActions';
+import { useTranslation } from 'react-i18next';
 
 
 function Profile() {
@@ -33,6 +34,7 @@ function Profile() {
     const updateUser = useUserStore(state => state.setUser);
     const setUser = useUserStore(state => state.setUser);
     const handleChatSubmit = useMessages( setMessages, newMessage, setNewMessage, paramUsername);
+    const { t } = useTranslation();
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -174,14 +176,14 @@ function Profile() {
                 <Card className="card-user shadow p-3 mb-5 rounded">
                   <Card.Header className="d-flex flex-column align-items-center">
                     <Image src={userPhoto} roundedCircle style={{ width: '100px', height: '100px' }} />
-                    <Card.Title tag="h5" className="mt-3">{isEditing ? 'Edit Profile' : `${firstName} ${lastName}`}</Card.Title>
-                  </Card.Header>
+                    <Card.Title tag="h5" className="mt-3">{isEditing ? t('Edit Profile') : `${firstName} ${lastName}`}</Card.Title>
+        </Card.Header>
                   <Card.Body>
                     <Form>
                       <Row>
                         <Col className="px-1" md="6">
                           <FormGroup>
-                            <Form.Label>Username</Form.Label>
+                          <Form.Label>{t('Username')}</Form.Label>
                             <FormControl
                               defaultValue={username}
                               placeholder="Username"
@@ -193,9 +195,7 @@ function Profile() {
                         </Col>
                         <Col className="pl-1" md="6">
                           <FormGroup>
-                            <Form.Label htmlFor="exampleInputEmail1">
-                              Email address
-                            </Form.Label>
+                          <Form.Label>{t('Email address')}</Form.Label>
                             <FormControl 
                               placeholder="Email" 
                               type="email" 
@@ -209,7 +209,7 @@ function Profile() {
                       <Row>
                         <Col className="pr-1" md="6">
                           <FormGroup>
-                            <Form.Label>First Name</Form.Label>
+                          <Form.Label>{t('First Name')}</Form.Label>
                             <FormControl
                               defaultValue={firstName}
                               placeholder="First Name"
@@ -221,7 +221,7 @@ function Profile() {
                         </Col>
                         <Col className="pl-1" md="6">
                           <FormGroup>
-                            <Form.Label>Last Name</Form.Label>
+                          <Form.Label>{t('Last Name')}</Form.Label>
                             <FormControl
                               defaultValue={lastName}
                               placeholder="Last Name"
@@ -235,7 +235,7 @@ function Profile() {
                       <Row>
                         <Col className="pr-1" md="6">
                           <FormGroup>
-                            <Form.Label>Profile Picture</Form.Label>
+                          <Form.Label>{t('Profile Picture')}</Form.Label>
                             <FormControl
                               defaultValue={userPhoto}
                               placeholder="Profile Picture"
@@ -247,7 +247,7 @@ function Profile() {
                         </Col>
                         <Col className="pl-1" md="6">
                           <FormGroup>
-                            <Form.Label>Phone Number</Form.Label>
+                          <Form.Label>{t('Phone Number')}</Form.Label>
                             <FormControl
                               defaultValue={contactNumber}
                               placeholder="Phone number"
@@ -260,15 +260,15 @@ function Profile() {
                       </Row>
                       <Row>
                         <div className="update ml-auto mr-auto">
-                          <Button
-                            className="btn-round mt-3"
-                            color="primary"
-                            type="submit"
-                            onClick={handleEditSubmit}
-                            hidden={paramUsername !== user?.username}
-                          >
-                            {isEditing ? 'Save' : 'Edit'}
-                          </Button>
+                        <Button
+          className="btn-round mt-3"
+          color="primary"
+          type="submit"
+          onClick={handleEditSubmit}
+          hidden={paramUsername !== user?.username}
+        >
+          {isEditing ? t('Save') : t('Edit')}
+        </Button>
                            <Button
             className="btn-round mt-3 ml-2"
             color="danger"
@@ -294,15 +294,15 @@ function Profile() {
                 </Card>
       
                 <Card className="card-user shadow p-3 mb-5 rounded">
-                  <Card.Header>
-                    <Card.Title tag="h5">Tasks:</Card.Title>
-                  </Card.Header>
+        <Card.Header>
+          <Card.Title tag="h5">{t('Tasks')}:</Card.Title>
+        </Card.Header>
                   <Card.Body>
                     <Form>
                       <Row>
                         <Col md="12">
                           <FormGroup>
-                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Total Tasks:</Form.Label>
+                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>{t('Total Tasks')}:</Form.Label>
                             <Form.Text>{taskTotals && taskTotals[0]}</Form.Text>
                           </FormGroup>
                         </Col>
@@ -310,7 +310,7 @@ function Profile() {
                       <Row>
                         <Col md="12">
                           <FormGroup>
-                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>To Do Tasks:</Form.Label>
+                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold'  }}>{t('To Do Tasks')}:</Form.Label>
                             <Form.Text>{taskTotals && taskTotals[1]}</Form.Text>
                           </FormGroup>
                         </Col>
@@ -318,7 +318,7 @@ function Profile() {
                       <Row>
                         <Col md="12">
                           <FormGroup>
-                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Doing Tasks:</Form.Label>
+                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>{t('Doing Tasks')}:</Form.Label>
                             <Form.Text>{taskTotals && taskTotals[2]}</Form.Text>
                           </FormGroup>
                         </Col>
@@ -326,7 +326,7 @@ function Profile() {
                       <Row>
                         <Col md="12">
                           <FormGroup>
-                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>Done Tasks:</Form.Label>
+                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>{t('Done Tasks')}:</Form.Label>
                             <Form.Text>{taskTotals && taskTotals[3]}</Form.Text>
                           </FormGroup>
                         </Col>
@@ -337,10 +337,10 @@ function Profile() {
               </Col>
               <Col xs={12} md={4}>
                 {paramUsername !== user?.username && (
-                  <Card className="card-user shadow p-3 mb-5 rounded">
-                    <Card.Header>
-                      <Card.Title tag="h5">Messages</Card.Title>
-                    </Card.Header>
+                   <Card className="card-user shadow p-3 mb-5 rounded">
+                   <Card.Header>
+                     <Card.Title tag="h5">{t('Messages')}</Card.Title>
+                   </Card.Header>
                     <Card.Body ref={messagesContainerRef} style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     {messages.map((message, index) => (
   <div key={index} style={{ display: 'flex', justifyContent: message.sender === user.username ? 'flex-end' : 'flex-start' }}>
@@ -361,19 +361,19 @@ function Profile() {
                       <div ref={messagesEndRef} />
                     </Card.Body>
                     <Card.Footer>
-                      <Form onSubmit={handleChatSubmit}>
-                        <FormGroup>
-                          <FormControl
-                            type="text"
-                            placeholder="Type your message..."
-                            value={newMessage}
-                            onChange={e => setNewMessage(e.target.value)}
-                          />
-                        </FormGroup>
-                        <Button type="submit">Send</Button>
-                      </Form>
-                    </Card.Footer>
-                  </Card>
+          <Form onSubmit={handleChatSubmit}>
+            <FormGroup>
+              <FormControl
+                type="text"
+                placeholder={t('Type your message...')}
+                value={newMessage}
+                onChange={e => setNewMessage(e.target.value)}
+              />
+            </FormGroup>
+            <Button type="submit">{t('Send')}</Button>
+          </Form>
+        </Card.Footer>
+      </Card>
                 )}
               </Col>
             </Row>

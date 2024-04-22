@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { markAllNotificationsAsRead, fetchNotifications, fetchUnreadNotificationsCount } from '../../../userActions';
 import notification from '../../Notifications';
+import { useTranslation } from 'react-i18next';
 
 function Header() {
   notification();
@@ -23,6 +24,7 @@ function Header() {
   const resetNotifications = useUserStore(state => state.resetNotifications);
   const [isNotificationsOpen, setNotificationsOpen] = useState(false);
   const unreadNotificationsCount = useUserStore(state => state.unreadNotificationsCount);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!user && token) {
@@ -76,14 +78,14 @@ function Header() {
 
   return (
     <Navbar className="header" expand="lg">
-  <Container fluid>
-    <Row className="align-items-center">
-      <Col md={6}>
-        {user && (
-          <>
-            <span className="welcome-text">Welcome, {firstName}</span>
-            <Image className="user-image" src={user.userPhoto} roundedCircle />
-          </>
+      <Container fluid>
+        <Row className="align-items-center">
+          <Col md={6}>
+            {user && (
+              <>
+                <span className="welcome-text">{t('Welcome')}, {firstName}</span>
+                <Image className="user-image" src={user.userPhoto} roundedCircle />
+              </>
         )}
         <span onClick={handleNotificationsClick} style={{ position: 'relative', cursor: 'pointer' }}>
           <FontAwesomeIcon icon={faBell}  className="notification-icon" />
@@ -100,16 +102,16 @@ function Header() {
         </span>
       </Col>
       <Col md={6} className="d-flex justify-content-end">
-        <div className="dateHeader mr-2">
-          {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
-        </div>
-        <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
-          Logout <FaSignOutAlt className="logoutIcon" />
-        </Button>
-      </Col>
-    </Row>
-  </Container>
-</Navbar>
+            <div className="dateHeader mr-2">
+              {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
+            </div>
+            <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
+              {t('Logout')} <FaSignOutAlt className="logoutIcon" />
+            </Button>
+          </Col>
+        </Row>
+      </Container>
+    </Navbar>
   );
 }
 
