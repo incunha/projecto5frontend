@@ -10,6 +10,7 @@ import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { fetchAllActiveTasks } from '../../taskActions';
 import { useTranslation } from 'react-i18next';
+import { useTasksWebSocket } from '../websocket/TasksWebSocket';
 
 
 
@@ -37,7 +38,7 @@ function Home() {
     onCardClick: () => {},
   }));
 
-
+  useTasksWebSocket();
 
   return (
     <div>

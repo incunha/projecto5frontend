@@ -3,14 +3,17 @@ import './column.css';
 import { Col } from 'react-bootstrap'; 
 import { changeTaskStatus } from '../../../taskActions';
 import useUserStore from '../../../userStore';
+import { useTasksWebSocket } from '../../websocket/TasksWebSocket';
 
 function Column({ title, items, CardComponent, className, itemPropName, isDeleted, status }) {
 
   const token = useUserStore(state => state.token);
+  const sendMessage = useTasksWebSocket();
 
   const handleUpdate = async (id, status) => {
     try {
-      await changeTaskStatus(id, status, token); 
+      const updatedTask = await changeTaskStatus(id, status, token); 
+      sendMessage({ action: 'status', task: updatedTask });
     } catch (error) {
       console.error(error);
     }

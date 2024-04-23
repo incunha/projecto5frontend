@@ -25,9 +25,15 @@ const useTaskStore = create((set) => ({
     }
     return state;
   }),
-  updateStoreTask: (task) => set((state) => {
-    const newTasks = state.tasks.map(t => t.id === task.id ? task : t);
-    return { tasks: newTasks };
+  updateStoreTask: (updatedTask) => set((state) => {
+    const newTasks = state.tasks.map(task => task.id === updatedTask.id ? updatedTask : task);
+    return { tasks: [...newTasks] };
+  }),
+
+  updateStatusTask: (updatedTask) => set((state) => {
+    console.log('Updating task status:', updatedTask);
+    const newTasks = state.tasks.map(task => task.id === updatedTask.id ? updatedTask : task);
+    return { tasks: [...newTasks] };
   }),
 }));
 

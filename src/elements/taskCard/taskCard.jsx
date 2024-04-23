@@ -30,13 +30,13 @@ function TaskCard({ item, isDeleted }) {
   const handleDelete = async () => {
     try {
       await deleteTask(item.id, token); 
-      sendMessage(item.id);
+      sendMessage({ action: 'delete', task: item });
       console.log('Task deleted:', item.id);
     } catch (error) {
       console.error('Failed to delete task:', error);
     }
   };
-
+  
   let cardStyle = {};
   if (item.priority === 100) {
     cardStyle.backgroundColor = 'green';
