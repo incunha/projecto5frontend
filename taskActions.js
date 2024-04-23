@@ -172,3 +172,25 @@ export const createTask = async (token, payload) => {
       return text;
     }
   };
+
+  export const fetchTaskStatistics = async (set, token) => {
+    try {
+      const response = await fetch('http://localhost:8080/projecto5backend/rest/tasks/statistics', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: "*/*",
+          token: token,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      set({ taskStatistics: data});
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };

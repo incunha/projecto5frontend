@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import useUserStore from '../userStore';
-import useTaskStore from '../taskStore';
+import useUserStore from '../../userStore';
+import useTaskStore from '../../taskStore';
 
 export function useTasksWebSocket() {
   const [websocket, setWebsocket] = useState(null);
@@ -22,16 +22,9 @@ export function useTasksWebSocket() {
       const message = JSON.parse(event.data);
       console.log('Parsed message:', message);
       
-      if (message) {
-        console.log('Message:', message);
-        if (message.task) { 
-          console.log('Adding task:', message.task);
-          addTask(message.task);
-        }
-        else if (message.id) {
-          console.log('Removing task:', message.id);
-          removeTask(message.id);
-        }
+      if (message && message.task) {
+        console.log('Adding task:', message.task);
+        addTask(message.task);
       }
     };
 

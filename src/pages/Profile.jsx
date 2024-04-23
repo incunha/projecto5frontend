@@ -6,7 +6,7 @@ import Sidebar from '../components/sideBar/sideBar';
 import { useParams } from 'react-router-dom';
 import Header from '../components/header/header';
 import { format } from 'date-fns';
-import { useMessages } from '../Messages';
+import { useMessages } from '../websocket/Messages';
 import { deleteUser, restoreUser } from '../../userActions';
 import { useTranslation } from 'react-i18next';
 

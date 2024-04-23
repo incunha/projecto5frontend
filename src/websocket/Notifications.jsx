@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import useUserStore from "../userStore";
+import useUserStore from "../../userStore";
 import { useLocation } from "react-router-dom";
-import { fetchUnreadNotificationsCount } from '../userActions'; 
+import { fetchUnreadNotificationsCount } from '../../userActions'; 
 
 export default function notification() {
   const location = useLocation();

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useUserStore from '../userStore';
+import useUserStore from '../../userStore';
 
 export function useMessages( setMessages, newMessage, setNewMessage, paramUsername) {
   const [websocket, setWebsocket] = useState(null);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import useUserStore from '../userStore';
-import useTaskStore from '../taskStore';
+import useUserStore from '../../userStore';
+import useTaskStore from '../../taskStore';
 
 export function useUsersWebSocket() {
   const [websocket, setWebsocket] = useState(null);

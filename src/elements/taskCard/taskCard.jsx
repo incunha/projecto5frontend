@@ -5,7 +5,7 @@ import { deleteTask, restoreTask } from '../../../taskActions';
 import useUserStore from '../../../userStore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUndo } from '@fortawesome/free-solid-svg-icons';
-import { useTasksWebSocket } from '../../TasksWebSocket';
+import { useTasksWebSocket } from '../../websocket/TasksWebSocket';
 
 
 function TaskCard({ item, isDeleted }) { 

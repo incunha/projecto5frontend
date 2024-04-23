@@ -4,7 +4,7 @@ import useCategoryStore from '../../categoryStore';
 import useUserStore from '../../userStore';
 import { createTask } from '../../taskActions';
 import { useNavigate } from 'react-router-dom';
-import { useTasksWebSocket } from '../TasksWebSocket';
+import { useTasksWebSocket } from '../websocket/TasksWebSocket';
 import Sidebar from '../components/sideBar/sideBar';
 
 
@@ -16,8 +16,12 @@ function CreateTask() {
   const [endDate, setEndDate] = useState('');
   const [category, setCategory] = useState('');
   const token = useUserStore((state) => state.token);
-  const categories = useCategoryStore(token);
+  const { categories, fetchCategories } = useCategoryStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchCategories(token);
+  }, [token]);
 
 
   const priorityOptions = {

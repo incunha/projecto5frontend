@@ -7,7 +7,7 @@ import { useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { markAllNotificationsAsRead, fetchNotifications, fetchUnreadNotificationsCount } from '../../../userActions';
-import notification from '../../Notifications';
+import notification from '../../websocket/Notifications';
 import { useTranslation } from 'react-i18next';
 
 function Header() {

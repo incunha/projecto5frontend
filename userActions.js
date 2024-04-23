@@ -248,3 +248,27 @@ export const fetchUser = async (set, token) => {
       throw error;
     }
   };
+
+  export const fetchUserStatistics = async (set, token) => {
+    try {
+      const response = await fetch('http://localhost:8080/projecto5backend/rest/users/statistics', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: "*/*",
+          token: token,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      set({ userStatistics: data});
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  

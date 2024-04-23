@@ -9,7 +9,8 @@ import {
   fetchTaskTotals, 
   logout, 
   fetchOtherUser, 
-  fetchNotifications
+  fetchNotifications,
+  fetchUserStatistics
 } from './userActions';
 
 const useUserStore = create(persist(
@@ -21,8 +22,8 @@ const useUserStore = create(persist(
     inactiveUsers: [],
     notifications: [],
     unreadNotificationsCount: 0,
+    userStatistics: null,
     
-
     setToken: (token) => setToken(set, token),
     setUser: (user) => setUser(set, user),
     fetchUser: (token) => fetchUser(set, token),
@@ -31,6 +32,7 @@ const useUserStore = create(persist(
     fetchTaskTotals: (token, username) => fetchTaskTotals(token, username),
     logout: (token) => logout(set, token),
     fetchOtherUser: (token, username) => fetchOtherUser(token, username),
+    fetchUserStatistics: (token) => fetchUserStatistics(set, token),
     incrementNotifications: (message) => set(state => ({ 
       notifications: [...state.notifications, message],
       notificationCount: state.notificationCount + 1
