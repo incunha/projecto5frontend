@@ -65,6 +65,7 @@ const Dashboard = () => {
           .sort((a, b) => b.count - a.count)
       : [];
 
+
       return (
         <div>
           <Header /> 
@@ -72,54 +73,51 @@ const Dashboard = () => {
           <Sidebar /> 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
             <div>
-             
               <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
-                
               {userStats && userStats.length > 0 && (
-  <div style={{ flex: '1 0 400px', margin: '1rem' }}>
-    <h2 style={{ fontSize: '1rem' }}>User Statistics</h2> {/* Move the title here */}
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <PieChart width={250} height={270}>
-        <Pie
-          data={pieData}
-          cx={150}
-          cy={150}
-          labelLine={false}
-          outerRadius={80}
-          fill="#8884d8"
-          dataKey="value"
-          label={({ name, value }) => `${name}: ${value}`}
-        >
-          {pieData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-      </PieChart>
-      <div style={{ paddingLeft: '50px' }}> 
-        {userStats.map((entry, index) => (
-          <div key={index} style={{ color: COLORS[index % COLORS.length] }}>
-            <span style={{ display: 'inline-block', width: '10px', height: '10px', marginRight: '5px' }}></span>
-            {entry.name}: {entry.value}
+                <div style={{ flex: '1 0 400px', margin: '1rem' }}>
+                <h2 style={{ fontSize: '1rem' }}>User Statistics</h2> {/* Move the title here */}
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <PieChart width={250} height={270}>
+                    <Pie
+                    data={pieData}
+                    cx={150}
+                    cy={150}
+                    labelLine={false}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({ name, value }) => `${name}: ${value}`}
+                    >
+                    {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                    </Pie>
+                    </PieChart>
+                <div style={{ paddingLeft: '50px' }}> 
+                {userStats.map((entry, index) => (
+                <div key={index} style={{ color: COLORS[index % COLORS.length] }}>
+                <span style={{ display: 'inline-block', width: '10px', height: '10px', marginRight: '5px' }}></span>
+                {entry.name}: {entry.value}
+                </div>
+            ))}
+             </div>
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
-)}
-          
-                {confirmedUsersByDate && confirmedUsersByDate.length > 0 && (
-                  <div style={{ flex: '1 0 300px', margin: '1rem' }}>
-                    <h2 style={{ fontSize: '1rem' }}>Registered Users By Date</h2>
-                    <LineChart
-                      width={450}
-                      height={250}
-                      data={confirmedUsersByDate}
-                      margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                      }}
+        )}
+            {confirmedUsersByDate && confirmedUsersByDate.length > 0 && (
+                <div style={{ flex: '1 0 300px', margin: '1rem' }}>
+                <h2 style={{ fontSize: '1rem' }}>Registered Users By Date</h2>
+                <LineChart
+                width={450}
+                height={250}
+                data={confirmedUsersByDate}
+                margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+            }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="date" />
