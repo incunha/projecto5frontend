@@ -1,23 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts';
 import useUserStore from '../../userStore';
 import useTaskStore from '../../taskStore';
 import Header from '../components/header/header';
 import Sidebar from '../components/sideBar/sideBar';
+import { useDashboardSocket } from '../websocket/Dashboard';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const Dashboard = () => {
-  const { userStatistics, fetchUserStatistics, token } = useUserStore();
-  const { taskStatistics, fetchTaskStatistics } = useTaskStore();
+    const { userStatistics, fetchUserStatistics, token } = useUserStore();
+    const { taskStatistics, fetchTaskStatistics } = useTaskStore();
+    const [message, setMessage] = useState(null);
   
+    useDashboardSocket(setMessage);
+  
+    useEffect(() => {
+      if (token) {
+        fetchUserStatistics(token);
+        fetchTaskStatistics(token);
+      }
+    }, []);
+  
+    useEffect(() => {
+      if (message === 'ping') {
+        fetchUserStatistics(token);
+        fetchTaskStatistics(token);
+      }
+    }, [message]);
 
-  useEffect(() => {
-    if (token) {
-      fetchUserStatistics(token);
-      fetchTaskStatistics(token); 
-    }
-  }, []);
+  
 
   //estatisticas dos users
 
@@ -29,7 +41,7 @@ const Dashboard = () => {
   ];
 
   
-  const pieData = userStats.filter(stat => stat.value > 0);
+  const pieData = userStats ? userStats.filter(stat => stat.value > 0) : [];
 
   const confirmedUsersByDate = userStatistics && userStatistics.confirmedUsersByDate && Object.entries(userStatistics.confirmedUsersByDate)
     .map(([date, count]) => ({

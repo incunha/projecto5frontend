@@ -14,10 +14,12 @@ const useTaskStore = create((set) => ({
   restoreTask: (id, token) => restoreTask(id, token),
   changeTaskStatus: (id, status, token) => changeTaskStatus(id, status, token),
   fetchTaskStatistics: (token) => fetchTaskStatistics(set, token),
+
   removeTask: (taskId) => set((state) => {
     const newTasks = state.tasks.filter(task => task.id !== taskId);
     return { tasks: newTasks };
   }),
+  
   addTask: (newTask) => set((state) => {
     const taskExists = state.tasks.some(task => task.id === newTask.id);
     if (!taskExists) {
@@ -25,6 +27,7 @@ const useTaskStore = create((set) => ({
     }
     return state;
   }),
+
   updateStoreTask: (updatedTask) => set((state) => {
     const newTasks = state.tasks.map(task => task.id === updatedTask.id ? updatedTask : task);
     return { tasks: [...newTasks] };
@@ -35,6 +38,20 @@ const useTaskStore = create((set) => ({
     const newTasks = state.tasks.map(task => task.id === updatedTask.id ? updatedTask : task);
     return { tasks: [...newTasks] };
   }),
+
+  removeDeletedTask: (taskId) => set((state) => {
+    const newDeletedTasks = state.deletedTasks.filter(task => task.id !== taskId);
+    return { deletedTasks: newDeletedTasks };
+  }),
+
+  addDeletedTask: (newTask) => set((state) => {
+    const taskExists = state.deletedTasks.some(task => task.id === newTask.id);
+    if (!taskExists) {
+      return { deletedTasks: [...state.deletedTasks, newTask] };
+    }
+    return state;
+  }),
+  
 }));
 
 export default useTaskStore;
