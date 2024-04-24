@@ -80,36 +80,36 @@ function Header() {
     <Navbar className="header" expand="lg">
       <Container fluid>
         <Row className="align-items-center">
-          <Col md={6}>
+          <Col md="auto">
             {user && (
               <>
                 <span className="welcome-text">{t('Welcome')}, {firstName}</span>
                 <Image className="user-image" src={user.userPhoto} roundedCircle />
               </>
-        )}
-        <span onClick={handleNotificationsClick} style={{ position: 'relative', cursor: 'pointer' }}>
-          <FontAwesomeIcon icon={faBell}  className="notification-icon" />
-          {unreadNotificationsCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{unreadNotificationsCount}</span>}
-          {isNotificationsOpen && (
-            <div className="notification-dropdown">
-              {notifications.map((notification, index) => (
-                <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
-                  <strong>{notification.sender}</strong>: {notification.notification}
+            )}
+            <span onClick={handleNotificationsClick} style={{ position: 'relative', cursor: 'pointer' }}>
+              <FontAwesomeIcon icon={faBell}  className="notification-icon" />
+              {unreadNotificationsCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{unreadNotificationsCount}</span>}
+              {isNotificationsOpen && (
+                <div className="notification-dropdown">
+                  {notifications.map((notification, index) => (
+                    <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
+                      <strong>{notification.sender}</strong>: {notification.notification}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          )}
-        </span>
-      </Col>
-      <Col md={6} className="d-flex justify-content-end">
-            <div className="dateHeader mr-2">
-              {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
-            </div>
-            <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
-              {t('Logout')} <FaSignOutAlt className="logoutIcon" />
-            </Button>
+              )}
+            </span>
           </Col>
         </Row>
+        <div className="d-flex align-items-center ml-auto">
+          <div className="dateHeader mr-2">
+            {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
+          </div>
+          <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
+            {t('Logout')} <FaSignOutAlt className="logoutIcon" />
+          </Button>
+        </div>
       </Container>
     </Navbar>
   );
