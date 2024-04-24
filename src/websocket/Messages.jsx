@@ -17,10 +17,20 @@ export function useMessages( setMessages, newMessage, setNewMessage, paramUserna
 
     socket.onmessage = function(event) {
       const message = JSON.parse(event.data);
-      if (isNaN(new Date(message.sendDate).getTime())) {
-        message.sendDate = new Date().toISOString();
+      if (message.message === "All messages have been read") {
+        // Atualizar todas as mensagens não lidas como lidas
+        setMessages(prevMessages => prevMessages.map(msg => {
+          if (msg.sender === message.sender && !msg.read) {
+            msg.read = true;
+          }
+          return msg;
+        }));
+      } else {
+        if (isNaN(new Date(message.sendDate).getTime())) {
+          message.sendDate = new Date().toISOString();
+        }
+        setMessages(prevMessages => [...prevMessages, message]);
       }
-      setMessages(prevMessages => [...prevMessages, message]);
     };
 
     socket.onclose = function(event) {
