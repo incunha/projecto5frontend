@@ -1,165 +1,184 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './Profile.css';
-import useUserStore from '../../userStore';
-import { Button, Form, FormGroup, Container, Row, Col, Card, FormControl, Image } from 'react-bootstrap';
-import Sidebar from '../components/sideBar/sideBar';
-import { useParams } from 'react-router-dom';
-import Header from '../components/header/header';
-import { format } from 'date-fns';
-import { useMessages } from '../websocket/Messages';
-import { deleteUser, restoreUser } from '../../userActions';
-import { useTranslation } from 'react-i18next';
-
+import React, { useState, useEffect, useRef } from "react";
+import "./Profile.css";
+import useUserStore from "../../userStore";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Container,
+  Row,
+  Col,
+  Card,
+  FormControl,
+  Image,
+} from "react-bootstrap";
+import Sidebar from "../components/sideBar/sideBar";
+import { useParams } from "react-router-dom";
+import Header from "../components/header/header";
+import { format } from "date-fns";
+import { useMessages } from "../websocket/Messages";
+import { deleteUser, restoreUser } from "../../userActions";
+import { useTranslation } from "react-i18next";
+import TaskPieChart from "../elements/TaskPieChart";
 
 function Profile() {
-    const { username: paramUsername } = useParams();
-    const user = useUserStore(state => state.user);
-    const fetchUser = useUserStore(state => state.fetchUser);
-    const token = useUserStore(state => state.token);
-    const [isEditing, setIsEditing] = useState(false);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [contactNumber, setcontactNumber] = useState('');
-    const [userPhoto, setUserPhoto] = useState('');
-    const fetchTaskTotals = useUserStore(state => state.fetchTaskTotals);
-    const taskTotals = useUserStore(state => state.taskTotals);
-    const fetchOtherUser = useUserStore(state => state.fetchOtherUser);
-    const [viewedUser, setViewedUser] = useState(null);
-    const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState('');
-    const messagesEndRef = useRef(null);
-    const messagesContainerRef = useRef(null);
-    const updateUser = useUserStore(state => state.setUser);
-    const setUser = useUserStore(state => state.setUser);
-    const handleChatSubmit = useMessages( setMessages, newMessage, setNewMessage, paramUsername);
-    const { t } = useTranslation();
+  const { username: paramUsername } = useParams();
+  const user = useUserStore((state) => state.user);
+  const fetchUser = useUserStore((state) => state.fetchUser);
+  const token = useUserStore((state) => state.token);
+  const [isEditing, setIsEditing] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [contactNumber, setcontactNumber] = useState("");
+  const [userPhoto, setUserPhoto] = useState("");
+  const fetchTaskTotals = useUserStore((state) => state.fetchTaskTotals);
+  const taskTotals = useUserStore((state) => state.taskTotals);
+  const fetchOtherUser = useUserStore((state) => state.fetchOtherUser);
+  const [viewedUser, setViewedUser] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
+  const updateUser = useUserStore((state) => state.setUser);
+  const setUser = useUserStore((state) => state.setUser);
+  const handleChatSubmit = useMessages(
+    setMessages,
+    newMessage,
+    setNewMessage,
+    paramUsername
+  );
+  const { t } = useTranslation();
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-        if (messagesContainerRef.current) {
-            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
-        }
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
     }
+  };
 
-    const fetchMessages = async () => {
-        if (user && user.username) { 
-            const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`, {
-                headers: {
-                    'Accept': '*/*',
-                    'token': token,
-                }
-            });
-            const data = await response.json();
-            setMessages(data);
+  const fetchMessages = async () => {
+    if (user && user.username) {
+      const response = await fetch(
+        `http://localhost:8080/projecto5backend/rest/users/chat/${user.username}/${paramUsername}`,
+        {
+          headers: {
+            Accept: "*/*",
+            token: token,
+          },
         }
+      );
+      const data = await response.json();
+      setMessages(data);
+    }
+  };
+
+  useEffect(scrollToBottom, [messages]);
+
+  useEffect(() => {
+    {
+      username !== user.username ? fetchMessages() : null;
+    }
+  }, [user, paramUsername, token]);
+
+  const messageStyles = {
+    sent: {
+      backgroundColor: "#DCF8C6",
+      color: "black",
+      borderRadius: "18px",
+      padding: "10px",
+      marginBottom: "10px",
+      alignSelf: "flex-end",
+      width: "60%",
+      wordWrap: "break-word",
+      justifyContent: "flex-end",
+    },
+    received: {
+      backgroundColor: "#ECECEC",
+      color: "black",
+      borderRadius: "18px",
+      padding: "10px",
+      marginBottom: "10px",
+      alignSelf: "flex-start",
+      width: "60%",
+      wordWrap: "break-word",
+      justifyContent: "flex-start",
+    },
+  };
+
+  useEffect(() => {
+    if (paramUsername !== user?.username) {
+      fetchOtherUser(token, paramUsername).then((data) => setViewedUser(data));
+    } else {
+      setViewedUser(user);
+    }
+  }, [paramUsername, user, token, fetchOtherUser]);
+
+  useEffect(() => {
+    const currentUser = viewedUser;
+    if (currentUser && currentUser.name) {
+      const [first, ...last] = currentUser.name.split(" ");
+      setFirstName(first);
+      setLastName(last.join(" "));
+      setUsername(currentUser.username);
+      setcontactNumber(currentUser.contactNumber);
+      setEmail(currentUser.email);
+      setUserPhoto(currentUser.userPhoto);
+    }
+  }, [viewedUser]);
+
+  useEffect(() => {
+    const fetchTotals = async () => {
+      await fetchTaskTotals(token, paramUsername);
     };
+    fetchTotals();
+    console.log(paramUsername);
+  }, [paramUsername]);
 
-    useEffect(scrollToBottom, [messages]);
-
-    useEffect(() => {
-        {username  !== user.username ? fetchMessages() : null}
-    }, [user, paramUsername, token]);
-
-    const messageStyles = {
-        sent: {
-            backgroundColor: '#DCF8C6',
-            color: 'black',
-            borderRadius: '18px',
-            padding: '10px',
-            marginBottom: '10px',
-            alignSelf: 'flex-end',
-            width: '60%',
-            wordWrap: 'break-word',
-            justifyContent: 'flex-end'
-        },
-        received: {
-            backgroundColor: '#ECECEC',
-            color: 'black',
-            borderRadius: '18px',
-            padding: '10px',
-            marginBottom: '10px',
-            alignSelf: 'flex-start',
-            width: '60%',
-            wordWrap: 'break-word',
-            justifyContent: 'flex-start'
-        }
-    };
-
-    useEffect(() => {
-        if (paramUsername !== user?.username) {
-            fetchOtherUser(token, paramUsername).then(data => setViewedUser(data));
-        } else {
-            setViewedUser(user);
-        }
-    }, [paramUsername, user, token, fetchOtherUser]);
-
-    useEffect(() => {
-        const currentUser = viewedUser;
-        if (currentUser && currentUser.name) {
-            const [first, ...last] = currentUser.name.split(' ');
-            setFirstName(first);
-            setLastName(last.join(' '));
-            setUsername(currentUser.username);
-            setcontactNumber(currentUser.contactNumber);
-            setEmail(currentUser.email);
-            setUserPhoto(currentUser.userPhoto);
-        }
-    }, [viewedUser]);
-
-    useEffect(() => {
-        const fetchTotals = async () => {
-            await fetchTaskTotals(token, paramUsername);
-        };
-        fetchTotals();
-        console.log(paramUsername);
-    }, [paramUsername]);
-
-    const handleEditSubmit = async (event) => {
-        console.log('handleEditSubmit called'); 
-        event.preventDefault();
-        if (isEditing) {
-            const name = `${firstName} ${lastName}`;
-            const updatedUser = {
-                name: name,
-                username: user.username,
-                email: user.email,
-                contactNumber: contactNumber,
-                userPhoto: userPhoto
-            };
-            try {
-                await updateUser(token, updatedUser);
-                setUser(updatedUser);
-            } catch (error) {
-                console.error('Failed to update user', error);
-            }
-        }
-        setIsEditing(!isEditing);
-    };
-
-    const handleDeleteSubmit = async () => {
+  const handleEditSubmit = async (event) => {
+    console.log("handleEditSubmit called");
+    event.preventDefault();
+    if (isEditing) {
+      const name = `${firstName} ${lastName}`;
+      const updatedUser = {
+        name: name,
+        username: user.username,
+        email: user.email,
+        contactNumber: contactNumber,
+        userPhoto: userPhoto,
+      };
       try {
-          
-          await deleteUser(token, paramUsername);
-          console.log('User deleted successfully');
-          
+        await updateUser(token, updatedUser);
+        setUser(updatedUser);
       } catch (error) {
-          console.error('Failed to delete user', error);
+        console.error("Failed to update user", error);
       }
+    }
+    setIsEditing(!isEditing);
+  };
+
+  const handleDeleteSubmit = async () => {
+    try {
+      await deleteUser(token, paramUsername);
+      console.log("User deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete user", error);
+    }
   };
 
   const handleRestoreSubmit = async () => {
     try {
       await restoreUser(token, paramUsername);
-      console.log('User restored successfully');
+      console.log("User restored successfully");
     } catch (error) {
-      console.error('Failed to restore user', error);
+      console.error("Failed to restore user", error);
     }
   };
 
-    return (
-    <div className='profile-container'>
+  return (
+    <div className="profile-container">
       <Row className="flex-nowrap">
         <Col>
           <Header />
@@ -174,34 +193,73 @@ function Profile() {
             <Row>
               <Col xs={12} md={8}>
                 <Card className="card-user shadow p-3 mb-5 rounded">
-                  <Card.Header className="d-flex flex-column align-items-center">
-                    <Image src={userPhoto} roundedCircle style={{ width: '100px', height: '100px' }} />
-                    <Card.Title tag="h5" className="mt-3">{isEditing ? t('Edit Profile') : `${firstName} ${lastName}`}</Card.Title>
-        </Card.Header>
+                  <Card.Header
+                    className="d-flex flex-column align-items-center justify-content-start"
+                    style={{ marginTop: "-10px" }}
+                  >
+                    <Row className="align-items-center">
+                      <Col
+                        xs={12}
+                        md={6}
+                        className="d-flex flex-column align-items-center justify-content-center"
+                      >
+                        <Card.Title tag="h5" className="mb-3">
+                          {isEditing
+                            ? t("Edit Profile")
+                            : `${firstName} ${lastName}`}
+                        </Card.Title>
+                        <Image
+                          src={userPhoto}
+                          roundedCircle
+                          style={{
+                            width: "150px",
+                            height: "150px",
+                            objectFit: "cover",
+                            marginTop: "20px",
+                          }}
+                        />
+                      </Col>
+                      <Col
+                        xs={12}
+                        md={6}
+                        className="d-flex justify-content-center justify-content-md-start"
+                      >
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "auto",
+                            maxWidth: "100%",
+                          }}
+                        >
+                          <TaskPieChart taskTotals={taskTotals} />
+                        </div>
+                      </Col>
+                    </Row>
+                  </Card.Header>
                   <Card.Body>
                     <Form>
                       <Row>
                         <Col className="px-1" md="6">
                           <FormGroup>
-                          <Form.Label>{t('Username')}</Form.Label>
+                            <Form.Label>{t("Username")}</Form.Label>
                             <FormControl
                               defaultValue={username}
                               placeholder="Username"
                               type="text"
                               disabled
-                              onChange={e => setUsername(e.target.value)}
+                              onChange={(e) => setUsername(e.target.value)}
                             />
                           </FormGroup>
                         </Col>
                         <Col className="pl-1" md="6">
                           <FormGroup>
-                          <Form.Label>{t('Email address')}</Form.Label>
-                            <FormControl 
-                              placeholder="Email" 
-                              type="email" 
+                            <Form.Label>{t("Email address")}</Form.Label>
+                            <FormControl
+                              placeholder="Email"
+                              type="email"
                               defaultValue={email}
                               disabled
-                              onChange={e => setEmail(e.target.value)}
+                              onChange={(e) => setEmail(e.target.value)}
                             />
                           </FormGroup>
                         </Col>
@@ -209,25 +267,25 @@ function Profile() {
                       <Row>
                         <Col className="pr-1" md="6">
                           <FormGroup>
-                          <Form.Label>{t('First Name')}</Form.Label>
+                            <Form.Label>{t("First Name")}</Form.Label>
                             <FormControl
                               defaultValue={firstName}
                               placeholder="First Name"
                               type="text"
                               disabled={!isEditing}
-                              onChange={e => setFirstName(e.target.value)}
+                              onChange={(e) => setFirstName(e.target.value)}
                             />
                           </FormGroup>
                         </Col>
                         <Col className="pl-1" md="6">
                           <FormGroup>
-                          <Form.Label>{t('Last Name')}</Form.Label>
+                            <Form.Label>{t("Last Name")}</Form.Label>
                             <FormControl
                               defaultValue={lastName}
                               placeholder="Last Name"
                               type="text"
                               disabled={!isEditing}
-                              onChange={e => setLastName(e.target.value)}
+                              onChange={(e) => setLastName(e.target.value)}
                             />
                           </FormGroup>
                         </Col>
@@ -235,101 +293,62 @@ function Profile() {
                       <Row>
                         <Col className="pr-1" md="6">
                           <FormGroup>
-                          <Form.Label>{t('Profile Picture')}</Form.Label>
+                            <Form.Label>{t("Profile Picture")}</Form.Label>
                             <FormControl
                               defaultValue={userPhoto}
                               placeholder="Profile Picture"
                               type="text"
                               disabled={!isEditing}
-                              onChange={e => setUserPhoto(e.target.value)}
+                              onChange={(e) => setUserPhoto(e.target.value)}
                             />
                           </FormGroup>
                         </Col>
                         <Col className="pl-1" md="6">
                           <FormGroup>
-                          <Form.Label>{t('Phone Number')}</Form.Label>
+                            <Form.Label>{t("Phone Number")}</Form.Label>
                             <FormControl
                               defaultValue={contactNumber}
                               placeholder="Phone number"
                               type="text"
                               disabled={!isEditing}
-                              onChange={e => setcontactNumber(e.target.value)}
+                              onChange={(e) => setcontactNumber(e.target.value)}
                             />
                           </FormGroup>
                         </Col>
                       </Row>
                       <Row>
                         <div className="update ml-auto mr-auto">
-                        <Button
-          className="btn-round mt-3"
-          color="primary"
-          type="submit"
-          onClick={handleEditSubmit}
-          hidden={paramUsername !== user?.username}
-        >
-          {isEditing ? t('Save') : t('Edit')}
-        </Button>
-                           <Button
-            className="btn-round mt-3 ml-2"
-            color="danger"
-            type="button"
-            onClick={handleDeleteSubmit}
-            hidden={paramUsername === user?.username}
-          >
-            Delete
-          </Button>
-          <Button
-  className="btn-round mt-3 ml-2"
-  color="success"
-  type="button"
-  onClick={handleRestoreSubmit}
-  hidden={viewedUser?.active ===true || paramUsername === user?.username}
->
-  Restore
-</Button>
+                          <Button
+                            className="btn-round mt-3"
+                            color="primary"
+                            type="submit"
+                            onClick={handleEditSubmit}
+                            hidden={paramUsername !== user?.username}
+                          >
+                            {isEditing ? t("Save") : t("Edit")}
+                          </Button>
+                          <Button
+                            className="btn-round mt-3 ml-2"
+                            color="danger"
+                            type="button"
+                            onClick={handleDeleteSubmit}
+                            hidden={paramUsername === user?.username}
+                          >
+                            Delete
+                          </Button>
+                          <Button
+                            className="btn-round mt-3 ml-2"
+                            color="success"
+                            type="button"
+                            onClick={handleRestoreSubmit}
+                            hidden={
+                              viewedUser?.active === true ||
+                              paramUsername === user?.username
+                            }
+                          >
+                            Restore
+                          </Button>
                         </div>
-                      </Row>
-                    </Form>
-                  </Card.Body>
-                </Card>
-      
-                <Card className="card-user shadow p-3 mb-5 rounded">
-        <Card.Header>
-          <Card.Title tag="h5">{t('Tasks')}:</Card.Title>
-        </Card.Header>
-                  <Card.Body>
-                    <Form>
-                      <Row>
-                        <Col md="12">
-                          <FormGroup>
-                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>{t('Total Tasks')}:</Form.Label>
-                            <Form.Text>{taskTotals && taskTotals[0]}</Form.Text>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="12">
-                          <FormGroup>
-                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold'  }}>{t('To Do Tasks')}:</Form.Label>
-                            <Form.Text>{taskTotals && taskTotals[1]}</Form.Text>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="12">
-                          <FormGroup>
-                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>{t('Doing Tasks')}:</Form.Label>
-                            <Form.Text>{taskTotals && taskTotals[2]}</Form.Text>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md="12">
-                          <FormGroup>
-                            <Form.Label style={{ marginRight: '10px', fontWeight: 'bold' }}>{t('Done Tasks')}:</Form.Label>
-                            <Form.Text>{taskTotals && taskTotals[3]}</Form.Text>
-                          </FormGroup>
-                        </Col>
                       </Row>
                     </Form>
                   </Card.Body>
@@ -337,48 +356,86 @@ function Profile() {
               </Col>
               <Col xs={12} md={4}>
                 {paramUsername !== user?.username && (
-                   <Card className="card-user shadow p-3 mb-5 rounded">
-                   <Card.Header>
-                     <Card.Title tag="h5">{t('Messages')}</Card.Title>
-                   </Card.Header>
-                    <Card.Body ref={messagesContainerRef} style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                    {messages.map((message, index) => (
-  <div key={index} style={{ display: 'flex', justifyContent: message.sender === user.username ? 'flex-end' : 'flex-start' }}>
-    <div style={message.sender === user.username ? messageStyles.sent : messageStyles.received}>
-      <Image 
-        src={message.sender === user.username ? user.userPhoto : viewedUser.userPhoto} 
-        roundedCircle 
-        style={{ width: '20px', height: '20px', marginRight: '5px' }} 
-      />
-      <p style={{ fontSize: '0.8rem' }}>{message.sender}</p>
-      <p>{message.message}</p>
-      <p style={{ fontSize: '0.6rem' }}>
-        {
-          message.sendDate ? 
-          (isNaN(new Date(message.sendDate).getTime()) ? 'Invalid date' : format(new Date(message.sendDate), 'dd/MM/yyyy HH:mm')) 
-          : 'No timestamp'
-        }
-        {message.read && message.sender === user.username && ' ✓✓'}
-      </p>
-    </div>
-  </div>
-))}
+                  <Card className="card-user shadow p-3 mb-5 rounded">
+                    <Card.Header>
+                      <Card.Title tag="h5">{t("Messages")}</Card.Title>
+                    </Card.Header>
+                    <Card.Body
+                      ref={messagesContainerRef}
+                      style={{ maxHeight: "400px", overflowY: "auto" }}
+                    >
+                      {messages.map((message, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            display: "flex",
+                            justifyContent:
+                              message.sender === user.username
+                                ? "flex-end"
+                                : "flex-start",
+                          }}
+                        >
+                          <div
+                            style={
+                              message.sender === user.username
+                                ? messageStyles.sent
+                                : messageStyles.received
+                            }
+                          >
+                            <div
+                              style={{ display: "flex", alignItems: "center" }}
+                            >
+                              <Image
+                                src={
+                                  message.sender === user.username
+                                    ? user?.userPhoto
+                                    : viewedUser?.userPhoto
+                                }
+                                roundedCircle
+                                style={{
+                                  width: "20px",
+                                  height: "20px",
+                                  marginRight: "5px",
+                                  objectFit: "cover",
+                                }}
+                              />
+                              <p style={{ fontSize: "0.8rem", margin: "0" }}>
+                                {message.sender}
+                              </p>
+                            </div>
+                            <p>{message.message}</p>
+                            <p style={{ fontSize: "0.6rem" }}>
+                              {message.sendDate
+                                ? isNaN(new Date(message.sendDate).getTime())
+                                  ? "Invalid date"
+                                  : format(
+                                      new Date(message.sendDate),
+                                      "dd/MM/yyyy HH:mm"
+                                    )
+                                : "No timestamp"}
+                              {message.read &&
+                                message.sender === user.username &&
+                                " ✓✓"}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
                       <div ref={messagesEndRef} />
                     </Card.Body>
                     <Card.Footer>
-          <Form onSubmit={handleChatSubmit}>
-            <FormGroup>
-              <FormControl
-                type="text"
-                placeholder={t('Type your message...')}
-                value={newMessage}
-                onChange={e => setNewMessage(e.target.value)}
-              />
-            </FormGroup>
-            <Button type="submit">{t('Send')}</Button>
-          </Form>
-        </Card.Footer>
-      </Card>
+                      <Form onSubmit={handleChatSubmit}>
+                        <FormGroup>
+                          <FormControl
+                            type="text"
+                            placeholder={t("Type your message...")}
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                          />
+                        </FormGroup>
+                        <Button type="submit">{t("Send")}</Button>
+                      </Form>
+                    </Card.Footer>
+                  </Card>
                 )}
               </Col>
             </Row>
