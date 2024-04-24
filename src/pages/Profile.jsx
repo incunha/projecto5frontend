@@ -70,7 +70,7 @@ function Profile() {
             padding: '10px',
             marginBottom: '10px',
             alignSelf: 'flex-end',
-            maxWidth: '60%',
+            width: '60%',
             wordWrap: 'break-word',
             justifyContent: 'flex-end'
         },
@@ -81,7 +81,7 @@ function Profile() {
             padding: '10px',
             marginBottom: '10px',
             alignSelf: 'flex-start',
-            maxWidth: '60%',
+            width: '60%',
             wordWrap: 'break-word',
             justifyContent: 'flex-start'
         }
@@ -140,10 +140,10 @@ function Profile() {
 
     const handleDeleteSubmit = async () => {
       try {
-          // Aqui você chama a função deleteUser de userActions
+          
           await deleteUser(token, paramUsername);
           console.log('User deleted successfully');
-          // Aqui você pode redirecionar o usuário para a página de login ou fazer logout do usuário
+          
       } catch (error) {
           console.error('Failed to delete user', error);
       }
@@ -345,9 +345,14 @@ function Profile() {
                     {messages.map((message, index) => (
   <div key={index} style={{ display: 'flex', justifyContent: message.sender === user.username ? 'flex-end' : 'flex-start' }}>
     <div style={message.sender === user.username ? messageStyles.sent : messageStyles.received}>
-      <p>{message.sender}</p>
+      <Image 
+        src={message.sender === user.username ? user.userPhoto : viewedUser.userPhoto} 
+        roundedCircle 
+        style={{ width: '20px', height: '20px', marginRight: '5px' }} 
+      />
+      <p style={{ fontSize: '0.8rem' }}>{message.sender}</p>
       <p>{message.message}</p>
-      <p style={{ fontSize: '0.8rem' }}>
+      <p style={{ fontSize: '0.6rem' }}>
         {
           message.sendDate ? 
           (isNaN(new Date(message.sendDate).getTime()) ? 'Invalid date' : format(new Date(message.sendDate), 'dd/MM/yyyy HH:mm')) 
