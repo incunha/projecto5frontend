@@ -1,7 +1,7 @@
 .task-card {
     position: relative;
-    width: 220px; 
-    height: 30px; 
+    width: 20%;
+   
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
@@ -17,40 +17,7 @@
     flex-grow: 0;
   }
 
-  .task-card::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: white;
-    pointer-events: none;
-  }
-  
-  .task-card.inactive::after {
-    opacity: 0.5;
-  }
-  
-  .task-card.active::after {
-    opacity: 0;
-  }
-  
-  .task-title {
-    font-size: 15px;
-    font-weight: bold;
-    margin-left: 10px;
-    height: 20px; 
-    overflow: hidden; 
-  }
-  
-  .user-image img {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    object-fit: cover; 
-    margin-top: 4px;
-  }
+
 
   .deleteTaskButton {
     position: absolute;
@@ -84,4 +51,14 @@
   .restoreTaskButton img:hover {
     width: 18px;
     height: 18px;
+  }
+  .card {
+    width: 100%;
+    max-width: 18rem;
+  }
+  
+  @media (max-width: 900px) {
+    .card {
+      max-width: none;
+    }
   }

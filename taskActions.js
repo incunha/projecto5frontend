@@ -194,3 +194,24 @@ export const createTask = async (token, payload) => {
       console.error('Error:', error);
     }
   };
+
+  export const fetchTaskCreator = async (id, token) => {
+    try {
+      const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks/creator/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': "*/*",
+          'token': token,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      return response.json();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };

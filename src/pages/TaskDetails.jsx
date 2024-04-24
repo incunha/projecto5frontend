@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchTaskDetails, updateTask } from '../../taskActions';
+import { fetchTaskDetails, updateTask, fetchTaskCreator } from '../../taskActions';
 import useUserStore from '../../userStore';
 import { Container, Form, Button, Card, Row, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import Header from '../components/header/header';
+import Sidebar from '../components/sideBar/sideBar';
+import useCategoryStore from '../../categoryStore';
 
 function TaskDetails() {
   const { id } = useParams();
@@ -11,10 +14,17 @@ function TaskDetails() {
   const [isEditing, setIsEditing] = useState(false);
   const token = useUserStore(state => state.token);
   const { t } = useTranslation();
+  const categories = useCategoryStore(state => state.categories);
+  const [creator, setCreator] = useState(null);
+  
 
   useEffect(() => {
     fetchTaskDetails(id, token)
-      .then(data => setTask(data))
+      .then(data => {
+        setTask(data);
+        return fetchTaskCreator(id, token); 
+      })
+      .then(creatorData => setCreator(creatorData))
       .catch(error => console.error('Error:', error));
   }, [id, token]);
 
@@ -28,70 +38,143 @@ function TaskDetails() {
     setIsEditing(true);
   };
 
+  const priorityChoices = {
+    100: 'Low',
+    200: 'Medium',
+    300: 'High',
+  };
+  
+  const statusChoices = {
+    10: 'To Do',
+    20: 'Doing',
+    30: 'Done',
+  };
+
+  let cardStyle = { boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', borderRadius: '15px' };
+  if (task) {
+    if (task.priority === 100) {
+      cardStyle.backgroundColor = '#4CAF50'; // verde
+    } else if (task.priority === 200) {
+      cardStyle.backgroundColor = '#FFEB3B'; // amarelo
+    } else if (task.priority === 300) {
+      cardStyle.backgroundColor = '#F44336'; // vermelho
+    }
+  }
+
   return (
-    <Container className="mt-5">
-      <h1>{t('Task Details')}</h1>
-      {task && (
-        <Card>
-          <Card.Body>
-            <Form>
-              <Row className="mb-3">
-                <Form.Group as={Col} controlId="formTitle">
-                  <Form.Label>{t('Title')}:</Form.Label>
-                  {isEditing 
-                    ? <Form.Control type="text" value={task.title} onChange={e => setTask({ ...task, title: e.target.value })} /> 
-                    : <Form.Label>{task.title}</Form.Label>}
-                </Form.Group>
-                <Form.Group as={Col} controlId="formDescription">
-                  <Form.Label>{t('Description')}:</Form.Label>
-                  {isEditing 
-                    ? <Form.Control as="textarea" value={task.description} onChange={e => setTask({ ...task, description: e.target.value })} /> 
-                    : <Form.Label>{task.description}</Form.Label>}
-                </Form.Group>
-              </Row>
-              <Row className="mb-3">
-                <Form.Group as={Col} controlId="formCategory">
-                  <Form.Label>{t('Category')}:</Form.Label>
-                  {isEditing 
-                    ? <Form.Control type="text" value={task.category} onChange={e => setTask({ ...task, category: e.target.value })} /> 
-                    : <Form.Label>{task.category}</Form.Label>}
-                </Form.Group>
-                <Form.Group as={Col} controlId="formPriority">
-                  <Form.Label>Priority:</Form.Label>
-                  {isEditing 
-                    ? <Form.Control type="number" value={task.priority} onChange={e => setTask({ ...task, priority: e.target.value })} /> 
-                    : <Form.Label>{task.priority}</Form.Label>}
-                </Form.Group>
-              </Row>
-              <Row className="mb-3">
-                <Form.Group as={Col} controlId="formStatus">
-                  <Form.Label>Status:</Form.Label>
-                  {isEditing 
-                    ? <Form.Control type="number" value={task.status} onChange={e => setTask({ ...task, status: e.target.value })} /> 
-                    : <Form.Label>{task.status}</Form.Label>}
-                </Form.Group>
-                <Form.Group as={Col} controlId="formInitialDate">
-  <Form.Label>{t('Initial Date')}:</Form.Label>
-  {isEditing 
-    ? <Form.Control type="date" value={task.initialDate} onChange={e => setTask({ ...task, initialDate: e.target.value })} /> 
-    : <Form.Label>{task.startDate}</Form.Label>}
+    <div style={{ backgroundColor: '#f5f5f5', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
+      <Header />
+      <div style={{ display: 'flex' }}>
+        <Sidebar />
+        <Container className="mt-5">
+          <h1 style={{ marginBottom: '2rem', color: '#333' }}>{t('Task Details')}</h1>
+          {task && (
+            <Card style={{
+              boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', 
+              borderRadius: '15px',
+              backgroundColor: task.priority === 100 ? '#4CAF50' : task.priority === 200 ? '#FFEB3B' : '#F44336'
+            }}>
+              <Card.Body>
+                  <Form>
+                  <Form.Group controlId="formCreator">
+  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', marginTop: '20px' }}>
+    <div style={{ marginRight: '10px', fontSize: '1.2rem' }}><strong>Creator</strong>:</div>
+    <div>{creator && creator.name}</div>
+  </div>
 </Form.Group>
-<Form.Group as={Col} controlId="formFinalDate">
-  <Form.Label>{t('Final Date')}:</Form.Label>
-  {isEditing 
-    ? <Form.Control type="date" value={task.finalDate} onChange={e => setTask({ ...task, finalDate: e.target.value })} /> 
-    : <Form.Label>{task.endDate}</Form.Label>}
+                  <Form.Group controlId="formTitle">
+  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+    <div style={{ marginRight: '10px', fontSize: '1.2rem'}}><strong>{t('Title')}</strong>:</div>
+    {isEditing 
+      ? <Form.Control type="text" value={task.title} onChange={e => setTask({ ...task, title: e.target.value })} style={{ border: 'none', backgroundColor: 'transparent' }} /> 
+      : <div>{task.title}</div>}
+  </div>
 </Form.Group>
-              </Row>
-              <Button variant="primary" onClick={isEditing ? handleSaveClick : handleEditClick}>
-                {isEditing ? t('Save') : t('Edit')}
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-      )}
-    </Container>
-  );
+                    <Form.Group controlId="formDescription">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <div style={{ marginRight: '10px',fontSize: '1.2rem'}}><strong>{t('Description')}</strong>:</div>
+                        {isEditing 
+                          ? <Form.Control as="textarea" value={task.description} onChange={e => setTask({ ...task, description: e.target.value })} style={{ border: 'none', backgroundColor: 'transparent' }} /> 
+                          : <div>{task.description}</div>}
+                      </div>
+                    </Form.Group>
+                    <Form.Group controlId="formCategory">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <div style={{ marginRight: '10px',fontSize: '1.2rem' }}><strong>{t('Category')}</strong>:</div>
+                        {isEditing 
+                          ? (
+                            <Form.Control as="select" value={task.category} onChange={e => setTask({ ...task, category: e.target.value })} style={{ border: 'none', backgroundColor: 'transparent' }}>
+                              {categories.map((category, index) => (
+                                <option key={index} value={category.name}>{category.name}</option>
+                              ))}
+                            </Form.Control>
+                          ) 
+                          : <div>{task.category}</div>}
+                      </div>
+                    </Form.Group>
+                    <Form.Group controlId="formPriority">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <div style={{ marginRight: '10px',  fontSize: '1.2rem'}}><strong>Priority</strong>:</div>
+                        {isEditing 
+                          ? (
+                            <Form.Control as="select" value={task.priority} onChange={e => setTask({ ...task, priority: Number(e.target.value) })} style={{ border: 'none', backgroundColor: 'transparent' }}>
+                              <option value={100}>Low</option>
+                              <option value={200}>Medium</option>
+                              <option value={300}>High</option>
+                            </Form.Control>
+                          ) 
+                          : <div>{priorityChoices[task.priority]}</div>}
+                      </div>
+                    </Form.Group>
+                    <Form.Group controlId="formStatus">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <div style={{ marginRight: '10px', fontSize: '1.2rem'}}><strong>Status</strong>:</div>
+                        {isEditing 
+                          ? (
+                            <Form.Control as="select" value={task.status} onChange={e => setTask({ ...task, status: e.target.value })} style={{ border: 'none', backgroundColor: 'transparent' }}>
+                              <option value={1}>To Do</option>
+                              <option value={2}>Doing</option>
+                              <option value={3}>Done</option>
+                            </Form.Control>
+                          ) 
+                          : <div>{statusChoices[task.status]}</div>}
+                      </div>
+                    </Form.Group>
+                    <Form.Group controlId="formInitialDate">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <div style={{ marginRight: '10px',  fontSize: '1.2rem' }}><strong>{t('Initial Date')}</strong>:</div>
+                        {isEditing 
+                          ? 
+                          (
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                              <Form.Control type="date" defaultValue={task.startDate} onChange={e => setTask({ ...task, initialDate: e.target.value })} style={{ border: 'none', backgroundColor: 'transparent' }} /> 
+                            </div>
+                          ) 
+                          : <div>{task.startDate}</div>}
+                      </div>
+                    </Form.Group>
+                    <Form.Group controlId="formFinalDate">
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                        <div style={{ marginRight: '10px',  fontSize: '1.2rem' }}><strong>{t('Final Date')}</strong>:</div>
+                        {isEditing 
+                          ? 
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Form.Control type="date" defaultValue={task.endDate} onChange={e => setTask({ ...task, finalDate: e.target.value })} style={{ border: 'none', backgroundColor: 'transparent' }} /> 
+        </div>
+                          : <div>{task.endDate}</div>}
+                      </div>
+                    </Form.Group>
+                    <Button variant="primary" onClick={isEditing ? handleSaveClick : handleEditClick} style={{ backgroundColor: '#333', border: 'none' }}>
+                      {isEditing ? t('Save') : t('Edit')}
+                    </Button>
+                  </Form>
+                </Card.Body>
+              </Card>
+            )}
+          </Container>
+        </div>
+      </div>
+    );
 }
 
 export default TaskDetails;

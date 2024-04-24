@@ -1,0 +1,21 @@
+.row-carousel {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--green2) var(--white);
+  }
+  
+  .row-carousel > div {
+    margin: 1%;
+  }
+  
+  @media (max-width: 900px) {
+    .row-carousel {
+      overflow-x: scroll;
+    }
+  }
+
+  .column-carousel {
+    height: 90vh; 
+  }

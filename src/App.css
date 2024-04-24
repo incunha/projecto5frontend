@@ -7,6 +7,21 @@
   justify-content: space-between; /* Alinha os itens ao longo do eixo principal (vertical) com espaço extra entre eles */
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 900px) {
+  .container {
+    height: auto;
+  }
+}
+
+html {
+  overflow-y: auto;
+}
+
+
 /* Define variáveis de cor */
 :root {
   font-family: Arial, Helvetica, sans-serif; /* Define a fonte padrão */
@@ -29,6 +44,9 @@ body {
   background-color: var(--black); /* Define a cor de fundo como preto */
   position: relative; /* Define a posição como relativa */
   background-image: url("multimedia/background_main_task.png"); /* Define uma imagem de fundo */
+  display: flex; /* Define o modelo de exibição como flexível */
+  flex-direction: column; /* Define a direção do fluxo como coluna */
+  justify-content: space-between; /* Alinha os itens ao longo do eixo principal (vertical) com espaço extra entre eles */
 }
 
 /* Estilos para o botão .myButton */
@@ -61,14 +79,4 @@ body {
   width: 100%; /* Define a largura como 100% */
 }
 
-/* Estilos para as colunas */
-.columns {
-  display: flex; /* Define o modelo de exibição como flexível */
-  flex-direction: row; /* Define a direção do fluxo como linha */
-  gap: 20px; /* Define o espaço entre as colunas */
-  position: absolute; /* Define a posição como absoluta */
-  right: 100px; /* Define a distância da direita */
-  left: 240px; /* Define a distância da esquerda */
-  top: 80px; /* Define a distância do topo */
-}
 

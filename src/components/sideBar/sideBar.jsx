@@ -8,13 +8,14 @@ import useTaskStore from '../../../taskStore';
 import useCategoryStore from '../../../categoryStore';
 import { useTranslation } from 'react-i18next';
 
+
 function Sidebar() {
   const {username} = useUserStore(state => state.user);
   const { fetchActiveTasks } = useTaskStore();
   const location = useLocation();
   const showButtons = location.pathname === '/home';
   const showUserButtons = location.pathname === '/users';
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { setSelectedFilter } = useTaskStore();
@@ -22,6 +23,7 @@ function Sidebar() {
   const { categories, fetchCategories } = useCategoryStore();
   const activeUsers = useUserStore(state => state.activeUsers);
   const { t } = useTranslation();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // Adicione o estado para o usuário e a categoria selecionados
   const [selectedUser, setSelectedUser] = useState('');
@@ -35,10 +37,12 @@ function Sidebar() {
         setExpanded(true);
       }
     };
-
-    window.addEventListener('resize', handleResize);
+  
+    // Chame a função imediatamente após a montagem do componente
     handleResize();
-
+  
+    window.addEventListener('resize', handleResize);
+  
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 

@@ -11,6 +11,10 @@ import { useSearchParams } from 'react-router-dom';
 import { fetchAllActiveTasks } from '../../taskActions';
 import { useTranslation } from 'react-i18next';
 import { useTasksWebSocket } from '../websocket/TasksWebSocket';
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useMediaQuery } from 'react-responsive';
+'./Home.css';
 
 
 
@@ -21,6 +25,7 @@ function Home() {
   const user = searchParams.get('username');
   const category = searchParams.get('category')
   const { t } = useTranslation();
+  const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
 
   useEffect(() => {
     fetchAllActiveTasks(token);
@@ -45,13 +50,23 @@ function Home() {
       <Header />
       <div style={{ display: 'flex' }}>
         <Sidebar />
-        <Row style={{ width: '100%' }}>
-          {columnData.map((column, index) => (
-            <Col xs={12} md={4} key={index}>
-              <Column {...column} itemPropName="item" status={column.status} /> 
-            </Col>
-          ))}
-        </Row>
+        {isMobile ? (
+          <Carousel showThumbs={false} emulateTouch>
+            {columnData.map((column, index) => (
+              <div key={index} className="column-carousel" style={{ minWidth: '100%', padding: '0 10px' }}>
+                <Column {...column} itemPropName="item" status={column.status} /> 
+              </div>
+            ))}
+          </Carousel>
+        ) : (
+          <div className="row-carousel">
+            {columnData.map((column, index) => (
+              <div key={index} style={{ flex: '1 0 auto', minWidth: '300px', margin: '0 10px' }}>
+                <Column {...column} itemPropName="item" status={column.status} /> 
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

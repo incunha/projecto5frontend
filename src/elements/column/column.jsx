@@ -20,7 +20,7 @@ function Column({ title, items, CardComponent, className, itemPropName, isDelete
   };
 
   return (
-    <Col xs={12} sm={6} md={4} lg={3} className={`column ${className}`} 
+    <div className={`column ${className}`} 
       onDragOver={(e) => e.preventDefault()} 
       onDrop={(e) => {
         const itemId = e.dataTransfer.getData('text/plain'); 
@@ -33,7 +33,7 @@ function Column({ title, items, CardComponent, className, itemPropName, isDelete
           <CardComponent key={index} {...{ [itemPropName]: item, isDeleted }} />
         ))}
       </div>
-    </Col>
+    </div>
   );
 }
 
