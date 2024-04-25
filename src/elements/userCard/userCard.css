@@ -1,11 +1,18 @@
 .user-card {
-  width: 100%;
+  width: 80%;
   margin-bottom: 1rem;
 }
 
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+
 .user-image {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   object-fit: cover;
 }

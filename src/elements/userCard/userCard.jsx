@@ -12,11 +12,13 @@ function UserCard({ item }) {
 
   return (
     <Card className="user-card" onClick={handleUserClick}>
-      <Card.Img variant="top" src={item.userPhoto} className="user-image" />
-      <Card.Body>
-        <Card.Title className="user-name">{item.name}</Card.Title>
-      </Card.Body>
-    </Card>
+  <div className="image-container">
+    <img src={item.userPhoto} alt="User" className="user-image" /> {/* Altere esta linha */}
+  </div>
+  <Card.Body>
+    <Card.Title className="user-name">{item.name}</Card.Title>
+  </Card.Body>
+</Card>
   );
 }
 

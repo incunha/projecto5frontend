@@ -63,11 +63,12 @@ export default class TaskPieChart extends PureComponent {
   };
 
   render() {
+    const taskTotals = this.props.taskTotals || [];
     const data = [
-      { name: 'Total Tasks', value: this.props.taskTotals[0] },
-      { name: 'To Do Tasks', value: this.props.taskTotals[1] },
-      { name: 'Doing Tasks', value: this.props.taskTotals[2] },
-      { name: 'Done Tasks', value: this.props.taskTotals[3] },
+      { name: 'Total Tasks', value: taskTotals[0] || 0 },
+      { name: 'To Do Tasks', value: taskTotals[1] || 0 },
+      { name: 'Doing Tasks', value: taskTotals[2] || 0 },
+      { name: 'Done Tasks', value: taskTotals[3] || 0 },
     ];
   
     return (

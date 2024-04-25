@@ -271,4 +271,25 @@ export const fetchUser = async (set, token) => {
     }
   };
 
+  export const updatePassword = async (token, password) => {
+    try {
+      const response = await fetch('http://localhost:8080/projecto5backend/rest/users/password', {
+        method: 'PATCH',
+        headers: {
+          Accept: "*/*",
+          'Content-Type': 'application/json', 
+          token: token,
+        },
+        body: JSON.stringify(password),
+      });
+      if (response.ok) {
+        console.log('Password updated successfully');
+      } else {
+        console.error('Failed to update password');
+      }
+    } catch (error) {
+      console.error('Failed to update password', error);
+    }
+  };
+
   

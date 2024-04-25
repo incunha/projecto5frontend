@@ -1,25 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Profile.css";
 import useUserStore from "../../userStore";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Container,
-  Row,
-  Col,
-  Card,
-  FormControl,
-  Image,
-} from "react-bootstrap";
+import {Button,Form,FormGroup,Container,Row,Col,Card,FormControl,Image,} from "react-bootstrap";
 import Sidebar from "../components/sideBar/sideBar";
 import { useParams } from "react-router-dom";
 import Header from "../components/header/header";
 import { format } from "date-fns";
 import { useMessages } from "../websocket/Messages";
-import { deleteUser, restoreUser } from "../../userActions";
+import { deleteUser, restoreUser, updatePassword } from "../../userActions";
 import { useTranslation } from "react-i18next";
 import TaskPieChart from "../elements/TaskPieChart";
+import { Modal } from "react-bootstrap";
 
 function Profile() {
   const { username: paramUsername } = useParams();
@@ -43,13 +34,21 @@ function Profile() {
   const messagesContainerRef = useRef(null);
   const updateUser = useUserStore((state) => state.setUser);
   const setUser = useUserStore((state) => state.setUser);
-  const handleChatSubmit = useMessages(
-    setMessages,
-    newMessage,
-    setNewMessage,
-    paramUsername
-  );
+  const handleChatSubmit = useMessages(setMessages,newMessage,setNewMessage,paramUsername);
   const { t } = useTranslation();
+  const [showModal, setShowModal] = useState(false);
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handlePasswordChange = async () => {
+    if (newPassword !== confirmPassword) {
+      alert("New password and confirm password do not match");
+      return;
+    }
+    await updatePassword(token, { password: oldPassword, newPassword: newPassword });
+    setShowModal(false);
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -84,28 +83,8 @@ function Profile() {
   }, [user, paramUsername, token]);
 
   const messageStyles = {
-    sent: {
-      backgroundColor: "#DCF8C6",
-      color: "black",
-      borderRadius: "18px",
-      padding: "10px",
-      marginBottom: "10px",
-      alignSelf: "flex-end",
-      width: "60%",
-      wordWrap: "break-word",
-      justifyContent: "flex-end",
-    },
-    received: {
-      backgroundColor: "#ECECEC",
-      color: "black",
-      borderRadius: "18px",
-      padding: "10px",
-      marginBottom: "10px",
-      alignSelf: "flex-start",
-      width: "60%",
-      wordWrap: "break-word",
-      justifyContent: "flex-start",
-    },
+    sent: "sent-message",
+    received: "received-message",
   };
 
   useEffect(() => {
@@ -211,12 +190,7 @@ function Profile() {
                         <Image
                           src={userPhoto}
                           roundedCircle
-                          style={{
-                            width: "150px",
-                            height: "150px",
-                            objectFit: "cover",
-                            marginTop: "20px",
-                          }}
+                          className="profile-image"
                         />
                       </Col>
                       <Col
@@ -327,6 +301,44 @@ function Profile() {
                           >
                             {isEditing ? t("Save") : t("Edit")}
                           </Button>
+
+                          <Button
+  className="btn-round mt-3 ml-2"
+  color="primary"
+  type="button"
+  onClick={() => setShowModal(true)}
+  hidden={!isEditing}
+>
+  Change Password
+</Button>
+
+<Modal show={showModal} onHide={() => setShowModal(false)}>
+  <Modal.Header closeButton>
+    <Modal.Title>Change Password</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <Form.Group>
+      <Form.Label>Old Password</Form.Label>
+      <Form.Control type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
+    </Form.Group>
+    <Form.Group>
+      <Form.Label>New Password</Form.Label>
+      <Form.Control type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+    </Form.Group>
+    <Form.Group>
+      <Form.Label>Confirm New Password</Form.Label>
+      <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+    </Form.Group>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowModal(false)}>
+      Close
+    </Button>
+    <Button variant="primary" onClick={handlePasswordChange}>
+      Save Changes
+    </Button>
+  </Modal.Footer>
+</Modal>
                           <Button
                             className="btn-round mt-3 ml-2"
                             color="danger"
@@ -360,10 +372,7 @@ function Profile() {
                     <Card.Header>
                       <Card.Title tag="h5">{t("Messages")}</Card.Title>
                     </Card.Header>
-                    <Card.Body
-                      ref={messagesContainerRef}
-                      style={{ maxHeight: "400px", overflowY: "auto" }}
-                    >
+                    <Card.Body className="message-container">
                       {messages.map((message, index) => (
                         <div
                           key={index}
@@ -375,16 +384,8 @@ function Profile() {
                                 : "flex-start",
                           }}
                         >
-                          <div
-                            style={
-                              message.sender === user.username
-                                ? messageStyles.sent
-                                : messageStyles.received
-                            }
-                          >
-                            <div
-                              style={{ display: "flex", alignItems: "center" }}
-                            >
+                          <div className={message.sender === user.username ? messageStyles.sent : messageStyles.received}>
+                            <div className="message-sender">
                               <Image
                                 src={
                                   message.sender === user.username
@@ -392,19 +393,12 @@ function Profile() {
                                     : viewedUser?.userPhoto
                                 }
                                 roundedCircle
-                                style={{
-                                  width: "20px",
-                                  height: "20px",
-                                  marginRight: "5px",
-                                  objectFit: "cover",
-                                }}
+                                className="message-image"
                               />
-                              <p style={{ fontSize: "0.8rem", margin: "0" }}>
-                                {message.sender}
-                              </p>
+                              <p className="message-text">{message.sender}</p>
                             </div>
                             <p>{message.message}</p>
-                            <p style={{ fontSize: "0.6rem" }}>
+                            <p className="message-timestamp">
                               {message.sendDate
                                 ? isNaN(new Date(message.sendDate).getTime())
                                   ? "Invalid date"
