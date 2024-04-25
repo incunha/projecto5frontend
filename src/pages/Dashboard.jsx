@@ -79,10 +79,28 @@ const Dashboard = () => {
 
 
       return (
-        <div>
-          <Header /> 
-          <div style={{ display: 'flex' }}>
-          <Sidebar /> 
+<div>
+  <Header /> 
+  <div style={{ display: 'flex' }}>
+    <Sidebar /> 
+    <div style={{ minWidth: '150px', border: '1px solid #ccc', padding: '1rem', fontSize: '0.8rem', backgroundColor: '#f5f5f5' }}>
+      <h2 style={{ fontSize: '1rem', fontWeight: 'bold', color: '#333' }}>Task Statistics</h2>
+      <p><strong>Average tasks per user:</strong> {averageTasksPerUser}</p>
+      <p><strong>Total tasks:</strong> {totalTasks}</p>
+      <p><strong>Tasks in "DONE":</strong> {totalDoneTasks}</p>
+      <p><strong>Tasks in "DOING":</strong> {totalDoingTasks}</p>
+      <p><strong>Tasks in "TO DO":</strong> {totalToDoTasks}</p>
+      <div style={{ marginTop: '1rem' }}>
+        <label for="timeout" style={{ display: 'block', fontWeight: 'bold' }}>Set Timeout:</label>
+        <select id="timeout" style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}>
+          <option value="5">5 minutes</option>
+          <option value="10">10 minutes</option>
+          <option value="15">15 minutes</option>
+          <option value="30">30 minutes</option>
+          <option value="60">60 minutes</option>
+        </select>
+            </div>
+          </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
             <div>
               <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
@@ -144,13 +162,7 @@ const Dashboard = () => {
 
               
               <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-  <div className="statistics-container" style={{ maxWidth: '200px', padding: '1rem', border: '1px solid #ccc', borderRadius: '4px' }}>
-    <p style={{ fontSize: '0.8rem' }}>Average tasks per user: {averageTasksPerUser}</p>
-    <p style={{ fontSize: '0.8rem' }}>Total tasks: {totalTasks}</p>
-    <p style={{ fontSize: '0.8rem' }}>Tasks in "DONE": {totalDoneTasks}</p>
-    <p style={{ fontSize: '0.8rem' }}>Tasks in "DOING": {totalDoingTasks}</p>
-    <p style={{ fontSize: '0.8rem' }}>Tasks in "TO DO": {totalToDoTasks}</p>
-  </div>
+
   <div style={{ flex: '1 0 300px', margin: '1rem' }}>
 
               <h2 style={{ fontSize: '1rem' }}>Task Statistics</h2>

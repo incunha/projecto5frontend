@@ -38,8 +38,6 @@ function Sidebar() {
         setExpanded(true);
       }
     };
-  
-    // Chame a função imediatamente após a montagem do componente
     handleResize();
   
     window.addEventListener('resize', handleResize);
@@ -68,77 +66,75 @@ function Sidebar() {
   return (
     <Navbar expand="md" className="flex-column sidebar" expanded={expanded}>
       <Nav defaultActiveKey="/home" className="flex-column">
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-auto" onClick={() => setExpanded(!expanded)}>
-  <FaBars color="white" />
-</Navbar.Toggle>
-<Nav.Link className="sidebar-mainlink" href="/home">
-  <FaHome /> {expanded && t('Home')}
-</Nav.Link>
-{showButtons && expanded && (
-  <>
-    <Nav.Link className="sidebar-sublink" href="/new-task" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaPlus /> {t('New Task')}</Nav.Link>
-<Nav.Link className="sidebar-sublink" href="/deleted-tasks" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
-    <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
-      <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
-        {selectedUser || t('Filter by User')}
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
-        {activeUsers.map((user) => (
-          <Dropdown.Item key={user.username} eventKey={user.username}>
-            {user.username}
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
-    <Dropdown onSelect={(selectedValue) => setSelectedCategory(selectedValue)}>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        {selectedCategory || t('Filter by Category')}
-      </Dropdown.Toggle>
-      <Dropdown.Menu>
-        {categories.map((category) => (
-          <Dropdown.Item key={category.id} eventKey={category.name}>
-            {category.name}
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
-  </>
-)}
-
-<Nav.Link className="sidebar-mainlink" href="/categories">
-  <FaList /> {expanded && t('Categories')}
-</Nav.Link>
-<Nav.Link className="sidebar-mainlink" href="/users">
-  <FaUsers /> {expanded && t('Users')}
-</Nav.Link>
-{showUserButtons && expanded && (
-  <>
-    <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> {t('New User')}</Nav.Link>
-    <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> {t('Deleted Users')}</Nav.Link>
-    <Form className="search-form" style={{ fontSize: '0.8rem', fontWeight: 'normal' }} onSubmit={e => {
-  e.preventDefault();
-  setSearchParams({ name: searchName });
-}}>
-  <InputGroup>
-    <Form.Control type="text" placeholder="Enter name" style={{ height: '30px' }} value={searchName} onChange={e => setSearchName(e.target.value)} />
-    <InputGroup.Append>
-      <Button variant="primary" type="submit" style={{ fontSize: '0.8rem', height: '30px' }}>
-        {t('Search')}
-      </Button>
-    </InputGroup.Append>
-  </InputGroup>
-</Form>
-  </>
-)}
-
-<Nav.Link className="sidebar-mainlink" href="/dashboard">
-  <FaChartLine /> {expanded && t('Dashboard')}
-</Nav.Link>
-<Nav.Link className="sidebar-mainlink" onClick={() => navigate(`/profile/${username}`)}>
-  <FaUser /> {expanded && t('Profile')}
-</Nav.Link>
-
-
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-auto" onClick={() => setExpanded(!expanded)}>
+          <FaBars color="white" />
+        </Navbar.Toggle>
+        <Nav.Link className="sidebar-mainlink" href="/home">
+          <FaHome /> {expanded && t('Home')}
+        </Nav.Link>
+        {showButtons && expanded && (
+          <>
+            <Nav.Link className="sidebar-sublink" href="/new-task" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaPlus /> {t('New Task')}</Nav.Link>
+            <Nav.Link className="sidebar-sublink" href="/deleted-tasks" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
+            <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
+              <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}>
+                {selectedUser || t('Filter by User')}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {activeUsers.map((user) => (
+                  <Dropdown.Item key={user.username} eventKey={user.username}>
+                    {user.username}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown onSelect={(selectedValue) => setSelectedCategory(selectedValue)}>
+              <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}>
+                {selectedCategory || t('Filter by Category')}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {categories.map((category) => (
+                  <Dropdown.Item key={category.id} eventKey={category.name}>
+                    {category.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </>
+        )}
+  
+        <Nav.Link className="sidebar-mainlink" href="/categories">
+          <FaList /> {expanded && t('Categories')}
+        </Nav.Link>
+        <Nav.Link className="sidebar-mainlink" href="/users">
+          <FaUsers /> {expanded && t('Users')}
+        </Nav.Link>
+        {showUserButtons && expanded && (
+          <>
+            <Nav.Link className="sidebar-sublink" href="/new-user" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaPlus /> {t('New User')}</Nav.Link>
+            <Nav.Link className="sidebar-sublink" href="/deleted-users" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaTrash /> {t('Deleted Users')}</Nav.Link>
+            <Form className="search-form" style={{ fontSize: '0.8rem', fontWeight: 'normal' }} onSubmit={e => {
+              e.preventDefault();
+              setSearchParams({ name: searchName });
+            }}>
+              <InputGroup>
+                <Form.Control type="text" placeholder="Enter name" style={{ height: '30px' }} value={searchName} onChange={e => setSearchName(e.target.value)} />
+                <InputGroup.Append>
+                  <Button variant="primary" type="submit" style={{ fontSize: '0.8rem', height: '30px' }}>
+                    {t('Search')}
+                  </Button>
+                </InputGroup.Append>
+              </InputGroup>
+            </Form>
+          </>
+        )}
+  
+        <Nav.Link className="sidebar-mainlink" href="/dashboard">
+          <FaChartLine /> {expanded && t('Dashboard')}
+        </Nav.Link>
+        <Nav.Link className="sidebar-mainlink" onClick={() => navigate(`/profile/${username}`)}>
+          <FaUser /> {expanded && t('Profile')}
+        </Nav.Link>
       </Nav>
     </Navbar>
   );

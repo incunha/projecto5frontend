@@ -68,3 +68,17 @@
 .search-form {
   margin-top: 10px;
 }
+
+.dropdown-menu {
+  background-color: white;
+}
+
+.dropdown-menu .dropdown-item {
+  color: black;
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+  color: white;
+  background-color: #007bff;
+}
