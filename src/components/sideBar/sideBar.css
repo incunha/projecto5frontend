@@ -47,8 +47,9 @@
 }
 
 .sidebar-sublink {
-  font-size: 0.9em; /* Faz o link aparecer um pouco menor */
+  font-size: 0.8rem; /* Faz o link aparecer um pouco menor */
   margin-left: 10px; /* Move o link um pouco para a direita */
+  font-weight: normal; /* Remove o negrito do link */
 }
 
 .sidebar-mainlink {
@@ -62,4 +63,8 @@
 .dropdown-toggle {
   background-color: transparent !important;
   border-color: transparent !important;
+}
+
+.search-form {
+  margin-top: 10px;
 }

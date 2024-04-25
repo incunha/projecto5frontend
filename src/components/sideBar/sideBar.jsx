@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Nav, Navbar, Dropdown } from 'react-bootstrap';
+import { Nav, Navbar, Dropdown, Form, Button, Col, InputGroup } from 'react-bootstrap';
 import { FaHome, FaUsers, FaUser, FaPlus, FaTrash, FaBars, FaChartLine, FaList } from 'react-icons/fa';
 import './sideBar.css';
 import { useLocation , useNavigate, useSearchParams } from 'react-router-dom';
@@ -24,6 +24,7 @@ function Sidebar() {
   const activeUsers = useUserStore(state => state.activeUsers);
   const { t } = useTranslation();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [searchName, setSearchName] = useState(''); 
 
   // Adicione o estado para o usuário e a categoria selecionados
   const [selectedUser, setSelectedUser] = useState('');
@@ -75,8 +76,8 @@ function Sidebar() {
 </Nav.Link>
 {showButtons && expanded && (
   <>
-    <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> {t('New Task')}</Nav.Link>
-    <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
+    <Nav.Link className="sidebar-sublink" href="/new-task" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaPlus /> {t('New Task')}</Nav.Link>
+<Nav.Link className="sidebar-sublink" href="/deleted-tasks" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
     <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
       <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
         {selectedUser || t('Filter by User')}
@@ -114,6 +115,19 @@ function Sidebar() {
   <>
     <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> {t('New User')}</Nav.Link>
     <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> {t('Deleted Users')}</Nav.Link>
+    <Form className="search-form" style={{ fontSize: '0.8rem', fontWeight: 'normal' }} onSubmit={e => {
+  e.preventDefault();
+  setSearchParams({ name: searchName });
+}}>
+  <InputGroup>
+    <Form.Control type="text" placeholder="Enter name" style={{ height: '30px' }} value={searchName} onChange={e => setSearchName(e.target.value)} />
+    <InputGroup.Append>
+      <Button variant="primary" type="submit" style={{ fontSize: '0.8rem', height: '30px' }}>
+        {t('Search')}
+      </Button>
+    </InputGroup.Append>
+  </InputGroup>
+</Form>
   </>
 )}
 

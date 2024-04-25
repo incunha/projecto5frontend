@@ -1,22 +1,21 @@
 .user-card {
-  width: 80%;
-  margin-bottom: 1rem;
+  width: 60%; /* Diminua este valor para tornar o cartão menor */
+  margin: 0 auto;
+  border: none;
 }
 
 .image-container {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
-  height: 120px;
+  height: 80px; /* Diminua este valor para tornar a imagem menor */
 }
 
 .user-image {
-  width: 80px;
-  height: 80px;
+  width: 60px; /* Diminua este valor para tornar a imagem menor */
+  height: 60px; /* Diminua este valor para tornar a imagem menor */
   border-radius: 50%;
   object-fit: cover;
+  margin-right: 10px;
 }
 
-.user-name {
-  text-align: center;
-}

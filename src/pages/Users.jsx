@@ -6,10 +6,14 @@ import UserCard from '../elements/userCard/userCard';
 import useUserStore from '../../userStore'
 import Header from '../components/header/header';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 
 function Users() {
   const { fetchActiveUsers, token, activeUsers } = useUserStore();
   const { t } = useTranslation();
+  const [ searchParams ] = useSearchParams();
+  const searchName = searchParams.get('name')
+  const filteredUsers = searchName ? activeUsers.filter(user => user.name.includes(searchName)) : activeUsers;
 
   useEffect(() => {
     fetchActiveUsers(token);
@@ -30,9 +34,9 @@ function Users() {
         </Col>
         <Col md={9}>
           <Row>
-            {userColumns.map(({ role, title }) => {
-              const usersByRole = activeUsers.filter(user => user.role === role);
-              return (
+          {userColumns.map(({ role, title }) => {
+      const usersByRole = filteredUsers.filter(user => user.role === role);
+      return (
                 <Col md={4} key={title}>
                   <Column
                     title={title}
