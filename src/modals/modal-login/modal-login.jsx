@@ -56,6 +56,7 @@ function ModalLogin() {
         navigate('/account-not-confirmed');
       } else if (response.status === 200) {
         const token = await response.text();
+        console.log(token);
         setToken(token); 
         await fetchUser(token);
         navigate('/home');

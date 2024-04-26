@@ -291,5 +291,25 @@ export const fetchUser = async (set, token) => {
       console.error('Failed to update password', error);
     }
   };
+  
+  export const setTimeOut = async (token, timeOut) => {
+    try {
+      const response = await fetch('http://localhost:8080/projecto5backend/rest/users/setTimeOut', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          token: token,
+        },
+        body: JSON.stringify(timeOut),
+      });
+      if (response.ok) {
+        console.log('Time out set successfully');
+      } else {
+        console.error('Failed to set time out');
+      }
+    } catch (error) {
+      console.error('Failed to set time out', error);
+    }
+  };
 
   

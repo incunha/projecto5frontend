@@ -5,6 +5,7 @@ import useTaskStore from '../../taskStore';
 import Header from '../components/header/header';
 import Sidebar from '../components/sideBar/sideBar';
 import { useDashboardSocket } from '../websocket/Dashboard';
+import { setTimeOut } from '../../userActions';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -12,6 +13,11 @@ const Dashboard = () => {
     const { userStatistics, fetchUserStatistics, token } = useUserStore();
     const { taskStatistics, fetchTaskStatistics } = useTaskStore();
     const [message, setMessage] = useState(null);
+
+    const handleTimeoutChange = async (event) => {
+      const timeOut = Number(event.target.value);
+      await setTimeOut(token, timeOut);
+    };
   
     useDashboardSocket(setMessage);
   
@@ -91,14 +97,15 @@ const Dashboard = () => {
       <p><strong>Tasks in "DOING":</strong> {totalDoingTasks}</p>
       <p><strong>Tasks in "TO DO":</strong> {totalToDoTasks}</p>
       <div style={{ marginTop: '1rem' }}>
-        <label for="timeout" style={{ display: 'block', fontWeight: 'bold' }}>Set Timeout:</label>
-        <select id="timeout" style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }}>
-          <option value="5">5 minutes</option>
-          <option value="10">10 minutes</option>
-          <option value="15">15 minutes</option>
-          <option value="30">30 minutes</option>
-          <option value="60">60 minutes</option>
-        </select>
+      <label htmlFor="timeout" style={{ display: 'block', fontWeight: 'bold' }}>Set Timeout:</label>
+      <select id="timeout" value="" style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }} onChange={handleTimeoutChange}>
+  <option value="" disabled>Select timeout</option>
+  <option value="5">5 minutes</option>
+  <option value="10">10 minutes</option>
+  <option value="15">15 minutes</option>
+  <option value="30">30 minutes</option>
+  <option value="60">60 minutes</option>
+</select>
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>

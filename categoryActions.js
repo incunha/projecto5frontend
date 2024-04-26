@@ -1,7 +1,7 @@
 export const fetchCategories = async (set, token) => {
   try {
     const response = await fetch(
-      "http://localhost:8080/projecto5backend/rest/tasks/categories",
+      "http://localhost:8080/projecto5backend_war_exploded/rest/tasks/categories",
       {
         method: "GET",
         headers: {
@@ -26,7 +26,7 @@ export const fetchCategories = async (set, token) => {
 
   // POST /categories
   export const createCategory = async (set, category, token) => {
-    const response = await fetch("http://localhost:8080/projecto5backend/rest/tasks/categories", {
+    const response = await fetch("http://localhost:8080/projecto5backend_war_exploded/rest/tasks/categories", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const fetchCategories = async (set, token) => {
 
 // PUT /categories
 export const updateCategory = async (set, category, token) => {
-  const response = await fetch("http://localhost:8080/projecto5backend/rest/tasks/categories", {
+  const response = await fetch("http://localhost:8080/projecto5backend_war_exploded/rest/tasks/categories", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -62,7 +62,7 @@ export const updateCategory = async (set, category, token) => {
 
 // DELETE /categories/{name}
 export const removeCategory = async (set, name, token) => {
-  const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks/categories/${name}`, {
+  const response = await fetch(`http://localhost:8080/projecto5backend_war_exploded/rest/tasks/categories/${name}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

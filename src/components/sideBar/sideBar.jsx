@@ -21,6 +21,7 @@ function Sidebar() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { setSelectedFilter } = useTaskStore();
   const token = useUserStore(state => state.token);
+  const role = useUserStore(state => state.user.role);
   const { categories, fetchCategories } = useCategoryStore();
   const activeUsers = useUserStore(state => state.activeUsers);
   const { t } = useTranslation();
