@@ -51,6 +51,8 @@ const useTaskStore = create((set) => ({
     }
     return state;
   }),
+
+  clearStore: () => set({ tasks: [], deletedTasks: [] }),
   
 }));
 

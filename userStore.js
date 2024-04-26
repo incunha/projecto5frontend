@@ -48,6 +48,16 @@ const useUserStore = create(persist(
         unreadNotificationsCount: isCurrentRouteUserProfile ? state.unreadNotificationsCount : state.unreadNotificationsCount + 1
       };
     }),
+    clearStore: () => set({
+      token: null,
+      user: null,
+      taskTotals: null,
+      activeUsers: [],
+      inactiveUsers: [],
+      notifications: [],
+      unreadNotificationsCount: 0,
+      userStatistics: null,
+    }),
   }),
   {
     name:'userStore',

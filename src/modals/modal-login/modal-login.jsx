@@ -5,6 +5,7 @@ import useUserStore from '../../../userStore';
 import { useTranslation } from 'react-i18next';
 import { Modal, Button } from 'react-bootstrap';
 
+
 function ModalLogin() {
   const setToken = useUserStore(state => state.setToken);
   const navigate = useNavigate();
@@ -51,14 +52,14 @@ function ModalLogin() {
         },
       });
   
-      if (!response.ok) {
-        throw new Error('Failed to login');
+      if (response.status === 403) {
+        navigate('/account-not-confirmed');
+      } else if (response.status === 200) {
+        const token = await response.text();
+        setToken(token); 
+        await fetchUser(token);
+        navigate('/home');
       }
-  
-      const token = await response.text();
-      setToken(token); 
-      await fetchUser(token);
-      navigate('/home');
     } catch (error) {
       setErrorMessage('Failed to login');
       console.error(error);

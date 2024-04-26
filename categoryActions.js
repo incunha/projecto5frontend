@@ -38,13 +38,8 @@ export const fetchCategories = async (set, token) => {
     if (!response.ok) {
       throw new Error(`Error creating category: ${response.statusText}`);
     }
-  
-    // Only try to parse the response as JSON if the status code is 200
-    if (response.status === 200) {
-      return await response.json();
-    } else {
-      return response.statusText;
-    }
+
+    await fetchCategories(set, token);
   };
 
 // PUT /categories
@@ -62,8 +57,7 @@ export const updateCategory = async (set, category, token) => {
     throw new Error(`Error updating category: ${response.statusText}`);
   }
 
-  // Parse the response as text instead of JSON
-  return await response.text();
+  await fetchCategories(set, token);
 };
 
 // DELETE /categories/{name}
@@ -80,7 +74,5 @@ export const removeCategory = async (set, name, token) => {
     throw new Error(`Error updating category: ${response.statusText}`);
   }
 
-  // Parse the response as text instead of JSON
-  return await response.text();
+  await fetchCategories(set, token);
 };
-

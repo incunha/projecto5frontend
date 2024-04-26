@@ -9,6 +9,7 @@ import useCategoryStore from '../../../categoryStore';
 import { useTranslation } from 'react-i18next';
 
 
+
 function Sidebar() {
   const {username} = useUserStore(state => state.user);
   const { fetchActiveTasks } = useTaskStore();

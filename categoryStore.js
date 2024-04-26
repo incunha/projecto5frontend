@@ -15,6 +15,7 @@ const useCategoryStore = create(persist(
     createCategory: (category, token) => createCategory(set, category, token),
     updateCategory: (category, token) => updateCategory(set, category, token),
     removeCategory: (name, token) => removeCategory(set, name, token),
+    clearStore: () => set({ categories: [] }),
   }),
   {
     name:'categoryStore',

@@ -14,6 +14,7 @@ import TaskDetaisl from "./pages/TaskDetails";
 import Dashboard from "./pages/Dashboard";
 import RecoverPassword from "./pages/RecoverPassword";
 import Categories from "./pages/Categories";
+import AccountNotConfirmed from "./pages/AccountNotConfirmed";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/recover-password" element={<RecoverPassword />} />
         <Route path="/categories" element={<Categories/>} />
+        <Route path="/account-not-confirmed" element={<AccountNotConfirmed />} />
       </Routes>
     </div>
   );

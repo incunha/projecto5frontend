@@ -9,6 +9,10 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { markAllNotificationsAsRead, fetchNotifications, fetchUnreadNotificationsCount } from '../../../userActions';
 import notification from '../../websocket/Notifications';
 import { useTranslation } from 'react-i18next';
+import { use } from 'i18next';
+import useTaskStore from '../../../taskStore';
+import useCategoryStore from '../../../categoryStore';
+import { fetchOtherUser } from '../../../userActions';
 
 function Header() {
   notification();
@@ -24,6 +28,7 @@ function Header() {
   const resetNotifications = useUserStore(state => state.resetNotifications);
   const [isNotificationsOpen, setNotificationsOpen] = useState(false);
   const unreadNotificationsCount = useUserStore(state => state.unreadNotificationsCount);
+  const [senderData, setSenderData] = useState({});
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -40,6 +45,11 @@ function Header() {
   }, [user]);
 
   const handleLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    useUserStore.getState().clearStore();
+    useTaskStore.getState().clearStore();
+    useCategoryStore.getState().clearStore();
     logout(token);
     navigate('/');
   };
@@ -69,11 +79,27 @@ function Header() {
     navigate(`/profile/${username}`);
   };
   useEffect(() => {
-    // Se a caixa de notificações foi fechada, resetar as notificações
     if (!isNotificationsOpen) {
       resetNotifications();
     }
   }, [isNotificationsOpen, resetNotifications]);
+
+  useEffect(() => {
+    const fetchSenderData = async () => {
+      const data = await Promise.all(
+        notifications.map(notification => fetchOtherUser(token, notification.sender))
+      );
+      const senderData = data.reduce((acc, user, index) => {
+        acc[notifications[index].sender] = user;
+        return acc;
+      }, {});
+      setSenderData(senderData);
+    };
+  
+    if (notifications.length > 0) {
+      fetchSenderData();
+    }
+  }, [notifications, token]);
   
 
   return (
@@ -92,12 +118,14 @@ function Header() {
               {unreadNotificationsCount > 0 && <span className="notification-count" style={{ color: 'white' }}>{unreadNotificationsCount}</span>}
               {isNotificationsOpen && (
                 <div className="notification-dropdown">
-                  {notifications.map((notification, index) => (
-                    <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
-                      <strong>{notification.sender}</strong>: {notification.notification}
-                    </div>
-                  ))}
-                </div>
+                {notifications.map((notification, index) => (
+  <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
+    <Image src={senderData[notification.sender]?.userPhoto} roundedCircle style={{ width: '30px', height: '30px', objectFit: 'cover', borderRadius: '50%' }} />
+    <strong>{notification.sender}</strong>: {notification.notification}
+    <div style={{ fontSize: '0.6em' }}>{new Date(notification.timestamp).toLocaleString()}</div>
+  </div>
+))}
+              </div>
               )}
             </span>
           </Col>
