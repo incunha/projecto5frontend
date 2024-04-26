@@ -82,3 +82,9 @@
   color: white;
   background-color: #007bff;
 }
+
+.sidebar-mainlink, .sidebar-sublink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -74,7 +74,10 @@ function Sidebar() {
         <Nav.Link className="sidebar-mainlink" href="/home">
           <FaHome /> {expanded && t('Home')}
         </Nav.Link>
-        {showButtons && expanded && (
+        <Nav.Link className="sidebar-mainlink" onClick={() => { setSelectedUser(username); fetchActiveTasks(token, username, selectedCategory); }}>
+          <FaUser /> {expanded && t('My Tasks')}
+        </Nav.Link>
+        {(role === 'ScrumMaster' || role === 'Owner') && showButtons && expanded && (
           <>
             <Nav.Link className="sidebar-sublink" href="/new-task" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaPlus /> {t('New Task')}</Nav.Link>
             <Nav.Link className="sidebar-sublink" href="/deleted-tasks" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
@@ -105,13 +108,15 @@ function Sidebar() {
           </>
         )}
   
-        <Nav.Link className="sidebar-mainlink" href="/categories">
-          <FaList /> {expanded && t('Categories')}
-        </Nav.Link>
+        {role === 'Owner' && (
+          <Nav.Link className="sidebar-mainlink" href="/categories">
+            <FaList /> {expanded && t('Categories')}
+          </Nav.Link>
+        )}
         <Nav.Link className="sidebar-mainlink" href="/users">
           <FaUsers /> {expanded && t('Users')}
         </Nav.Link>
-        {showUserButtons && expanded && (
+        {role === 'Owner' && showUserButtons && expanded && (
           <>
             <Nav.Link className="sidebar-sublink" href="/new-user" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaPlus /> {t('New User')}</Nav.Link>
             <Nav.Link className="sidebar-sublink" href="/deleted-users" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaTrash /> {t('Deleted Users')}</Nav.Link>
@@ -131,9 +136,11 @@ function Sidebar() {
           </>
         )}
   
-        <Nav.Link className="sidebar-mainlink" href="/dashboard">
-          <FaChartLine /> {expanded && t('Dashboard')}
-        </Nav.Link>
+        {role === 'Owner' && (
+          <Nav.Link className="sidebar-mainlink" href="/dashboard">
+            <FaChartLine /> {expanded && t('Dashboard')}
+          </Nav.Link>
+        )}
         <Nav.Link className="sidebar-mainlink" onClick={() => navigate(`/profile/${username}`)}>
           <FaUser /> {expanded && t('Profile')}
         </Nav.Link>
