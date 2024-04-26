@@ -295,12 +295,12 @@ export const fetchUser = async (set, token) => {
   export const setTimeOut = async (token, timeOut) => {
     try {
       const response = await fetch('http://localhost:8080/projecto5backend/rest/users/setTimeOut', {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           token: token,
         },
-        body: JSON.stringify(timeOut),
+        body: timeOut, // send the integer value directly
       });
       if (response.ok) {
         console.log('Time out set successfully');
