@@ -74,14 +74,13 @@ function Sidebar() {
       <Nav.Link className="sidebar-mainlink" href="/home">
         <FaHome /> {expanded && t('Home')}
       </Nav.Link>
-      {showButtons && (
-        <Nav.Link className="sidebar-mainlink" onClick={() => { setSelectedUser(username); fetchActiveTasks(token, username, selectedCategory); }}>
-          <FaTasks /> {expanded && t('My Tasks')}
-        </Nav.Link>
-      )}
+      <Nav.Link className="sidebar-mainlink" onClick={() => { setSelectedUser(username); fetchActiveTasks(token, username, selectedCategory); }}>
+        <FaTasks /> {expanded && t('My Tasks')}
+      </Nav.Link>
+      <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> {t('New Task')}</Nav.Link>
         {(role === 'ScrumMaster' || role === 'Owner') && showButtons && expanded && (
           <>
-            <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> {t('New Task')}</Nav.Link>
+            
             <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
             <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
               <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">

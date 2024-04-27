@@ -230,7 +230,7 @@ export const fetchUser = async (set, token) => {
   export const restoreUser = async (token, username) => {
     try {
       const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/active/${username}`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -274,7 +274,7 @@ export const fetchUser = async (set, token) => {
   export const updatePassword = async (token, password) => {
     try {
       const response = await fetch('http://localhost:8080/projecto5backend/rest/users/password', {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
           Accept: "*/*",
           'Content-Type': 'application/json', 

@@ -133,9 +133,9 @@ function TaskDetails() {
                         {isEditing 
                           ? (
                             <Form.Control as="select" value={task.status} onChange={e => setTask({ ...task, status: e.target.value })} style={{ border: 'none', backgroundColor: 'transparent' }}>
-                              <option value={1}>To Do</option>
-                              <option value={2}>Doing</option>
-                              <option value={3}>Done</option>
+                              <option value={10}>To Do</option>
+                              <option value={20}>Doing</option>
+                              <option value={30}>Done</option>
                             </Form.Control>
                           ) 
                           : <div>{statusChoices[task.status]}</div>}
@@ -167,7 +167,7 @@ function TaskDetails() {
                     </Form.Group>
                     <Button variant="primary" onClick={isEditing ? handleSaveClick : handleEditClick} style={{ backgroundColor: '#333', border: 'none' }}
   // Only show the edit button if the user is a 'Developer' and they are the task creator
-  hidden={!(role === 'developer' && creator && creator.username === username)}
+ hidden={role === 'developer' && creator && creator.username === username ? 'hidden' : ''}
 >
   {isEditing ? t('Save') : t('Edit')}
 </Button>
