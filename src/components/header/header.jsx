@@ -135,8 +135,8 @@ function Header() {
             {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
           </div>
           <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
-            {t('Logout')} <FaSignOutAlt className="logoutIcon" />
-          </Button>
+  <FaSignOutAlt className="logoutIcon" />
+</Button>
         </div>
       </Container>
     </Navbar>

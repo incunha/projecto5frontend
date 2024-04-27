@@ -4,6 +4,7 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--green2) var(--white);
+    margin-left: 10%;
   }
   
   .row-carousel > div {
@@ -19,3 +20,4 @@
   .column-carousel {
     height: 90vh; 
   }
+  

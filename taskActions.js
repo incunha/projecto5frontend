@@ -136,7 +136,7 @@ export const createTask = async (token, payload) => {
 
   export const restoreTask = async (id, token) => {
     const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks/active/${id}`, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Accept': "*/*",
@@ -151,7 +151,7 @@ export const createTask = async (token, payload) => {
 
   export const changeTaskStatus = async (id, status, token) => {
     const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks/status/${id}`, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'Accept': "*/*",
@@ -211,6 +211,30 @@ export const createTask = async (token, payload) => {
       }
   
       return response.json();
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  export const removeAllTasks = async (token, username) => {
+    try {
+      const url = `http://localhost:8080/projecto5backend/rest/tasks/${username}`;
+  
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: "*/*",
+          token: token,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      console.log('Tasks removed:', data);
     } catch (error) {
       console.error('Error:', error);
     }

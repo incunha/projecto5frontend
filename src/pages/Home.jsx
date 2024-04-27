@@ -59,11 +59,11 @@ function Home() {
             ))}
           </Carousel>
         ) : (
-          <div className="row-carousel">
+          <div className="row-carousel" style={{ marginLeft: '9%' }}>
             {columnData.map((column, index) => (
-              <div key={index} style={{ flex: '1 0 auto', minWidth: '300px', margin: '0 10px' }}>
-                <Column {...column} itemPropName="item" status={column.status} /> 
-              </div>
+             <div key={index} style={{ flex: '1 0 auto', minWidth: isMobile ? '100%' : '300px', margin: '0 10px' }}>
+             <Column {...column} itemPropName="item" status={column.status} /> 
+           </div>
             ))}
           </div>
         )}

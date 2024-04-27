@@ -5,7 +5,20 @@
 
 @media (max-width: 600px) {
   .header {
-    height: 15vh;
+    height: 10vh;
+  }
+
+  .header img, .user-image {
+    width: 30px; 
+    height: 30px; 
+  }
+
+  .welcome-text {
+    font-size: 0.8em;
+  }
+
+  .dateHeader {
+    font-size: 0.8em;
   }
 }
 

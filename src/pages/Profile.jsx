@@ -8,6 +8,7 @@ import Header from "../components/header/header";
 import { format } from "date-fns";
 import { useMessages } from "../websocket/Messages";
 import { deleteUser, restoreUser, updatePassword } from "../../userActions";
+import { removeAllTasks } from "../../taskActions";
 import { useTranslation } from "react-i18next";
 import TaskPieChart from "../elements/TaskPieChart";
 import { Modal } from "react-bootstrap";
@@ -40,6 +41,16 @@ function Profile() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+
+  const handleDeleteAllTasksSubmit = async () => {
+    try {
+      await removeAllTasks(token, paramUsername);
+      console.log("All tasks deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete all tasks", error);
+    }
+  };
 
   const handlePasswordChange = async () => {
     if (newPassword !== confirmPassword) {
@@ -89,7 +100,9 @@ function Profile() {
 
   useEffect(() => {
     if (paramUsername !== user?.username) {
-      fetchOtherUser(token, paramUsername).then((data) => setViewedUser(data));
+      fetchOtherUser(token, paramUsername).then((data) => {
+        setViewedUser(data);
+      });
     } else {
       setViewedUser(user);
     }
@@ -171,46 +184,46 @@ function Profile() {
           <Container fluid>
             <Row>
               <Col xs={12} md={8}>
-                <Card className="card-user shadow p-3 mb-5 rounded">
-                  <Card.Header
-                    className="d-flex flex-column align-items-center justify-content-start"
-                    style={{ marginTop: "-10px" }}
-                  >
-                    <Row className="align-items-center">
-                      <Col
-                        xs={12}
-                        md={6}
-                        className="d-flex flex-column align-items-center justify-content-center"
-                      >
-                        <Card.Title tag="h5" className="mb-3">
-                          {isEditing
-                            ? t("Edit Profile")
-                            : `${firstName} ${lastName}`}
-                        </Card.Title>
-                        <Image
-                          src={userPhoto}
-                          roundedCircle
-                          className="profile-image"
-                        />
-                      </Col>
-                      <Col
-                        xs={12}
-                        md={6}
-                        className="d-flex justify-content-center justify-content-md-start"
-                      >
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "auto",
-                            maxWidth: "100%",
-                          }}
-                        >
-                          <TaskPieChart taskTotals={taskTotals} />
-                        </div>
-                      </Col>
-                    </Row>
-                  </Card.Header>
-                  <Card.Body>
+              <Card className="card-user p-3 mb-5" style={{ border: 'none', boxShadow: 'none' }}> {/* Remove shadow and rounded classes, set backgroundColor to transparent and boxShadow to none */}
+  <Card.Header
+    className="d-flex flex-column align-items-center justify-content-start" 
+    style={{ marginTop: "-10px", backgroundColor: "transparent", border: "none"}}
+  >
+    <Row className="align-items-center">
+      <Col
+        xs={12}
+        md={6}
+        className="d-flex flex-column align-items-center justify-content-center"
+      >
+        <Card.Title tag="h5" className="mb-3">
+          {isEditing
+            ? t("Edit Profile")
+            : `${firstName} ${lastName}`}
+        </Card.Title>
+        <Image
+          src={userPhoto}
+          roundedCircle
+          className="profile-image"
+        />
+      </Col>
+      <Col
+        xs={12}
+        md={6}
+        className="d-flex justify-content-center justify-content-md-start"
+      >
+        <div
+          style={{
+            width: "100%",
+            height: "auto",
+            maxWidth: "100%",
+          }}
+        >
+          <TaskPieChart taskTotals={taskTotals} />
+        </div>
+      </Col>
+    </Row>
+  </Card.Header>
+  <Card.Body>
                     <Form>
                       <Row>
                         <Col className="px-1" md="6">
@@ -291,80 +304,69 @@ function Profile() {
                         </Col>
                       </Row>
                       <Row>
-                        <div className="update ml-auto mr-auto">
-                          <Button
-                            className="btn-round mt-3"
-                            color="primary"
-                            type="submit"
-                            onClick={handleEditSubmit}
-                            hidden={paramUsername !== user?.username}
-                          >
-                            {isEditing ? t("Save") : t("Edit")}
-                          </Button>
+      <div className="update ml-auto mr-auto">
+        <Button
+          className="btn-round mt-3"
+          color="primary"
+          type="submit"
+          onClick={handleEditSubmit}
+          hidden={paramUsername !== user?.username}
+          style={{ marginRight: '10px' }} // Adiciona espaço à direita
+        >
+          {isEditing ? t("Save") : t("Edit")}
+        </Button>
 
-                          <Button
-  className="btn-round mt-3 ml-2"
-  color="primary"
-  type="button"
-  onClick={() => setShowModal(true)}
-  hidden={!isEditing}
->
-  Change Password
-</Button>
+        <Button
+          className="btn-round mt-3"
+          color="info"
+          type="button"
+          onClick={handleEditSubmit}
+          hidden={viewedUser?.active === false || paramUsername === user?.username || user?.role !== 'Owner'}
+          style={{ marginRight: '10px' }} // Adiciona espaço à direita
+        >
+          Edit
+        </Button>
 
-<Modal show={showModal} onHide={() => setShowModal(false)}>
-  <Modal.Header closeButton>
-    <Modal.Title>Change Password</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <Form.Group>
-      <Form.Label>Old Password</Form.Label>
-      <Form.Control type="password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
-    </Form.Group>
-    <Form.Group>
-      <Form.Label>New Password</Form.Label>
-      <Form.Control type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-    </Form.Group>
-    <Form.Group>
-      <Form.Label>Confirm New Password</Form.Label>
-      <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-    </Form.Group>
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowModal(false)}>
-      Close
-    </Button>
-    <Button variant="primary" onClick={handlePasswordChange}>
-      Save Changes
-    </Button>
-  </Modal.Footer>
-</Modal>
-<Button
-  className="btn-round mt-3 ml-2"
-  color="danger"
-  type="button"
-  onClick={handleDeleteSubmit}
-  hidden={paramUsername === user?.username || user?.role !== 'Owner'}
->
-  Delete
-</Button>
-<Button
-  className="btn-round mt-3 ml-2"
-  color="success"
-  type="button"
-  onClick={handleRestoreSubmit}
-  hidden={viewedUser?.active !== false || paramUsername === user?.username || user?.role !== 'Owner'}
->
-  Restore
-</Button>
-                        </div>
-                      </Row>
+        <Button
+          className="btn-round mt-3"
+          color="warning"
+          type="button"
+          onClick={handleDeleteAllTasksSubmit}
+          hidden={paramUsername === user?.username || user?.role !== 'Owner'}
+          style={{ marginRight: '10px' }} // Adiciona espaço à direita
+        >
+          Delete All Tasks
+        </Button>
+
+        <Button
+          className="btn-round mt-3"
+          color="danger"
+          type="button"
+          onClick={handleDeleteSubmit}
+          hidden={paramUsername === user?.username || user?.role !== 'Owner'}
+          style={{ marginRight: '10px' }} // Adiciona espaço à direita
+        >
+          Delete
+        </Button>
+
+        <Button
+          className="btn-round mt-3"
+          color="success"
+          type="button"
+          onClick={handleRestoreSubmit}
+          hidden={viewedUser?.active || paramUsername === user?.username || user?.role !== 'Owner'}
+          style={{ marginRight: '10px' }} // Adiciona espaço à direita
+        >
+          Restore
+        </Button>
+      </div>
+    </Row>
                     </Form>
                   </Card.Body>
                 </Card>
               </Col>
               <Col xs={12} md={4}>
-                {paramUsername !== user?.username && (
+                {paramUsername !== user?.username && viewedUser?.active && ( // Verifica se o usuário está ativo
                   <Card className="card-user shadow p-3 mb-5 rounded">
                     <Card.Header>
                       <Card.Title tag="h5">{t("Messages")}</Card.Title>
