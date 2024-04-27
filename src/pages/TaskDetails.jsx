@@ -16,6 +16,7 @@ function TaskDetails() {
   const { t } = useTranslation();
   const categories = useCategoryStore(state => state.categories);
   const [creator, setCreator] = useState(null);
+  const { role, username } = useUserStore(state => state.user);
   
 
   useEffect(() => {
@@ -164,9 +165,12 @@ function TaskDetails() {
                           : <div>{task.endDate}</div>}
                       </div>
                     </Form.Group>
-                    <Button variant="primary" onClick={isEditing ? handleSaveClick : handleEditClick} style={{ backgroundColor: '#333', border: 'none' }}>
-                      {isEditing ? t('Save') : t('Edit')}
-                    </Button>
+                    <Button variant="primary" onClick={isEditing ? handleSaveClick : handleEditClick} style={{ backgroundColor: '#333', border: 'none' }}
+  // Only show the edit button if the user is a 'Developer' and they are the task creator
+  hidden={!(role === 'developer' && creator && creator.username === username)}
+>
+  {isEditing ? t('Save') : t('Edit')}
+</Button>
                   </Form>
                 </Card.Body>
               </Card>

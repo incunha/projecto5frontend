@@ -339,27 +339,24 @@ function Profile() {
     </Button>
   </Modal.Footer>
 </Modal>
-                          <Button
-                            className="btn-round mt-3 ml-2"
-                            color="danger"
-                            type="button"
-                            onClick={handleDeleteSubmit}
-                            hidden={paramUsername === user?.username}
-                          >
-                            Delete
-                          </Button>
-                          <Button
-                            className="btn-round mt-3 ml-2"
-                            color="success"
-                            type="button"
-                            onClick={handleRestoreSubmit}
-                            hidden={
-                              viewedUser?.active === true ||
-                              paramUsername === user?.username
-                            }
-                          >
-                            Restore
-                          </Button>
+<Button
+  className="btn-round mt-3 ml-2"
+  color="danger"
+  type="button"
+  onClick={handleDeleteSubmit}
+  hidden={paramUsername === user?.username || user?.role !== 'Owner'}
+>
+  Delete
+</Button>
+<Button
+  className="btn-round mt-3 ml-2"
+  color="success"
+  type="button"
+  onClick={handleRestoreSubmit}
+  hidden={viewedUser?.active !== false || paramUsername === user?.username || user?.role !== 'Owner'}
+>
+  Restore
+</Button>
                         </div>
                       </Row>
                     </Form>

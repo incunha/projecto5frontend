@@ -46,11 +46,7 @@
   background-color: rgba(221, 221, 221, 0.5);
 }
 
-.sidebar-sublink {
-  font-size: 0.8rem; /* Faz o link aparecer um pouco menor */
-  margin-left: 10px; /* Move o link um pouco para a direita */
-  font-weight: normal; /* Remove o negrito do link */
-}
+
 
 .sidebar-mainlink {
   font-size: 1.2em; /* Faz o link aparecer um pouco maior */

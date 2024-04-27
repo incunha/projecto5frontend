@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Navbar, Dropdown, Form, Button, Col, InputGroup } from 'react-bootstrap';
-import { FaHome, FaUsers, FaUser, FaPlus, FaTrash, FaBars, FaChartLine, FaList } from 'react-icons/fa';
+import { FaHome, FaUsers, FaUser, FaPlus, FaTrash, FaBars, FaChartLine, FaList, FaTasks } from 'react-icons/fa';
 import './sideBar.css';
 import { useLocation , useNavigate, useSearchParams } from 'react-router-dom';
 import useUserStore from '../../../userStore';
@@ -67,22 +67,24 @@ function Sidebar() {
 
   return (
     <Navbar expand="md" className="flex-column sidebar" expanded={expanded}>
-      <Nav defaultActiveKey="/home" className="flex-column">
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-auto" onClick={() => setExpanded(!expanded)}>
-          <FaBars color="white" />
-        </Navbar.Toggle>
-        <Nav.Link className="sidebar-mainlink" href="/home">
-          <FaHome /> {expanded && t('Home')}
-        </Nav.Link>
+    <Nav defaultActiveKey="/home" className="flex-column">
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-auto" onClick={() => setExpanded(!expanded)}>
+        <FaBars color="white" />
+      </Navbar.Toggle>
+      <Nav.Link className="sidebar-mainlink" href="/home">
+        <FaHome /> {expanded && t('Home')}
+      </Nav.Link>
+      {showButtons && (
         <Nav.Link className="sidebar-mainlink" onClick={() => { setSelectedUser(username); fetchActiveTasks(token, username, selectedCategory); }}>
-          <FaUser /> {expanded && t('My Tasks')}
+          <FaTasks /> {expanded && t('My Tasks')}
         </Nav.Link>
+      )}
         {(role === 'ScrumMaster' || role === 'Owner') && showButtons && expanded && (
           <>
-            <Nav.Link className="sidebar-sublink" href="/new-task" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaPlus /> {t('New Task')}</Nav.Link>
-            <Nav.Link className="sidebar-sublink" href="/deleted-tasks" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
+            <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> {t('New Task')}</Nav.Link>
+            <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
             <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
-              <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}>
+              <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
                 {selectedUser || t('Filter by User')}
               </Dropdown.Toggle>
               <Dropdown.Menu>
@@ -94,7 +96,7 @@ function Sidebar() {
               </Dropdown.Menu>
             </Dropdown>
             <Dropdown onSelect={(selectedValue) => setSelectedCategory(selectedValue)}>
-              <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
                 {selectedCategory || t('Filter by Category')}
               </Dropdown.Toggle>
               <Dropdown.Menu>
@@ -118,16 +120,16 @@ function Sidebar() {
         </Nav.Link>
         {role === 'Owner' && showUserButtons && expanded && (
           <>
-            <Nav.Link className="sidebar-sublink" href="/new-user" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaPlus /> {t('New User')}</Nav.Link>
-            <Nav.Link className="sidebar-sublink" href="/deleted-users" style={{ fontSize: '0.8rem', fontWeight: 'normal' }}><FaTrash /> {t('Deleted Users')}</Nav.Link>
-            <Form className="search-form" style={{ fontSize: '0.8rem', fontWeight: 'normal' }} onSubmit={e => {
+            <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> {t('New User')}</Nav.Link>
+            <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> {t('Deleted Users')}</Nav.Link>
+            <Form className="search-form" onSubmit={e => {
               e.preventDefault();
               setSearchParams({ name: searchName });
             }}>
               <InputGroup>
-                <Form.Control type="text" placeholder="Enter name" style={{ height: '30px' }} value={searchName} onChange={e => setSearchName(e.target.value)} />
+                <Form.Control type="text" placeholder="Enter name" value={searchName} onChange={e => setSearchName(e.target.value)} />
                 <InputGroup.Append>
-                  <Button variant="primary" type="submit" style={{ fontSize: '0.8rem', height: '30px' }}>
+                  <Button variant="primary" type="submit">
                     {t('Search')}
                   </Button>
                 </InputGroup.Append>
