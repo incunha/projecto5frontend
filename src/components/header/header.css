@@ -22,6 +22,20 @@
   }
 }
 
+@media (min-width: 768px) {
+  .header-row {
+    flex-direction: row;
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .logoutButton {
+    font-size: 0.8em; 
+  }
+}
+
+
 .dateHeader, .welcome-text, .notification-icon {
   color: white;
   margin-right: 1em;
@@ -60,9 +74,6 @@
   border-radius: 5px; 
 }
 
-@media (max-width: 600px) {
-  .logoutButton {
-    font-size: 0.8em; 
-  }
-}
+
+
 

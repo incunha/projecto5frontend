@@ -105,8 +105,8 @@ function Header() {
   return (
     <Navbar className="header" expand="lg">
       <Container fluid>
-        <Row className="align-items-center">
-          <Col md="auto">
+        <div className="d-flex flex-row flex-nowrap align-items-center justify-content-md-between w-100">
+          <div>
             {user && (
               <>
                 <span className="welcome-text">{t('Welcome')}, {firstName}</span>
@@ -119,24 +119,24 @@ function Header() {
               {isNotificationsOpen && (
                 <div className="notification-dropdown">
                 {notifications.map((notification, index) => (
-  <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
-    <Image src={senderData[notification.sender]?.userPhoto} roundedCircle style={{ width: '30px', height: '30px', objectFit: 'cover', borderRadius: '50%' }} />
-    <strong>{notification.sender}</strong>: {notification.notification}
-    <div style={{ fontSize: '0.6em' }}>{new Date(notification.timestamp).toLocaleString()}</div>
-  </div>
-))}
+      <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
+        <Image src={senderData[notification.sender]?.userPhoto} roundedCircle style={{ width: '30px', height: '30px', objectFit: 'cover', borderRadius: '50%' }} />
+        <strong>{notification.sender}</strong>: {notification.notification}
+        <div style={{ fontSize: '0.6em' }}>{new Date(notification.timestamp).toLocaleString()}</div>
+      </div>
+    ))}
               </div>
               )}
             </span>
-          </Col>
-        </Row>
-        <div className="d-flex align-items-center ml-auto">
-          <div className="dateHeader mr-2">
-            {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
           </div>
-          <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
-  <FaSignOutAlt className="logoutIcon" />
-</Button>
+          <div className="d-flex flex-row flex-nowrap align-items-center">
+            <div className="dateHeader mr-2">
+              {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
+            </div>
+            <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
+      <FaSignOutAlt className="logoutIcon" />
+    </Button>
+          </div>
         </div>
       </Container>
     </Navbar>

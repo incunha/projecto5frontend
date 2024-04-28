@@ -11,12 +11,12 @@ function UserCard({ item }) {
   };
 
   return (
-    <Card className="user-card border-0" onClick={handleUserClick}>
-  <div className="image-container">
-    <img src={item.userPhoto} alt="User" className="user-image" />
-    <p className="user-name">{item.name}</p> {/* Altere esta linha */}
-  </div>
-</Card>
+    <Card className={`user-card border-0 ${item.active ? '' : 'inactive'}`} onClick={handleUserClick} style={{ width: '100%', margin: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div className="image-container">
+        <img src={item.userPhoto} alt="User" className="user-image" style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '50%' }} />
+        <p className="user-name">{item.name}</p> 
+      </div>
+    </Card>
   );
 }
 

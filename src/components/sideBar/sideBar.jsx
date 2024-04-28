@@ -27,8 +27,6 @@ function Sidebar() {
   const { t } = useTranslation();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [searchName, setSearchName] = useState(''); 
-
-  // Adicione o estado para o usuário e a categoria selecionados
   const [selectedUser, setSelectedUser] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
 
@@ -67,50 +65,52 @@ function Sidebar() {
 
   return (
     <Navbar expand="md" className="flex-column sidebar" expanded={expanded}>
-    <Nav defaultActiveKey="/home" className="flex-column">
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-auto" onClick={() => setExpanded(!expanded)}>
-        <FaBars color="white" />
-      </Navbar.Toggle>
-      <Nav.Link className="sidebar-mainlink" href="/home">
-        <FaHome /> {expanded && t('Home')}
-      </Nav.Link>
-      <Nav.Link className="sidebar-mainlink" onClick={() => { setSelectedUser(username); fetchActiveTasks(token, username, selectedCategory); }}>
-        <FaTasks /> {expanded && t('My Tasks')}
-      </Nav.Link>
-      <Nav.Link className="sidebar-sublink" href="/new-task">
-        <FaPlus /> {expanded && t('New Task')}
+      <Nav defaultActiveKey="/home" className="flex-column">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="ml-auto" onClick={() => setExpanded(!expanded)}>
+          <FaBars color="white" />
+        </Navbar.Toggle>
+        <Nav.Link className="sidebar-mainlink" href="/home">
+          <FaHome />  {expanded && t('Home')}
         </Nav.Link>
-        {(role === 'ScrumMaster' || role === 'Owner') && showButtons && expanded && (
+        {showButtons && (
           <>
-            
-            <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
-            <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
-              <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
-                {selectedUser || t('Filter by User')}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {activeUsers.map((user) => (
-                  <Dropdown.Item key={user.username} eventKey={user.username}>
-                    {user.username}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
-            <Dropdown onSelect={(selectedValue) => setSelectedCategory(selectedValue)}>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                {selectedCategory || t('Filter by Category')}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {categories.map((category) => (
-                  <Dropdown.Item key={category.id} eventKey={category.name}>
-                    {category.name}
-                  </Dropdown.Item>
-                ))}
-              </Dropdown.Menu>
-            </Dropdown>
+            <Nav.Link className="sidebar-mainlink" onClick={() => { setSelectedUser(username); fetchActiveTasks(token, username, selectedCategory); }}>
+              <FaTasks /> {expanded && t('My Tasks')}
+            </Nav.Link>
+            <Nav.Link className="sidebar-sublink" href="/new-task">
+              <FaPlus /> {expanded && t('New Task')}
+            </Nav.Link>
+            {(role === 'ScrumMaster' || role === 'Owner') && expanded && (
+              <>
+                <Nav.Link className="sidebar-sublink" href="/deleted-tasks"><FaTrash /> {t('Deleted Tasks')}</Nav.Link>
+                <Dropdown onSelect={(selectedValue) => setSelectedUser(selectedValue)} className="dropdown-margin">
+                  <Dropdown.Toggle variant="success" id="dropdown-basic" className="dropdown-toggle">
+                    {selectedUser || t('Filter by User')}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    {activeUsers.map((user) => (
+                      <Dropdown.Item key={user.username} eventKey={user.username}>
+                        {user.username}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Dropdown onSelect={(selectedValue) => setSelectedCategory(selectedValue)}>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    {selectedCategory || t('Filter by Category')}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    {categories.map((category) => (
+                      <Dropdown.Item key={category.id} eventKey={category.name}>
+                        {category.name}
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </>
+            )}
           </>
         )}
-  
         {role === 'Owner' && (
           <Nav.Link className="sidebar-mainlink" href="/categories">
             <FaList /> {expanded && t('Categories')}
@@ -119,26 +119,27 @@ function Sidebar() {
         <Nav.Link className="sidebar-mainlink" href="/users">
           <FaUsers /> {expanded && t('Users')}
         </Nav.Link>
-        {role === 'Owner' && showUserButtons && expanded && (
-          <>
-            <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> {t('New User')}</Nav.Link>
-            <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> {t('Deleted Users')}</Nav.Link>
-            <Form className="search-form" onSubmit={e => {
-              e.preventDefault();
-              setSearchParams({ name: searchName });
-            }}>
-              <InputGroup>
-                <Form.Control type="text" placeholder="Enter name" value={searchName} onChange={e => setSearchName(e.target.value)} />
-                <InputGroup.Append>
-                  <Button variant="primary" type="submit">
-                    {t('Search')}
-                  </Button>
-                </InputGroup.Append>
-              </InputGroup>
-            </Form>
-          </>
-        )}
-  
+        {role === 'Owner' && showUserButtons && (
+  <>
+    <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> { expanded && t('New User')}</Nav.Link>
+    <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> { expanded && t('Deleted Users')}</Nav.Link>
+    {expanded && (
+      <Form className="search-form" onSubmit={e => {
+        e.preventDefault();
+        setSearchParams({ name: searchName });
+      }}>
+        <InputGroup>
+          <Form.Control type="text" placeholder="Enter name" value={searchName} onChange={e => setSearchName(e.target.value)} />
+          <InputGroup.Append>
+            <Button variant="primary" type="submit">
+              {t('Search')}
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
+      </Form>
+    )}
+  </>
+)}
         {role === 'Owner' && (
           <Nav.Link className="sidebar-mainlink" href="/dashboard">
             <FaChartLine /> {expanded && t('Dashboard')}
