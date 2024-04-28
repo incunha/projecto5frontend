@@ -70,6 +70,21 @@
   "Delete Category": "Delete Category",
   "Are you sure you want to delete": "Are you sure you want to delete",
   "Confirm Delete": "Confirm Delete",
-  "New Category Name": "New Category Name"
+  "New Category Name": "New Category Name",
+  "Forgort Password?": "Forgort Password?",
+  "Search": "Search",
+  "Dashboard": "Dashboard",
+  "My Tasks": "My Tasks",
+  "Task Statistics": "Task Statistics",
+  "Average tasks per user": "Average tasks per user",
+  "Total tasks": "Total tasks",
+  "Tasks in DONE": "Tasks in DONE",
+  "Tasks in DOING": "Tasks in DOING",
+  "Tasks in TO DO": "Tasks in TO DO",
+  "Set Timeout": "Set Timeout",
+  "Select timeout": "Select timeout",
+  "User Statistics": "User Statistics",
+  "Registered Users By Date": "Registered Users By Date"
+
 
     }

@@ -1,5 +1,5 @@
 {
-    "username": "Nome do utilizador",
+          "username": "Nome do utilizador",
           "password": "Senha",
           "login": "Entrar",
           "Failed to login": "Falha ao entrar",
@@ -70,7 +70,20 @@
           "Delete Category": "Excluir Categoria",
           "Are you sure you want to delete": "Tem certeza de que deseja excluir?",
           "Confirm Delete": "Confirmar Exclusão",
-          "New Category Name": "Nome da Nova Categoria"
+          "New Category Name": "Nome da Nova Categoria",
+          "Forgot Password?" : "Esqueceu a senha?",
+          "Search": "Pesquisar",
+          "Dashboard": "Painel",
+          "My Tasks": "Minhas Tarefas",
+          "Task Statistics": "Estatísticas de Tarefas",
+          "Average tasks per user": "Média de tarefas por usuário",
+          "Total tasks": "Total de tarefas",
+          "Tasks in DONE": "Tarefas em DONE",
+          "Tasks in DOING": "Tarefas em DOING",
+          "Tasks in TO DO": "Tarefas em TO DO",
+          "Set Timeout": "Definir Timeout",
+          "Select timeout": "Selecionar timeout",
+          "User Statistics": "Estatísticas de Utilizadores",
+          "Registered Users By Date": "Utilizadores Registrados Por Data"
          
-          
     }

@@ -24,7 +24,7 @@ function ModalLogin() {
   const handleRecoverPassword = async () => {
     try {
       const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/forgotPassword/${email}`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
           'Accept': '*/*',
         },
@@ -88,10 +88,10 @@ function ModalLogin() {
         </div>
         <button id="loginButton" className="myButton" onClick={handleLoginClick}>{t('login')}</button>
         <p id="errorMessage">{t(errorMessage)}</p>
-        <p className="forgot-password" onClick={handleForgotPasswordClick}>Forgot Password?</p> {/* Adicione este link abaixo do botão de login */}
+        <p className="forgot-password" onClick={handleForgotPasswordClick}>{t('Forgot Password?')}</p> 
 
-<Modal show={showModal} onHide={() => setShowModal(false)}>
-  <Modal.Header closeButton>
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+  <Modal.Header>
     <Modal.Title>Forgot Password</Modal.Title>
   </Modal.Header>
   <Modal.Body>

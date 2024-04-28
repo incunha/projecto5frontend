@@ -44,6 +44,7 @@ function Profile() {
   const handlePasswordModalClose = () => setShowModal(false);
 
 
+  //função para apagar todas as tarefas
   const handleDeleteAllTasksSubmit = async () => {
     try {
       await removeAllTasks(token, paramUsername);
@@ -53,6 +54,7 @@ function Profile() {
     }
   };
 
+  //função para mudar a password
   const handlePasswordChange = async () => {
     if (newPassword !== confirmPassword) {
       alert("New password and confirm password do not match");
@@ -93,6 +95,9 @@ useEffect(scrollToBottom, [messages]);
   };
 
   
+/*verifica se o nome de usuário atualmente visualizado na página (username) é diferente do nome de usuário do usuário logado (user.username). 
+Se forem diferentes, isso significa que estamos visualizando o perfil de outro usuário e precisamos buscar as mensagens do chat com esse usuário. Portanto, a função fetchMessages() é chamada para buscar as mensagens. 
+Caso contrário, se estivermos visualizando nosso próprio perfil, não precisamos buscar as mensagens e a operação é ignorada (null).*/
 
   useEffect(() => {
     {
@@ -105,6 +110,8 @@ useEffect(scrollToBottom, [messages]);
     received: "received-message",
   };
 
+
+/* verifica  */
   useEffect(() => {
     if (paramUsername !== user?.username) {
       fetchOtherUser(token, paramUsername).then((data) => {

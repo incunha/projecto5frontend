@@ -7,6 +7,7 @@ import Sidebar from '../components/sideBar/sideBar';
 import { useDashboardSocket } from '../websocket/Dashboard';
 import { setTimeOut } from '../../userActions';
 import './Dashboard.css';
+import { useTranslation } from 'react-i18next';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -14,6 +15,7 @@ const Dashboard = () => {
     const { userStatistics, fetchUserStatistics, token } = useUserStore();
     const { taskStatistics, fetchTaskStatistics } = useTaskStore();
     const [message, setMessage] = useState(null);
+    const { t } = useTranslation();
 
     
 
@@ -95,13 +97,13 @@ return (
     <Sidebar /> 
     <div style={{ minWidth: '10px', backgroundColor: '#4CAF50', border: '1px solid #ccc', padding: '1rem', fontSize: '0.8rem', color: '#FFFFFF' }}>
       <h2 style={{ fontSize: '1rem', fontWeight: 'bold', color: 'white', marginBottom: '20px' }}>Task Statistics</h2>
-      <p><strong>Average tasks per user:</strong> {averageTasksPerUser}</p>
-      <p><strong>Total tasks:</strong> {totalTasks}</p>
-      <p><strong>Tasks in "DONE":</strong> {totalDoneTasks}</p>
-      <p><strong>Tasks in "DOING":</strong> {totalDoingTasks}</p>
-      <p><strong>Tasks in "TO DO":</strong> {totalToDoTasks}</p>
+      <p><strong>{t('Average tasks per user')}:</strong> {averageTasksPerUser}</p>
+<p><strong>{t('Total tasks')}:</strong> {totalTasks}</p>
+<p><strong>{t('Tasks in DONE')}:</strong> {totalDoneTasks}</p>
+<p><strong>{t('Tasks in DOING')}:</strong> {totalDoingTasks}</p>
+<p><strong>{t('Tasks in TO DO')}:</strong> {totalToDoTasks}</p>
       <div style={{ marginTop: '1rem' }}>
-      <label htmlFor="timeout" style={{ display: 'block', fontWeight: 'bold' }}>Set Timeout:</label>
+      <label htmlFor="timeout" style={{ display: 'block', fontWeight: 'bold' }}>{t('Set Timeout')}:</label>
       <select id="timeout" value="" style={{ width: '100%', padding: '0.5rem', marginTop: '0.5rem' }} onChange={handleTimeoutChange}>
   <option value="" disabled>Select timeout</option>
   <option value="5">5 minutes</option>
@@ -117,7 +119,7 @@ return (
               <div style={{ display: 'flex', justifyContent: 'flex-start', flexWrap: 'wrap' }}>
               {userStats && userStats.length > 0 && (
                 <div style={{ flex: '1 0 400px', margin: '1rem' }}>
-                <h2 style={{ fontSize: '1rem' }}>User Statistics</h2> {/* Move the title here */}
+                <h2 style={{ fontSize: '1rem' }}>{t('User Statistics')}</h2> 
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                     <PieChart width={250} height={270}>
                     <Pie
@@ -148,7 +150,7 @@ return (
         )}
             {confirmedUsersByDate && confirmedUsersByDate.length > 0 && (
                 <div style={{ flex: '1 0 300px', margin: '1rem' }}>
-                <h2 style={{ fontSize: '1rem' }}>Registered Users By Date</h2>
+                <h2 style={{ fontSize: '1rem' }}>{t('Registered Users By Date')}</h2>
                 <LineChart
                 width={450}
                 height={250}
