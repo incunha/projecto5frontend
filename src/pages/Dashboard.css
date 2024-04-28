@@ -1,0 +1,21 @@
+/* Estilo para telas menores que 768px (tablets e dispositivos móveis em modo paisagem) */
+@media (max-width: 768px) {
+    .dashboard-content {
+      grid-template-columns: 1fr; /* Ajusta o layout para uma coluna */
+    }
+  
+    .chart-container {
+      margin-bottom: 20px; /* Adiciona margem entre os gráficos */
+    }
+  }
+  
+  /* Estilo para telas menores que 576px (dispositivos móveis em modo retrato) */
+  @media (max-width: 576px) {
+    .dashboard-content {
+      grid-template-columns: 1fr; /* Ajusta o layout para uma coluna */
+    }
+  
+    .chart-container {
+      margin-bottom: 20px; /* Adiciona margem entre os gráficos */
+    }
+  }

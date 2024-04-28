@@ -427,7 +427,7 @@ useEffect(scrollToBottom, [messages]);
                     </Card.Body>
                     <Card.Footer>
                       <Form onSubmit={handleChatSubmit}>
-                        <FormGroup>
+                      <FormGroup style={{ marginTop: '20px', marginBottom: '20px' }}>
                           <FormControl
                             type="text"
                             placeholder={t("Type your message...")}
@@ -450,7 +450,6 @@ useEffect(scrollToBottom, [messages]);
     <Modal.Title>{t("Change Password")}</Modal.Title>
   </Modal.Header>
   <Modal.Body>
-    {/* Adicione os campos para a senha antiga, nova senha e confirmação de senha */}
     <Form onSubmit={handlePasswordChange}>
       <FormGroup>
         <Form.Label>{t("Old Password")}</Form.Label>

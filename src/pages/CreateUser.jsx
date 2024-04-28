@@ -66,10 +66,10 @@ function CreateUser() {
     <Container fluid className="p-0">
     <Header />
     <Row className="g-0">
-      <Col xs={3}>
+      <Col>
         <Sidebar expanded={expanded} setExpanded={setExpanded} />
       </Col>
-  <Col xs={9}>
+      <Col>
           <Row className="justify-content-md-center">
             <Col xs={12} md={8}>
               <Row>

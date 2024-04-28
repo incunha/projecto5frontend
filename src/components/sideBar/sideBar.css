@@ -8,12 +8,15 @@
   flex-direction: column;
   align-items: flex-start;
   position: fixed;
+  align-self: stretch;
+  min-height: 100vh;
 }
 
 
 @media (max-width: 767px) {
   .sidebar {
     width: auto;
+    height: 161vh
    
   }
 }

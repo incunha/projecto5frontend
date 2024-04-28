@@ -7,4 +7,28 @@
     object-fit: cover;
   }
 
+
+
+.create-task-page {
+  max-width: 800px;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.textarea-description {
+  font-size: 14px;
+  height: 215px;
+}
+
+@media (max-width: 768px) {
+  .create-task-page {
+    padding: 0 5px;
+  }
+}
+
+
   

@@ -6,6 +6,7 @@ import Header from '../components/header/header';
 import Sidebar from '../components/sideBar/sideBar';
 import { useDashboardSocket } from '../websocket/Dashboard';
 import { setTimeOut } from '../../userActions';
+import './Dashboard.css';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -13,6 +14,8 @@ const Dashboard = () => {
     const { userStatistics, fetchUserStatistics, token } = useUserStore();
     const { taskStatistics, fetchTaskStatistics } = useTaskStore();
     const [message, setMessage] = useState(null);
+
+    
 
     const handleTimeoutChange = async (event) => {
       const timeOut = Number(event.target.value);
@@ -84,7 +87,8 @@ const Dashboard = () => {
       : [];
 
 
-      return (
+
+return (
 <div>
   <Header /> 
   <div style={{ display: 'flex' }}>
