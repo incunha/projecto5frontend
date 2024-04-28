@@ -7,11 +7,12 @@ import { useParams } from "react-router-dom";
 import Header from "../components/header/header";
 import { format } from "date-fns";
 import { useMessages } from "../websocket/Messages";
-import { deleteUser, restoreUser, updatePassword } from "../../userActions";
+import { deleteUser, restoreUser, updatePassword, updateUser } from "../../userActions";
 import { removeAllTasks } from "../../taskActions";
 import { useTranslation } from "react-i18next";
 import TaskPieChart from "../elements/TaskPieChart";
 import { Modal } from "react-bootstrap";
+
 
 function Profile() {
   const { username: paramUsername } = useParams();
@@ -33,7 +34,6 @@ function Profile() {
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef(null);
   const messagesContainerRef = useRef(null);
-  const updateUser = useUserStore((state) => state.setUser);
   const setUser = useUserStore((state) => state.setUser);
   const handleChatSubmit = useMessages(setMessages,newMessage,setNewMessage,paramUsername);
   const { t } = useTranslation();
@@ -41,6 +41,7 @@ function Profile() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const handlePasswordModalClose = () => setShowModal(false);
 
 
   const handleDeleteAllTasksSubmit = async () => {
@@ -130,9 +131,12 @@ function Profile() {
   }, [paramUsername]);
 
   const handleEditSubmit = async (event) => {
-    console.log("handleEditSubmit called");
+    console.log("PRIMEIRO handleEditSubmit called");
     event.preventDefault();
+
+    
     if (isEditing) {
+      console.log("isEditing is true");
       const name = `${firstName} ${lastName}`;
       const updatedUser = {
         name: name,
@@ -147,9 +151,12 @@ function Profile() {
       } catch (error) {
         console.error("Failed to update user", error);
       }
-    }
-    setIsEditing(!isEditing);
+    } 
+    
+    setIsEditing(!isEditing); 
   };
+
+
 
   const handleDeleteSubmit = async () => {
     try {
@@ -170,6 +177,7 @@ function Profile() {
   };
 
   return (
+    
     <div className="profile-container">
       <Row className="flex-nowrap">
         <Col>
@@ -317,15 +325,14 @@ function Profile() {
         </Button>
 
         <Button
-          className="btn-round mt-3"
-          color="info"
-          type="button"
-          onClick={handleEditSubmit}
-          hidden={viewedUser?.active === false || paramUsername === user?.username || user?.role !== 'Owner'}
-          style={{ marginRight: '10px' }} // Adiciona espaço à direita
-        >
-          Edit
-        </Button>
+  className="btn-round mt-3"
+  color="info"
+  type="button"
+  onClick={() => setShowModal(true)}
+  hidden={paramUsername !== user?.username}
+>
+  {t("Change Password")}
+</Button>
 
         <Button
           className="btn-round mt-3"
@@ -435,8 +442,44 @@ function Profile() {
           </Container>
         </Col>
       </Row>
-    </div>
-  );
+      <Modal show={showModal} onHide={handlePasswordModalClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{t("Change Password")}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {/* Adicione os campos para a senha antiga, nova senha e confirmação de senha */}
+        <Form onSubmit={handlePasswordChange}>
+          <FormGroup>
+            <Form.Label>{t("Old Password")}</Form.Label>
+            <FormControl
+              type="password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Form.Label>{t("New Password")}</Form.Label>
+            <FormControl
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Form.Label>{t("Confirm New Password")}</Form.Label>
+            <FormControl
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </FormGroup>
+          <Button type="submit">{t("Change Password")}</Button>
+        </Form>
+      </Modal.Body>
+    </Modal>
+  </div>
+);
+    
 }
 
 export default Profile;

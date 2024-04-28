@@ -184,6 +184,7 @@ export const fetchUser = async (set, token) => {
   };
 
   export const updateUser = async (token, user) => {
+    console.log("ENTROU NO UPDATE");
     try {
       const response = await fetch('http://localhost:8080/projecto5backend/rest/users', {
         method: 'PUT',
@@ -194,16 +195,24 @@ export const fetchUser = async (set, token) => {
         body: JSON.stringify(user),
       });
       if (response.ok) {
-        const updatedUser = await response.json();
-        useUserStore.setState({ user: updatedUser });
-        return updatedUser; // Retorne o usuário atualizado
+        const text = await response.text();
+        try {
+          const updatedUser = JSON.parse(text);
+          useUserStore.setState({ user: updatedUser });
+          // Fetch user data again after update
+          await fetchUser(useUserStore.getState().set, token);
+          return updatedUser; // Return the updated user
+        } catch {
+          console.log(text);
+          return text; // Return the text response
+        }
       } else {
         console.error('Failed to update user data');
-        throw new Error('Failed to update user data'); // Lançar um erro se a atualização falhar
+        throw new Error('Failed to update user data'); // Throw an error if the update fails
       }
     } catch (error) {
       console.error('Failed to update user data', error);
-      throw error; // Lançar o erro capturado
+      throw error; // Throw the caught error
     }
   };
 
@@ -300,7 +309,7 @@ export const fetchUser = async (set, token) => {
           'Content-Type': 'application/json',
           token: token,
         },
-        body: timeOut, // send the integer value directly
+        body: timeOut, 
       });
       if (response.ok) {
         console.log('Time out set successfully');

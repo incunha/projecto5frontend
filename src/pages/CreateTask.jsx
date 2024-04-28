@@ -6,6 +6,7 @@ import { createTask } from '../../taskActions';
 import { useNavigate } from 'react-router-dom';
 import { useTasksWebSocket } from '../websocket/TasksWebSocket';
 import Sidebar from '../components/sideBar/sideBar';
+import Header from '../components/header/header';
 
 
 function CreateTask() {
@@ -49,12 +50,19 @@ function CreateTask() {
 
 
   return (
-    <Container>
-      <Row className="justify-content-md-center">
-        <Col xs={12} md={2}>
-          <Sidebar /> {/* Adicione o componente Sidebar aqui */}
+    <div>
+      <Header /> 
+      <Row>
+        <Col xs={12} md={4} lg={3}>
+          <Sidebar /> 
         </Col>
-        <Col xs={12} md={8}>
+        <Col xs={12} md={8} lg={9}>
+          <div className="create-task-page">
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col xs={12} md={2}>
+          </Col>
+          <Col xs={12} md={8}>
           <h2 className="text-center mb-4">Create Task</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="title">
@@ -106,6 +114,10 @@ function CreateTask() {
         </Col>
       </Row>
     </Container>
+    </div>
+        </Col>
+      </Row>
+    </div>
   );
 }
 
