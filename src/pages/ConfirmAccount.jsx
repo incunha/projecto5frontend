@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Button, Jumbotron } from 'react-bootstrap';
+import { Form, Button, Jumbotron, Container, Row, Col, Image } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
+import logo_scrum01  from '../assets/background-video/logo_scrum_01.png';
 
 function ConfirmAccount() {
   const [password, setPassword] = useState('');
@@ -9,6 +10,7 @@ function ConfirmAccount() {
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get('token');
+  const green3 = getComputedStyle(document.documentElement).getPropertyValue('--green3').trim();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,7 +21,7 @@ function ConfirmAccount() {
     }
 
     const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/confirm/${token}`, {
-      method: 'PATCH',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -36,25 +38,34 @@ function ConfirmAccount() {
 
   return (
     <div>
-      <Jumbotron>
-        <h1>Welcome to Our Platform!</h1>
-        <p>Please confirm your account by setting up your password.</p>
+  <Jumbotron fluid className="text-center text-white" style={{ backgroundColor: '#006666' }}>
+        <Container>
+          <h1>Welcome to Our Platform!</h1>
+          <p>Please confirm your account by setting up your password.</p>
+        </Container>
       </Jumbotron>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </Form.Group>
+      <Container>
+        <Row className="justify-content-md-center">
+          <Col xs={12} md={6}>
+          <Image src={logo_scrum01} fluid style={{ maxWidth: '50%' }} className="d-block mx-auto" />
+            <Form onSubmit={handleSubmit} className="mt-4">
+              <Form.Group controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+              </Form.Group>
 
-        <Form.Group controlId="confirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-        </Form.Group>
+              <Form.Group controlId="confirmPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+              </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Confirm Account
-        </Button>
-      </Form>
+              <Button variant="primary" type="submit" block className="mt-4">
+  Confirm Account
+</Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }

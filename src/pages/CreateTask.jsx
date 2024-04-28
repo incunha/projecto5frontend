@@ -71,9 +71,14 @@ return (
       </Form.Group>
 
       <Form.Group controlId="description" style={{ marginTop: '20px' }}>
-        <Form.Label style={{ fontWeight: 'bold' }}>{t('Description')}</Form.Label>
-        <Form.Control type="text" value={description} onChange={(e) => setDescription(e.target.value)} style={{ fontSize: '140px' }} />
-      </Form.Group>
+  <Form.Label style={{ fontWeight: 'bold' }}>{t('Description')}</Form.Label>
+  <Form.Control 
+    as="textarea" 
+    value={description} 
+    onChange={(e) => setDescription(e.target.value)} 
+    style={{ fontSize: '14px', height: '215px',}} 
+  />
+</Form.Group>
     </Col>
     <Col md={6}>
                       <Form.Group controlId="priority">
