@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard";
 import RecoverPassword from "./pages/RecoverPassword";
 import Categories from "./pages/Categories";
 import AccountNotConfirmed from "./pages/AccountNotConfirmed";
+import AccountInactive from "./pages/AccountInactive";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/recover-password" element={<RecoverPassword />} />
         <Route path="/categories" element={<Categories/>} />
         <Route path="/account-not-confirmed" element={<AccountNotConfirmed />} />
+        <Route path="/account-inactive" element={<AccountInactive />} />
       </Routes>
     </div>
   );

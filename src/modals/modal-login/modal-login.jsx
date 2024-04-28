@@ -52,10 +52,16 @@ function ModalLogin() {
         },
       });
   
+      const responseMessage = await response.text();
+  
       if (response.status === 403) {
-        navigate('/account-not-confirmed');
+        if (responseMessage === 'User is not confirmed') {
+          navigate('/account-not-confirmed');
+        } else if (responseMessage === 'User is not active') {
+          navigate('/account-inactive');
+        }
       } else if (response.status === 200) {
-        const token = await response.text();
+        const token = responseMessage;
         console.log(token);
         setToken(token); 
         await fetchUser(token);

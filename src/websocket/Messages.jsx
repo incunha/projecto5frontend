@@ -17,7 +17,6 @@ export function useMessages( setMessages, newMessage, setNewMessage, paramUserna
 
     socket.onmessage = function(event) {
       const message = JSON.parse(event.data);
-      console.log('Received message:', message);
       if (message.message === "All messages have been read") {
         // Atualizar todas as mensagens não lidas como lidas
         setMessages(prevMessages => prevMessages.map(msg => {
@@ -63,7 +62,6 @@ export function useMessages( setMessages, newMessage, setNewMessage, paramUserna
         message: newMessage,
         sendDate: new Date().toISOString()
       };
-      console.log('Sending message:', messageToSend);
       websocket.send(JSON.stringify(messageToSend));
       setNewMessage('');
     } else {

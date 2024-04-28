@@ -62,6 +62,8 @@ function Profile() {
     setShowModal(false);
   };
 
+
+//para quando o user entra, o scroll das mensagens vai para baixo para ver as ultimas mensagens
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     if (messagesContainerRef.current) {
@@ -69,7 +71,11 @@ function Profile() {
         messagesContainerRef.current.scrollHeight;
     }
   };
+  //sempre que recebe uma mensagem, faz scroll para baixo
+useEffect(scrollToBottom, [messages]);
 
+
+  //função para ir buscar as mensagens
   const fetchMessages = async () => {
     if (user && user.username) {
       const response = await fetch(
@@ -86,7 +92,7 @@ function Profile() {
     }
   };
 
-  useEffect(scrollToBottom, [messages]);
+  
 
   useEffect(() => {
     {
@@ -127,16 +133,13 @@ function Profile() {
       await fetchTaskTotals(token, paramUsername);
     };
     fetchTotals();
-    console.log(paramUsername);
   }, [paramUsername]);
 
   const handleEditSubmit = async (event) => {
-    console.log("PRIMEIRO handleEditSubmit called");
     event.preventDefault();
 
     
     if (isEditing) {
-      console.log("isEditing is true");
       const name = `${firstName} ${lastName}`;
       const updatedUser = {
         name: name,
@@ -443,40 +446,40 @@ function Profile() {
         </Col>
       </Row>
       <Modal show={showModal} onHide={handlePasswordModalClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>{t("Change Password")}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {/* Adicione os campos para a senha antiga, nova senha e confirmação de senha */}
-        <Form onSubmit={handlePasswordChange}>
-          <FormGroup>
-            <Form.Label>{t("Old Password")}</Form.Label>
-            <FormControl
-              type="password"
-              value={oldPassword}
-              onChange={(e) => setOldPassword(e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Form.Label>{t("New Password")}</Form.Label>
-            <FormControl
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Form.Label>{t("Confirm New Password")}</Form.Label>
-            <FormControl
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </FormGroup>
-          <Button type="submit">{t("Change Password")}</Button>
-        </Form>
-      </Modal.Body>
-    </Modal>
+  <Modal.Header closeButton style={{ justifyContent: 'space-between' }}>
+    <Modal.Title>{t("Change Password")}</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {/* Adicione os campos para a senha antiga, nova senha e confirmação de senha */}
+    <Form onSubmit={handlePasswordChange}>
+      <FormGroup>
+        <Form.Label>{t("Old Password")}</Form.Label>
+        <FormControl
+          type="password"
+          value={oldPassword}
+          onChange={(e) => setOldPassword(e.target.value)}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Form.Label>{t("New Password")}</Form.Label>
+        <FormControl
+          type="password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Form.Label>{t("Confirm New Password")}</Form.Label>
+        <FormControl
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </FormGroup>
+      <Button type="submit">{t("Change Password")}</Button>
+    </Form>
+  </Modal.Body>
+</Modal>
   </div>
 );
     

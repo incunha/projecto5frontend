@@ -19,13 +19,11 @@ export function useTasksWebSocket() {
     setWebsocket(socket);
 
     socket.onopen = function(event) {
-      console.log('WebSocket is open now.');
       console.log ('Ready state:', socket.readyState);
     };
 
     socket.onmessage = function(event) {
       const message = JSON.parse(event.data);
-      console.log('Received message:', message);
       const queryParams = new URLSearchParams(location.search);
       const username = queryParams.get('username');
       const category = queryParams.get('category');
@@ -85,30 +83,6 @@ export function useTasksWebSocket() {
         }
       }
     
-
-      
-    
-      // Handle the message
- /*     if (message.action === 'delete') {
-        removeTask(message.task.id);
-        addDeletedTask(message.task);
-        console.log('Deleted tasks:', useTaskStore.getState().deletedTasks);
-        
-      } else if (message.action === 'restore') {
-        removeDeletedTask(message.task.id);
-        addTask(message.task);
-      } else if (message.action === 'update') {
-        if (message.task.active) {
-          updateStoreTask(message.task);
-        } else {
-          removeTask(message.task.id);
-          addDeletedTask(message.task); 
-        }
-      } else {
-        updateStatusTask(message.task);
-      }
-      console.log('Tasks:', useTaskStore.getState().tasks);
-    };*/
 
     socket.onerror = function(event) {
       console.error('WebSocket error observed:', event);
