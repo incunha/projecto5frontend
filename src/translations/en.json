@@ -50,5 +50,17 @@
 "Product Owner": "Product Owner",
 "User Photo URL": "User Photo URL",
 "Create": "Create",
-"User": "User"
+"User": "User",
+"Account Inactive": "Account Inactive",
+  "Your account is currently inactive. Please contact an Administrator": "Your account is currently inactive. Please contact an Administrator",
+  "Account Not Confirmed": "Account Not Confirmed",
+  "Please check your email to confirm your account": "Please check your email to confirm your account",
+  "Low": "Low",
+  "Medium": "Medium",
+  "High": "High",
+  "Priority": "Priority",
+  "Start Date": "Start Date",
+    "End Date": "End Date",
+    "Create ": "Create "
+
     }

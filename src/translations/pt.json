@@ -50,5 +50,18 @@
           "Username": "Nome de utilizador",
           "User Photo URL": "URL da Foto do Utilizador",
           "Create": "Criar",
-          "User": "Usuário"
+          "User": "Usuário",
+          "Account Inactive": "Conta Inativa",
+          "Your account is currently inactive. Please contact an Administrator": "Sua conta está atualmente inativa. Por favor, entre em contato com um Administrador",
+          "Account Not Confirmed": "Conta Não Confirmada",
+          "Please check your email to confirm your account": "Por favor, verifique seu e-mail para confirmar a sua conta",
+          "Low": "Baixa",
+          "Medium": "Média",
+          "High": "Alta",
+          "Priority": "Prioridade",
+          "Start Date": "Data de Início",
+          "End Date": "Data de Término",
+          "Create Task": "Criar Tarefa"
+         
+          
     }

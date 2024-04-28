@@ -77,7 +77,9 @@ function Sidebar() {
       <Nav.Link className="sidebar-mainlink" onClick={() => { setSelectedUser(username); fetchActiveTasks(token, username, selectedCategory); }}>
         <FaTasks /> {expanded && t('My Tasks')}
       </Nav.Link>
-      <Nav.Link className="sidebar-sublink" href="/new-task"><FaPlus /> {t('New Task')}</Nav.Link>
+      <Nav.Link className="sidebar-sublink" href="/new-task">
+        <FaPlus /> {expanded && t('New Task')}
+        </Nav.Link>
         {(role === 'ScrumMaster' || role === 'Owner') && showButtons && expanded && (
           <>
             

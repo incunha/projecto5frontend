@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTasksWebSocket } from '../websocket/TasksWebSocket';
 import Sidebar from '../components/sideBar/sideBar';
 import Header from '../components/header/header';
+import { useTranslation } from 'react-i18next';
 
 
 function CreateTask() {
@@ -19,6 +20,7 @@ function CreateTask() {
   const token = useUserStore((state) => state.token);
   const { categories, fetchCategories } = useCategoryStore();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchCategories(token);
@@ -26,9 +28,9 @@ function CreateTask() {
 
 
   const priorityOptions = {
-    Low: 100,
-    Medium: 200,
-    High: 300,
+    [t('Low')]: 100,
+    [t('Medium')]: 200,
+    [t('High')]: 300,
   };
 
   const handleSubmit = async (event) => {
@@ -49,76 +51,74 @@ function CreateTask() {
 };
 
 
-  return (
-    <div>
-      <Header /> 
-      <Row>
-        <Col xs={12} md={4} lg={3}>
-          <Sidebar /> 
-        </Col>
-        <Col xs={12} md={8} lg={9}>
-          <div className="create-task-page">
-      <Container>
-        <Row className="justify-content-md-center">
-          <Col xs={12} md={2}>
-          </Col>
-          <Col xs={12} md={8}>
-          <h2 className="text-center mb-4">Create Task</h2>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="title">
-              <Form.Label>Title</Form.Label>
-              <Form.Control type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-            </Form.Group>
+return (
+  <div>
+    <Header />
+    <div style={{ display: 'flex' }}>
+      <div style={{ flex: '0 0 200px' }}>
+        <Sidebar />
+      </div>
+      <div style={{ flex: '1 0 auto' }}>
+        <div className="create-task-page">
+          <Container>
+            <h2 className="text-center mb-4"style={{ marginTop:'40px' }}>{t('Create Task')}</h2>
+            <Form onSubmit={handleSubmit}>
+  <Row>
+    <Col md={6}>
+      <Form.Group controlId="title">
+        <Form.Label style={{ fontWeight: 'bold', marginTop: '20px' }}>{t('Title')}</Form.Label>
+        <Form.Control type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+      </Form.Group>
 
-            <Form.Group controlId="description">
-              <Form.Label>Description</Form.Label>
-              <Form.Control type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
-            </Form.Group>
+      <Form.Group controlId="description" style={{ marginTop: '20px' }}>
+        <Form.Label style={{ fontWeight: 'bold' }}>{t('Description')}</Form.Label>
+        <Form.Control type="text" value={description} onChange={(e) => setDescription(e.target.value)} style={{ fontSize: '140px' }} />
+      </Form.Group>
+    </Col>
+    <Col md={6}>
+                      <Form.Group controlId="priority">
+                        <Form.Label style={{ fontWeight: 'bold', marginTop: '20px' }}>{t('Priority')}</Form.Label>
+                        <Form.Control as="select" value={priority} onChange={(e) => setPriority(e.target.value)} style={{ marginBottom: '20px' }}>
+                          {Object.keys(priorityOptions).map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Form.Group>
 
-            <Form.Group controlId="priority">
-              <Form.Label>Priority</Form.Label>
-              <Form.Control as="select" value={priority} onChange={(e) => setPriority(e.target.value)}>
-                {Object.keys(priorityOptions).map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+                      <Form.Group controlId="category">
+                        <Form.Label style={{ fontWeight: 'bold' }}>{t('Category')}</Form.Label>
+                        <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)} style={{ marginBottom: '20px' }}>
+                          {categories.map((category) => (
+                            <option key={category.name} value={category.name}>
+                              {category.name}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Form.Group>
 
-            <Form.Group controlId="category">
-              <Form.Label>Category</Form.Label>
-              <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
-                {categories.map((category) => (
-                  <option key={category.name} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </Form.Control>
-            </Form.Group>
+                      <Form.Group controlId="startDate">
+                        <Form.Label style={{ fontWeight: 'bold' }}>{t('Start Date')}</Form.Label>
+                        <Form.Control type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} style={{ marginBottom: '20px' }}/>
+                      </Form.Group>
 
-            <Form.Group controlId="startDate">
-              <Form.Label>Start Date</Form.Label>
-              <Form.Control type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-            </Form.Group>
-
-            <Form.Group controlId="endDate">
-              <Form.Label>End Date</Form.Label>
-              <Form.Control type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-            </Form.Group>
-
-            <Button variant="primary" type="submit" className="mt-3">
-              Create Task
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+                      <Form.Group controlId="endDate">
+                        <Form.Label style={{ fontWeight: 'bold' }}>{t('End Date')}</Form.Label>
+                        <Form.Control type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)}style={{ marginBottom: '20px' }} />
+                      </Form.Group>
+                      </Col>
+              </Row>
+              <Button variant="primary" type="submit" className="mt-3">
+                {t('Create')}
+              </Button>
+            </Form>
+          </Container>
+        </div>
+      </div>
     </div>
-        </Col>
-      </Row>
-    </div>
-  );
+  </div>
+);
 }
 
 export default CreateTask;
