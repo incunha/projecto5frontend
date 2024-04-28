@@ -61,7 +61,16 @@
           "Priority": "Prioridade",
           "Start Date": "Data de Início",
           "End Date": "Data de Término",
-          "Create Task": "Criar Tarefa"
+          "Create Task": "Criar Tarefa",
+          "Categories": "Categorias",
+          "Actions": "Ações",
+          "Add Category": "Adicionar Categoria",
+          "Edit Category": "Editar Categoria",
+          "Confirm Edit": "Confirmar Edição",
+          "Delete Category": "Excluir Categoria",
+          "Are you sure you want to delete": "Tem certeza de que deseja excluir?",
+          "Confirm Delete": "Confirmar Exclusão",
+          "New Category Name": "Nome da Nova Categoria"
          
           
     }

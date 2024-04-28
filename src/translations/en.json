@@ -61,6 +61,15 @@
   "Priority": "Priority",
   "Start Date": "Start Date",
     "End Date": "End Date",
-    "Create ": "Create "
+    "Create ": "Create ",
+    "Categories": "Categories",
+  "Actions": "Actions",
+  "Add Category": "Add Category",
+  "Edit Category": "Edit Category",
+  "Confirm Edit": "Confirm Edit",
+  "Delete Category": "Delete Category",
+  "Are you sure you want to delete": "Are you sure you want to delete",
+  "Confirm Delete": "Confirm Delete",
+  "New Category Name": "New Category Name"
 
     }

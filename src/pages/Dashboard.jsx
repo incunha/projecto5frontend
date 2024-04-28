@@ -89,8 +89,8 @@ const Dashboard = () => {
   <Header /> 
   <div style={{ display: 'flex' }}>
     <Sidebar /> 
-    <div style={{ minWidth: '150px', border: '1px solid #ccc', padding: '1rem', fontSize: '0.8rem', backgroundColor: '#f5f5f5' }}>
-      <h2 style={{ fontSize: '1rem', fontWeight: 'bold', color: '#333' }}>Task Statistics</h2>
+    <div style={{ minWidth: '10px', backgroundColor: '#4CAF50', border: '1px solid #ccc', padding: '1rem', fontSize: '0.8rem', color: '#FFFFFF' }}>
+      <h2 style={{ fontSize: '1rem', fontWeight: 'bold', color: 'white', marginBottom: '20px' }}>Task Statistics</h2>
       <p><strong>Average tasks per user:</strong> {averageTasksPerUser}</p>
       <p><strong>Total tasks:</strong> {totalTasks}</p>
       <p><strong>Tasks in "DONE":</strong> {totalDoneTasks}</p>

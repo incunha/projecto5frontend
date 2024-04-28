@@ -9,11 +9,7 @@
     flex-grow: 1;
     overflow: auto;
   }
-  @media (max-width: 768px) {
-    .content-container {
-      flex-direction: column-reverse; /* Em telas menores, o Sidebar aparecerá abaixo do conteúdo */
-    }
-  }
+ 
   
   table {
     width: 100%;
@@ -69,6 +65,29 @@
   
     .content-container {
       margin-left: 0;
-      margin-top: 20px;
+      
     }
+  }
+
+  .modal-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+  }
+  
+  .modal-button:hover {
+    background-color: #45a049;
+  }
+  
+  .modal-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
   }
