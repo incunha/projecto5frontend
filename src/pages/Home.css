@@ -19,5 +19,7 @@
 
   .column-carousel {
     height: 90vh; 
+    width: 80%;
+    margin: 0 auto;
   }
   

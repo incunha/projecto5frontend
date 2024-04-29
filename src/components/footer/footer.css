@@ -1,17 +1,26 @@
 .footer {
-    position: absolute; /* Rodapé fixado na parte inferior da tela */
-    bottom: 0; /* Alinhado na parte inferior */
-    width: 97.3%; /* Largura ocupando quase toda a largura da tela */
-    height: 60px; /* Altura definida */
-    background-color: rgba(180, 173, 158, 0.871); /* Cor de fundo do rodapé */
-    display: flex; /* Flex container para alinhamento de itens */
-    justify-content: space-around; /* Distribuição igual dos itens ao longo do eixo principal */
-    align-items: center; /* Centraliza os itens verticalmente */
-    padding: 0 20px; /* Espaçamento interno horizontal */
-    color: var(--white); /* Cor do texto */
-    font-size: 12px; /* Tamanho da fonte */
+    position: absolute; 
+    bottom: 0;
+    width: 100%; 
+    height: 60px; 
+    background-color: rgba(180, 173, 158, 0.871); 
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+    padding: 0 20px; 
+    color: var(--white);
+    font-size: 12px; 
+    flex-wrap: wrap; 
 }
 
 .footer a {
-    margin-right: 20px; /* Espaçamento à direita entre os links */
+    margin-right: 20px; 
+}
+
+
+@media (max-width: 600px) {
+    .footer {
+        height: auto; 
+        padding: 20px; 
+    }
 }

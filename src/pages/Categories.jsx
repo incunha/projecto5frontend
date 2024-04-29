@@ -20,10 +20,13 @@ function Categories() {
   const token = useUserStore((state) => state.token);
   const { t } = useTranslation();
 
+  // Funções para abrir e fechar os modais de edição, remoção e adição de categorias
+
   const handleEdit = (category) => {
     setCurrentCategory(category);
     setEditModalIsOpen(true);
   };
+
 
   const handleDelete = (category) => {
     setCurrentCategory(category);
@@ -113,32 +116,29 @@ function Categories() {
           <button className="add-button" onClick={openCreateModal}><FaPlus /> {t('Add Category')}</button>
         </div>
       </div>
-
      <Modal isOpen={editModalIsOpen} onRequestClose={closeEditModal} style={customStyles}>
-  {currentCategory && (
-    <>
+     {currentCategory && (
+      <>
       <h2>{t('Edit Category')}</h2>
       <input className="modal-input" type="text" defaultValue={currentCategory.name} onBlur={confirmEdit} />
       <button className="modal-button" onClick={confirmEdit}>Confirm Edit</button>
-    </>
-  )}
-</Modal>
-
-<Modal isOpen={deleteModalIsOpen} onRequestClose={closeDeleteModal} style={customStyles}>
-  {currentCategory && (
-    <>
+      </>
+      )}
+     </Modal>
+     <Modal isOpen={deleteModalIsOpen} onRequestClose={closeDeleteModal} style={customStyles}>
+      {currentCategory && (
+       <>
       <h2>{t('Delete Category')}</h2>
       <p>{t('Are you sure you want to delete')} {currentCategory.name}?</p>
       <button className="modal-button" onClick={confirmDelete}>Confirm Delete</button>
-    </>
-  )}
-</Modal>
-
-<Modal isOpen={createModalIsOpen} onRequestClose={() => setCreateModalIsOpen(false)} style={customStyles}>
-  <h2>{t('Add Category')}</h2>
-  <input className="modal-input" type="text" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} placeholder="New Category Name" />
-  <button className="modal-button" onClick={handleAdd}>{t('Add Category')}</button>
-</Modal>
+      </>
+       )}
+     </Modal>
+     <Modal isOpen={createModalIsOpen} onRequestClose={() => setCreateModalIsOpen(false)} style={customStyles}>
+     <h2>{t('Add Category')}</h2>
+     <input className="modal-input" type="text" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} placeholder="New Category Name" />
+     <button className="modal-button" onClick={handleAdd}>{t('Add Category')}</button>
+     </Modal>
     </div>
   );
 }

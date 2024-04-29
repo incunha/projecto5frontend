@@ -1,6 +1,10 @@
 import { create } from 'zustand';
 import { fetchActiveTasks, fetchAllActiveTasks, fetchInactiveTasks, createTask, fetchTaskDetails, updateTask, deleteTask, restoreTask, changeTaskStatus, fetchTaskStatistics } from './taskActions';
 
+/*mantém duas listas de tarefas: uma para tarefas ativas e outra para tarefas excluídas. 
+métodos para adicionar, remover e atualizar tarefas nessas listas, 
+das duas listas (tarefas activas e inactivas). */
+
 const useTaskStore = create((set) => ({
   tasks: [],
   deletedTasks: [],

@@ -39,7 +39,7 @@
 
 @media (max-width: 900px) {
   .column {
-    width: 100vw;
+    width: 80vw;
     margin: 0;
   }
 }

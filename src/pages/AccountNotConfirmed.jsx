@@ -9,7 +9,6 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 function AccountNotConfirmed() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-
   const handleBackToLoginClick = () => {
     navigate('/');
   };

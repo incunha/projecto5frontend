@@ -14,7 +14,7 @@ function Users() {
 
   useEffect(() => {
     fetchInactiveUsers(token);
-  }, [fetchInactiveUsers, token]);
+  }, [token]);
 
   const userColumns = [
     { role: 'developer', title: 'Developer' },

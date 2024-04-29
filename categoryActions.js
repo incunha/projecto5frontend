@@ -24,7 +24,7 @@ export const fetchCategories = async (set, token) => {
   }
 };
 
-  // POST /categories
+  
   export const createCategory = async (set, category, token) => {
     const response = await fetch("http://localhost:8080/projecto5backend/rest/tasks/categories", {
       method: "POST",
@@ -42,7 +42,7 @@ export const fetchCategories = async (set, token) => {
     await fetchCategories(set, token);
   };
 
-// PUT /categories
+
 export const updateCategory = async (set, category, token) => {
   const response = await fetch("http://localhost:8080/projecto5backend/rest/tasks/categories", {
     method: "PUT",
@@ -60,7 +60,7 @@ export const updateCategory = async (set, category, token) => {
   await fetchCategories(set, token);
 };
 
-// DELETE /categories/{name}
+
 export const removeCategory = async (set, name, token) => {
   const response = await fetch(`http://localhost:8080/projecto5backend/rest/tasks/categories/${name}`, {
     method: "DELETE",

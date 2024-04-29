@@ -78,12 +78,13 @@
           "Task Statistics": "Estatísticas de Tarefas",
           "Average tasks per user": "Média de tarefas por usuário",
           "Total tasks": "Total de tarefas",
-          "Tasks in DONE": "Tarefas em DONE",
-          "Tasks in DOING": "Tarefas em DOING",
-          "Tasks in TO DO": "Tarefas em TO DO",
+          "Tasks in DONE": "Tarefas em A FAZER",
+          "Tasks in DOING": "Tarefas em PROGRESSO",
+          "Tasks in TO DO": "Tarefas em CONCLUÍDO",
           "Set Timeout": "Definir Timeout",
           "Select timeout": "Selecionar timeout",
           "User Statistics": "Estatísticas de Utilizadores",
-          "Registered Users By Date": "Utilizadores Registrados Por Data"
+          "Registered Users By Date": "Utilizadores Registrados Por Data",
+          "Tasks Completed By Date": "Tarefas Concluídas Por Data"
          
     }

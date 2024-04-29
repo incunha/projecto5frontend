@@ -4,7 +4,9 @@ import './footer.css';
 function Footer() {
     return (
         <footer className="footer">
-            <p>© 2024 Scrum</p>
+            <div>
+                <span>© 2024 Scrum</span>
+            </div>
             <div>
                 <span>Privacy Policy</span>
                 <span>Terms of Service</span>
@@ -16,7 +18,7 @@ function Footer() {
                 <span>Follow us:</span>
                 <span>Facebook/</span>
                 <span>Twitter/</span>
-                <span>Instagram/</span>
+                <span>Instagram</span>
             </div>
         </footer>
     );

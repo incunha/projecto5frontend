@@ -13,6 +13,10 @@ import {
   fetchUserStatistics
 } from './userActions';
 
+/*define e controla o estado inicial, funções de ação para modificar esse estado de forma controlada. 
+Vai buscar os users ativos ou inativos, atualiza informações do user e gerencia notificações, 
+permitindo receber, marcar como lidas e contar notificações recebidas. */
+
 const useUserStore = create(persist(
   (set) => ({
     token: null,

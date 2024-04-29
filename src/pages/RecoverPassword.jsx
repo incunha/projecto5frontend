@@ -18,7 +18,7 @@ function ResetPassword() {
       alert('Passwords do not match');
       return;
     }
-
+  // Função para resetar a password
     const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/setPassword/${token}`, {
       method: 'PUT',
       headers: {

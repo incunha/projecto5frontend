@@ -3,6 +3,8 @@ import { PieChart, Pie, Sector, ResponsiveContainer, Cell, Legend } from 'rechar
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
+//  Gráfico Recharts que aparece no perfil do user com a informação das tarefas atribuídas
+
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
   const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
@@ -72,9 +74,9 @@ export default class TaskPieChart extends PureComponent {
     ];
   
     return (
-<div>
-  <PieChart width={400} height={250}>
-    <Pie
+      <div>
+       <PieChart width={400} height={250}>
+       <Pie
       activeIndex={this.state.activeIndex}
       activeShape={renderActiveShape}
       data={data.length > 0 ? data : [{name: 'No tasks', value: 1}]}
@@ -85,21 +87,21 @@ export default class TaskPieChart extends PureComponent {
       fill="#8884d8"
       dataKey="value"
       onMouseEnter={this.onPieEnter}
-    >
+       >
       {
         data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)
       }
-    </Pie>
-  </PieChart>
-  <div>
+      </Pie>
+     </PieChart>
+     <div>
     {data.length > 0 ? data.map((item, index) => (
       <div key={index} style={{textAlign: 'right', paddingRight: '20px', fontSize: '10px'}}>
         <span style={{color: COLORS[index % COLORS.length]}}>{item.name}: </span>
         <span>{item.value}</span>
       </div>
-    )) : <div style={{textAlign: 'right', paddingRight: '20px', fontSize: '10px'}}>No tasks</div>}
-  </div>
-</div>
-  );
+      )) : <div style={{textAlign: 'right', paddingRight: '20px', fontSize: '10px'}}>No tasks</div>}
+     </div>
+     </div>
+     );
   }
 }

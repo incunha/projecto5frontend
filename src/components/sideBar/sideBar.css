@@ -6,7 +6,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   position: fixed;
   align-self: stretch;
   min-height: 100vh;
@@ -31,6 +31,7 @@
   color: #ffffff;
   padding: 10px;
   text-decoration: none;
+  text-align: center;
 }
 
 .sidebar a[href="/home"] {

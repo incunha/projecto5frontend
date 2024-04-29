@@ -13,6 +13,7 @@ function DeletedTasks() {
   const { deletedTasks, fetchInactiveTasks } = useTaskStore();
   const { t } = useTranslation();
 
+  //chama a função fetchInactiveTasks para apresentar as tarefas deletadas
   useEffect(() => {
     fetchInactiveTasks(token);
   }, [token]);

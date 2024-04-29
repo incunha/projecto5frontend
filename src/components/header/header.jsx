@@ -31,11 +31,20 @@ function Header() {
   const [senderData, setSenderData] = useState({});
   const { t } = useTranslation();
 
+ /*verifica se o user não está definido e o token está presente. 
+ Se sim, chama a função fetchUser para recuperar as informações do user com base no token.*/
+
   useEffect(() => {
     if (!user && token) {
       fetchUser(token);
     }
   }, [user, token, fetchUser]);
+
+
+  /*Ele verifica se o user está definido e se o nome do user está presente. 
+  Se ambas as condições forem verdadeiras, é dividido o nome completo do user 
+  e define o estado firstName como o primeiro nome obtido. 
+  Isso garante que o primeiro nome do user seja atualizado sempre que o objeto user for modificado. */
 
   useEffect(() => {
     if (user && user.name) {
@@ -44,6 +53,7 @@ function Header() {
     }
   }, [user]);
 
+ //limpa as storages e chama a função logout com o token.
   const handleLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
@@ -54,6 +64,7 @@ function Header() {
     navigate('/');
   };
 
+  //atualiza o estado currentDateTime a cada segundo.
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentDateTime(new Date());
@@ -63,6 +74,9 @@ function Header() {
       clearInterval(timer);
     };
   }, []);
+
+  /*marca todas as notificações como lidas, atualiza o estado notifications com as notificações recuperadas 
+  e atualiza o estado unreadNotificationsCount com a contagem de notificações não lidas.*/
 
   const handleNotificationsClick = async (event) => {
     event.preventDefault();
@@ -74,15 +88,22 @@ function Header() {
     setNotificationsOpen(prevState => !prevState);
   };
 
+ //redireciona o user para o perfil do user que enviou a notificação.
+
   const handleNotificationClick = (event, username) => {
     event.stopPropagation();
     navigate(`/profile/${username}`);
   };
+
+//reseta as notificações quando o estado isNotificationsOpen é falso.
+
   useEffect(() => {
     if (!isNotificationsOpen) {
       resetNotifications();
     }
   }, [isNotificationsOpen, resetNotifications]);
+
+  //vai buscar os dados do user que enviou a notificação
 
   useEffect(() => {
     const fetchSenderData = async () => {
@@ -119,12 +140,12 @@ function Header() {
               {isNotificationsOpen && (
                 <div className="notification-dropdown">
                 {notifications.map((notification, index) => (
-      <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
-        <Image src={senderData[notification.sender]?.userPhoto} roundedCircle style={{ width: '30px', height: '30px', objectFit: 'cover', borderRadius: '50%' }} />
-        <strong>{notification.sender}</strong>: {notification.notification}
-        <div style={{ fontSize: '0.6em' }}>{new Date(notification.timestamp).toLocaleString()}</div>
-      </div>
-    ))}
+               <div key={index} style={{ padding: '10px', borderBottom: '1px solid #ccc' }} onClick={(event) => handleNotificationClick(event, notification.sender)}>
+               <Image src={senderData[notification.sender]?.userPhoto} roundedCircle style={{ width: '30px', height: '30px', objectFit: 'cover', borderRadius: '50%' }} />
+              <strong>{notification.sender}</strong>: {notification.notification}
+              <div style={{ fontSize: '0.6em' }}>{new Date(notification.timestamp).toLocaleString()}</div>
+             </div>
+            ))}
               </div>
               )}
             </span>
@@ -134,8 +155,8 @@ function Header() {
               {currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}
             </div>
             <Button variant="outline-danger" className="logoutButton" onClick={handleLogout}>
-      <FaSignOutAlt className="logoutIcon" />
-    </Button>
+            <FaSignOutAlt className="logoutIcon" />
+            </Button>
           </div>
         </div>
       </Container>

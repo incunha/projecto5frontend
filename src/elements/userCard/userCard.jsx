@@ -6,10 +6,13 @@ import './userCard.css';
 function UserCard({ item }) {
   const navigate = useNavigate();
 
+  //navega para o perfil do utilizador
+  
   const handleUserClick = () => {
     navigate(`/profile/${item.username}`);
   };
 
+  
   return (
     <Card className={`user-card border-0 ${item.active ? '' : 'inactive'}`} onClick={handleUserClick} style={{ width: '100%', margin: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div className="image-container">

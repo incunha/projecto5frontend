@@ -19,6 +19,8 @@ function Users() {
   const filteredUsers = searchName ? activeUsers.filter(user => user.name.includes(searchName)) : activeUsers;
   const isMobile = useMediaQuery({ query: '(max-width: 900px)' });
 
+ //chama a função fetchActiveUsers para apresentar os utilizadores ativos
+ 
   useEffect(() => {
     fetchActiveUsers(token);
   }, []);
@@ -32,7 +34,7 @@ function Users() {
   return (
     <div>
       <Header />
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex',  }}>
         <Sidebar />
         {isMobile ? (
           <Carousel showThumbs={false} emulateTouch>

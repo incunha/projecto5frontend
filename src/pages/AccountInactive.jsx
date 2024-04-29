@@ -7,9 +7,9 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './AccountInactive.css';
 
 function AccountInactive() {
+
   const { t } = useTranslation();
   const navigate = useNavigate();
-
   const handleBackToLoginClick = () => {
     navigate('/');
   };

@@ -30,6 +30,9 @@ function Sidebar() {
   const [selectedUser, setSelectedUser] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
 
+
+  //verifica o tamanho da janela e define o estado expandido com base nisso.
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -45,9 +48,13 @@ function Sidebar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  //chama a função fetchActiveUsers para apresentar no filtro
+
   useEffect(() => {
     useUserStore.getState().fetchActiveUsers(token);
   }, [token]);
+
+  //chama a função fetchCategories para apresentar no filtro
 
   useEffect(() => {
     if (token) {
@@ -55,6 +62,8 @@ function Sidebar() {
     }
   }, [token]);
 
+
+ //chama a função fetchActiveTasks para apresentar as tarefas ativas com base no token, user selecionado e categoria selecionada.
   useEffect(() => {
     fetchActiveTasks(token, selectedUser, selectedCategory);
     const params = {};
@@ -120,11 +129,11 @@ function Sidebar() {
           <FaUsers /> {expanded && t('Users')}
         </Nav.Link>
         {role === 'Owner' && showUserButtons && (
-  <>
-    <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> { expanded && t('New User')}</Nav.Link>
-    <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> { expanded && t('Deleted Users')}</Nav.Link>
-    {expanded && (
-      <Form className="search-form" onSubmit={e => {
+         <>
+        <Nav.Link className="sidebar-sublink" href="/new-user"><FaPlus /> { expanded && t('New User')}</Nav.Link>
+        <Nav.Link className="sidebar-sublink" href="/deleted-users"><FaTrash /> { expanded && t('Deleted Users')}</Nav.Link>
+        {expanded && (
+        <Form className="search-form" onSubmit={e => {
         e.preventDefault();
         setSearchParams({ name: searchName });
       }}>
@@ -137,9 +146,9 @@ function Sidebar() {
           </InputGroup.Append>
         </InputGroup>
       </Form>
-    )}
-  </>
-)}
+     )}
+    </>
+     )}
         {role === 'Owner' && (
           <Nav.Link className="sidebar-mainlink" href="/dashboard">
             <FaChartLine /> {expanded && t('Dashboard')}

@@ -7,6 +7,10 @@ import {
   removeCategory
 } from './categoryActions';
 
+/*armazena o estado das categorias, garantindo que o estado 
+persista mesmo após a atualização da página. Exporta as funções necessárias 
+para manipular as categorias, permitindo que outros componentes usem essas funções*/
+
 const useCategoryStore = create(persist(
   (set) => ({
     categories: [],

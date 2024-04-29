@@ -17,10 +17,13 @@ function ModalLogin() {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
 
+
+  // Função para abrir o modal de recuperação de senha
   const handleForgotPasswordClick = () => {
     setShowModal(true);
   };
 
+  // Função para recuperar a senha
   const handleRecoverPassword = async () => {
     try {
       const response = await fetch(`http://localhost:8080/projecto5backend/rest/users/forgotPassword/${email}`, {
@@ -35,12 +38,13 @@ function ModalLogin() {
     }
   };
 
-
+ // Função para mudar o idioma
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     localStorage.setItem('i18nextLng', lng);
   };
 
+  // Função para fazer login
   const handleLoginClick = async () => {
     try {
       const response = await fetch('http://localhost:8080/projecto5backend/rest/users/login', {
@@ -91,21 +95,21 @@ function ModalLogin() {
         <p className="forgot-password" onClick={handleForgotPasswordClick}>{t('Forgot Password?')}</p> 
 
         <Modal show={showModal} onHide={() => setShowModal(false)}>
-  <Modal.Header>
-    <Modal.Title>Forgot Password</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <input type="email" placeholder="Insira seu e-mail" value={email} onChange={e => setEmail(e.target.value)} />
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowModal(false)}>
-      Close
-    </Button>
-    <Button variant="primary" onClick={handleRecoverPassword}>
-      Recover Password
-    </Button>
-  </Modal.Footer>
-</Modal>
+        <Modal.Header>
+        <Modal.Title>Forgot Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <input type="email" placeholder="Insira seu e-mail" value={email} onChange={e => setEmail(e.target.value)} />
+        </Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={() => setShowModal(false)}>
+        Close
+        </Button>
+        <Button variant="primary" onClick={handleRecoverPassword}>
+        Recover Password
+        </Button>
+        </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );

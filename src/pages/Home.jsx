@@ -14,7 +14,7 @@ import { useTasksWebSocket } from '../websocket/TasksWebSocket';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useMediaQuery } from 'react-responsive';
-'./Home.css';
+import './Home.css';
 
 
 
@@ -52,12 +52,12 @@ function Home() {
         <Sidebar />
         {isMobile ? (
           <Carousel showThumbs={false} emulateTouch>
-            {columnData.map((column, index) => (
-              <div key={index} className="column-carousel" style={{ minWidth: '100%', padding: '0 10px' }}>
-                <Column {...column} itemPropName="item" status={column.status} /> 
-              </div>
-            ))}
-          </Carousel>
+          {columnData.map((column, index) => (
+            <div key={index} className="column-carousel" style={{ width: '100%', padding: '0 10px' }}>
+              <Column {...column} itemPropName="item" status={column.status} /> 
+            </div>
+          ))}
+        </Carousel>
         ) : (
           <div className="row-carousel" style={{ marginLeft: '9%' }}>
             {columnData.map((column, index) => (

@@ -4,6 +4,12 @@ import { useLocation } from "react-router-dom";
 import { fetchUnreadNotificationsCount } from '../../userActions'; 
 import { useNavigate } from "react-router-dom";
 
+/*Quando um usuário faz login, o componente inicia a conexão WebSocket e verifica se há novas mensagens 
+não lidas, atualizando o contador de notificações. Sempre que uma nova mensagem é recebida, o componente 
+verifica se o user está na mesma página do remetente da mensagem. Se não estiver, a mensagem é armazenada 
+no estado global de notificações para ser exibida mais tarde. Além disso, o componente lida com reconexões 
+automáticas em caso de falhas na conexão, garantindo uma experiência contínua ao user.  */
+
 export default function notification() {
   const location = useLocation();
   const username = useUserStore(state => state.user ? state.user.username : '');
@@ -38,9 +44,9 @@ export default function notification() {
           const from = messageParts[1];
           const messageContent = 'New message';
       
-          // Verifique se a rota atual corresponde ao perfil do usuário que está enviando a mensagem
+          // Verifique se a rota atual corresponde ao perfil do user que está enviando a mensagem
           if (location.pathname === `/profile/${from}`) {
-            // Se for o caso, simplesmente ignore a mensagem
+            // Se for o caso, simplesmente ignora a mensagem
             return;
           }
       

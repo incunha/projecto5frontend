@@ -20,6 +20,8 @@ export const useDashboardSocket = (onMessage) => {
             onMessage(message);
         };
 
+        //garante que a conexão é encerrada corretamente quando o componente for desmontado
+
         return () => {
             console.log("WebSocket is about to be closed.");
             socket.close();

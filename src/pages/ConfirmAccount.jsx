@@ -60,8 +60,8 @@ function ConfirmAccount() {
               </Form.Group>
 
               <Button variant="primary" type="submit" block className="mt-4">
-  Confirm Account
-</Button>
+              Confirm Account
+              </Button>
             </Form>
           </Col>
         </Row>

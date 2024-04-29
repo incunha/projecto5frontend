@@ -7,6 +7,12 @@ export function useMessages( setMessages, newMessage, setNewMessage, paramUserna
   const [connected, setConnected] = useState(false);
   const token = useUserStore(state => state.token);
 
+
+  /*gerencia a conexão WebSocket para enviar e receber mensagens de chat,
+   garantindo que as mensagens sejam processadas corretamente e exibidas na interface do user.
+   Lida com a marcação de mensagens como lidas e fornece uma função de envio de mensagem
+  para ser usada pelo componente de chat. */
+
   useEffect(() => {
     const socket = new WebSocket(`ws://localhost:8080/projecto5backend/chat/${token}/${paramUsername}`); 
     setWebsocket(socket);
